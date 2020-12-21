@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+		<div role="main" class="main pgl-bg-grey">
+
+			<!-- Begin Featured Agents -->
+			<section class="pgl-agents">
+				<div class="container">
+					<h2>Đăng nhập</h2>
+					<div class="agent-profile">
+						<div class="row">
+							<form id="contact-form" name="form1" method="post" th:action="@{/j_spring_security_login}">
+								<h3 th:if="${message != null}" th:text="${message}" style="color:red;"></h3>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-4">
+											<label for="name">Tên đăng nhập*</label> <input type="text"
+												name="username" id="name" class="form-control"
+												data-msg-required="Please enter your name." >
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label for="customer_mail">Mật khẩu*</label> <input
+												type="password" name="password" id="customer_mail"
+												class="form-control"
+												data-msg-required="Please enter your email address."
+												data-msg-email="Please enter a valid email address."
+												>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<input type="submit" value="Đăng nhập"
+										class="btn btn-primary min-wide">
+								</div>
+							</form>
+						</div>
+						<label for="name"><a href="forgot-password.html">Quên
+								mật khẩu</a></label> </br> <label for="name"><a href="/register">Tạo
+								tài khoản</a></label> </br>
+					</div>
+					<div class="col-md-3 sidebar"></div>
+				</div>
+				<!-- End Featured Agents -->
+		</div>
+		<!-- End Main -->
+
+		<!-- Begin footer -->
+		 <div th:replace="common/Footer.html"></div> 
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+</body>
+</html>

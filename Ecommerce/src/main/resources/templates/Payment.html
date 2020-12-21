@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+				<div role="main" class="main pgl-bg-grey">
+			
+			<!-- Begin Featured Agents -->
+			<section class="pgl-agents">
+				<div class="container">
+					<h2>Nạp xu</h2>
+					<h3 th:if="${message != null}" th:text="${message}" style="color:blue; margin-left: 15px;"></h3>
+					<div class="agent-profile">
+						<div class="col-md-6" >
+							<div class="row"style="padding-left: 15px;margin-bottom:10px">
+								<img style="border-radius: 101px;
+								width: 36px;" th:src="@{images/images.png}"> Thanh toán qua Paypal
+							</div>
+                            <form id="contact-form" name="form1" method="post" th:action="@{/pay}">
+								<div class="form-group">
+									
+                                    <div class="row">
+										
+										<div class=" col-md-8">
+											<div class="form-group">
+												Chọn số tiền 
+												<select
+												  id="price"
+												  name="price"
+												  data-placeholder="Location"
+												  class="chosen-select"
+												>
+												  <option selected="selected" value="10">
+													$ 10
+												  </option>
+												  <option value="20">$20</option>
+												  <option value="50">$50</option>
+												  <option value="200">$200</option>
+												</select>
+											  </div>
+										</div>
+									</div>
+									<div class="row"style="padding-left: 15px;margin-bottom:10px">
+										Tổng xu nhận được: <span id="total" style="color: blue;">10</span> xu	
+									</div>
+									  <div class="row" style="padding-left: 15px;">
+										<div class="form-group">
+											<input type="submit" value="Xác nhận" class="btn btn-primary min-wide" >
+											<input type="reset" value="Hủy" class="btn btn-primary min-wide" >
+										</div>  
+									</div>
+								</div>
+                               
+
+							</form>
+							</div>
+							<div class="col-md-6" >
+								<table class="table table-striped table-inverse table-responsive" style="border:1px solid red">
+									<thead class="thead-inverse">
+										<tr>
+											<th>Số tiền</th>
+											<th> Số xu</th>
+											<th> khuyễn mãi</th>
+										</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td scope="row">$10</td>
+												<td>20 xu</td>
+												<td class="table-price"></td>
+											</tr>
+											<tr>
+												<td scope="row">$20</td>
+												<td>20 xu</td>
+												<td class="table-price">+5 </td>
+											</tr>
+											<tr>
+												<td scope="row">$50</td>
+												<td>50 xu</td>
+												<td class="table-price">+10</td>
+											</tr>
+											<tr>
+												<td scope="row">$200</td>
+												<td>200 xu</td>
+												<td class="table-price">+25 </td>
+											</tr>
+										</tbody>
+								</table>
+							</div>
+							
+					</div>
+					<div class="col-md-3 sidebar">
+						</div>
+					</div>
+					<!-- End Featured Agents -->
+			
+					
+						
+		</div>			
+		<!-- End Main -->
+
+		<!-- Begin footer -->
+		 <div th:replace="common/Footer.html"></div> 
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script>
+		$(document).ready(function(){
+			$('#price').change(function(){
+				let a =$(this).val();
+				
+				if(a ==='10'){
+					$('#total').html('10')
+				}
+				if(a ==='20'){
+					$('#total').html('25')
+				}
+				if(a ==='50'){
+					$('#total').text('60')
+				}
+				if(a ==='200'){
+					$('#total').text('225')
+				}
+				
+			})
+		})
+	</script>
+</body>
+</html>

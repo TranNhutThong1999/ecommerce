@@ -1,0 +1,60 @@
+package com.tmdt.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.tmdt.security.CustomSuccessHandler;
+import com.tmdt.security.CustomUserDetail;
+
+
+@Configuration
+@EnableWebSecurity
+public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
+	@Autowired
+	private CustomUserDetail customUserDetail;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	@Bean
+	public CustomSuccessHandler customSuccessHandler() {
+		return new CustomSuccessHandler();
+	}
+	
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(customUserDetail).passwordEncoder(passwordEncoder());
+	}
+	public void configure(HttpSecurity http) throws Exception {
+		http
+	      .csrf().disable()
+	      .authorizeRequests()
+	      .antMatchers("/home", "/login","/register", "/logout","/static/**","/bootstrap/**").permitAll()
+	      //.anyRequest().authenticated()
+	      .and()
+	      .formLogin()
+	      .loginProcessingUrl("/j_spring_security_login")
+	      .loginPage("/login")
+	      .usernameParameter("username").passwordParameter("password")
+	      .successHandler(customSuccessHandler())
+		  .failureUrl("/login?message=login_FAIL")
+		  .defaultSuccessUrl("/home", true);
+	      
+	}
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+      web
+        .ignoring()
+        .antMatchers( "/static/**","/bootstrap/**","css/**", "js/**", "images/**","vendor/**","fonts/**","style-switcher/**");
+      //, "/css/**", "/js/**", "/images/**","/vendor/**","/fonts/**","/bootstrap/**"
+    }
+	
+}

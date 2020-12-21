@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="common/Css.html"></div>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Register</title>
+<link th:href='@{css/form/components.min.css}' rel="stylesheet">
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+		<div class="container">
+			<div class="row" >
+				<div class="col-md-8 col-md-offset-2" style="text-align: center">
+					<div class="panel-body">
+						<fieldset>
+							<form id="idsignin" method="post" th:action="@{/verify}">
+							<h1 id="title" >Xác thực tài khoản, code đã gửi, vui lòng kiểm tra gmail</h1>
+							<h2 th:if="${err}" th:text="${err}"></h2>
+								<div class="form-group">
+								<input type="text" name="token" id="token" class="form-control">
+								<input type="hidden" th:value="${id}" id="id" class="form-control">
+									<button id="resend" type="reset" class="btn btn-primary "
+										style="display: none;">Send code</button>
+								</div>
+								<div class="resend">
+									<h5 class="ml-4 mr-3">
+										After <span style="color: red;" id="dem"></span> you can
+										resent code to your mail
+									</h5>
+								</div>
+
+								<input id="nutSigIn" class="btn btn-lg btn-primary btn-block"
+									value="Submit" type="submit">
+							</form>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Begin footer -->
+		<div th:replace="common/Footer.html"></div>
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var dem = 20;
+			var a;
+			var run = [[${run}]] ;
+			window.onload = decrement;
+
+			function decrement() {
+				if(run = 1){
+				a = setInterval(timer, 1000);
+				}
+			}
+			function timer() {
+				dem--;
+				$("#dem").html(dem + "s");
+				if (dem === 1) {
+					clearInterval(a)
+					$("#userNameSendToken").css("width:100%;")
+					$(".resend").css("display", "none");
+					$("#resend").css("display", "inline-block");
+
+				}
+			}
+			$('#resend').click(function(){
+				
+				$.ajax({
+				type:"post",
+				url:'/api/verify',
+				data:{
+					id:$('#id').val()
+				},
+				success:function(value){
+					run = 1;
+					decrement();
+					$('#title').text("Code đã gửi lại vui lòng kiểm tra gmail")
+					$('#title').css("color","red")
+				},
+				error:function(err){
+				}
+				})
+			})
+		})
+	</script>
+</body>
+</html>

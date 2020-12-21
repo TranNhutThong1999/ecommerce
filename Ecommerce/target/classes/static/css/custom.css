@@ -1,0 +1,60 @@
+.ratings {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  direction: rtl;
+  text-align: left;
+}
+
+.star {
+  position: relative;
+  line-height: 60px;
+  display: inline-block;
+  transition: color 0.2s ease;
+  color: #d1c3c3e6;
+}
+
+.star:before {
+  content: "\2605";
+  width: 60px;
+  height: 60px;
+  font-size: 60px;
+}
+
+.star:hover,
+.star.selected,
+.star:hover ~ .star,
+.star.selected ~ .star {
+  transition: color 0.8s ease;
+  color: #e0ca2f;
+}
+.live-rating {
+  text-align: center;
+  display: block;
+  font-size: 51px;
+  font-weight: 800;
+  color: #ef3333;
+}
+.my-rating-4 {
+  text-align: center;
+}
+.fb-err{
+	display: none;
+    text-align: center;
+    color: red;
+    margin-top: 5px;
+}
+.fb-err-star{
+	border-bottom: solid 1px red;
+}
+.fb-err-area{
+	border: solid 1px red;
+}
+.table-price{
+	font-weight: 800;
+    color: #2196f3bd;
+}
+.table-active{
+	background-color: #ffeb3b17;
+}
