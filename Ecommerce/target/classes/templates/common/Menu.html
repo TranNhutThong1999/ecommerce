@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
+<body>
+		<header>
+			<div id="top">
+				<div class="container">
+		
+					<ul class="nav nav-pills nav-top navbar-right">
+						
+						<li><a href="#" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Email"><i class="fa fa-envelope-o"></i></a></li>
+						<li><a href="#" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Google+"><i class="fa fa-google-plus"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<nav class="navbar navbar-default pgl-navbar-main" role="navigation">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+						<a class="logo" th:href="@{/home}"><img th:src='@{/images/nha.gif}' alt="Flatize"></a> </div>
+					
+					<div class="navbar-collapse collapse width">
+						<ul class="nav navbar-nav pull-right">
+							<li  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/home') ? 'active':''}"><a th:href="@{/home}">Trang chủ</a></li>
+							<!-- <li><a href="list-fullwidth.html">Danh sách nhà trọ</a></li> -->
+							<li th:classappend="${#httpServletRequest.getRequestURI().endsWith('/posts') ? 'active':''}"><a th:href="@{/posts}">Danh sách nhà trọ</a></li>
+							<li th:classappend="${#httpServletRequest.getRequestURI().endsWith('/new') ? 'active':''}"><a th:href="@{/new}">New</a></li>
+							<li><a href="contact.html">Liên hệ</a></li>
+							
+							<li class="login" sec:authorize="isAnonymous()"><a href="agentprofile.html"><i class="fa fa-user"></i>Tài khoản</a></li>
+							<li class="login" sec:authorize="isAuthenticated()"><a th:href="@{'/users/'+${#authentication.getPrincipal().id}}" ><i style="color:#5c32be;" class="fa fa-user"></i><span sec:authentication="name" style="color:#3831aed1; margin-left:3px"></span></a></li>
+							
+							<li sec:authorize="isAnonymous()"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/login') ? 'active':''}"><a href="#" th:href="@{/login}" >Đăng nhập</a></li>
+							<li sec:authorize="isAuthenticated()" ><a href="#" th:href="@{/logout}" >Đăng xuất</a></li>
+						</ul>
+					</div><!--/.nav-collapse --> 
+				</div><!--/.container-fluid --> 
+			</nav>
+		</header>
+</body>
+</html>

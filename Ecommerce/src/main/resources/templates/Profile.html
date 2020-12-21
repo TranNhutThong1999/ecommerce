@@ -1,0 +1,259 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+				<div role="main" class="main pgl-bg-grey">
+			<!-- Begin page top -->
+			<section class="page-top">
+				<div class="container">
+					<div class="page-top-in">
+					
+					</div>
+				</div>
+			</section>
+			<!-- End page top -->
+			
+			<!-- Begin Featured Agents -->
+			<section class="pgl-agents">
+				<div class="container">
+					<h2>Thông tin khách hàng</h2>
+					<div class="agent-profile">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="pgl-agent-item pgl-bg-light">
+									<div class="row pgl-midnarrow-row">
+										<div class="col-xs-3">
+											<div class="img-thumbnail-medium">
+												<a href="agentprofile.html"><img th:src="@{${User.image	}}" class="img-responsive" alt=""></a>
+											</div>
+										</div>
+										<div class="col-xs-9">
+											<div class="pgl-agent-info">
+												<h4><a href="agentprofile.html" th:text="${User.name}">Quốc Việt</a></h4>
+												<address>
+													<h5 style="margin:0px!important;" > Xu hiện có : <span th:text="${User.totalMoney}"></span> xu </h5> 
+													<i class="icons icon-location"></i>Địa chỉ: <span th:text="${User.address}">Viêt nam</span><br>
+													<i class="fa fa-phone"></i> Điện thoại : <span th:text="${User.phone}"></span><br>
+													<i class="fa fa-envelope-o"></i> Mail: <a href="mailto:viet@gmail.com" th:text="${User.email}">viet@gmail.com</a>
+												</address>
+												
+												<div class="col-md-12">
+													<a   class="btn btn-default btn-sm" href="update-user.html" > Cập nhật</a>
+																								
+													<a   class="btn btn-default btn-sm" th:href="@{/payment}" > Nạp xu</a>
+
+													<a   class="btn btn-default btn-sm" th:href="@{/new}" > Đăng Bài</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Featured Agents -->
+
+					<!--Begin History  -->
+
+					<section class="pgl-properties pgl-bg-grey">
+						<div class="container">
+							<h2>Lịch sử nạp xu</h2>
+							<div class="properties-full properties-listing properties-listfull">
+								<div class="listing-header clearfix">
+									<ul style="list-style-type: none;padding: 0px;margin-bottom:0px" >
+										<li class="active listing-header clearfix">
+											<table class="table" style="width: 96%;margin: auto;">
+												<thead>
+													<tr style="background-color: #08080845;">
+														<th>STT</th>
+														<th>Số tiền</th>
+														<th>Số xu nhận</th>
+														<th>Trạng thái</th>
+														<th>Thời gian</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="history :${Histories}" th:classappend="${historyStat.count}%2==0? 'table-active':''">
+														<th th:text="${historyStat.count}">1</th>
+														<td >$<span th:text="${history.money}"></span></td>
+														<td><span th:text="${history.xu}"></span> xu</td>
+														<td th:text="${history.state.toString()} == 'SUCCESS' ? 'Thành công' : 'Thất bại'">Thành công</td>
+														<td th:text="${history.time}">20/12/2020</td>
+													</tr>
+												</tbody>
+											</table>
+									</li>
+									</ul>		
+								</div>
+							</div>
+						</div>
+					</section>
+			
+					<!-- End history -->
+
+						<!--Begin History post  -->
+
+						<section class="pgl-properties pgl-bg-grey">
+							<div class="container">
+								<h2>Tin đã lưu</h2>
+								<div class="properties-full properties-listing properties-listfull">
+									<div class="pgl-property animation">
+										<div class="row">
+											<div class="col-sm-6 col-md-4">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive" src="images/properties/property-1.jpg">
+													<span class="property-thumb-info-label">
+														<span class="label price">$358,000</span>
+													</span>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-8">
+												<div class="property-thumb-info">
+														
+													<div class="property-thumb-info-content">
+														<h3><a href="property-detail.html">Poolside character home on a wide 422sqm</a></h3>
+														<address>Ferris Park, Jersey City Land in Sales</address>
+														<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+													</div>
+													<div class="amenities clearfix">
+														<ul class="pull-left">
+															<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
+														</ul>
+														<ul class="pull-right">
+															<span class="label forrent pull-right"><a href="#">Xóa</a> </span>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="pgl-property animation">
+										<div class="row">
+											<div class="col-sm-6 col-md-4">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive" src="images/properties/property-2.jpg">
+													<span class="property-thumb-info-label">
+														<span class="label price">$358,000</span>
+													</span>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-8">
+												<div class="property-thumb-info">
+														
+													<div class="property-thumb-info-content">
+														<h3><a href="property-detail.html">Poolside character home on a wide 422sqm</a></h3>
+														<address>Ferris Park, Jersey City Land in Sales</address>
+														<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+													</div>
+													<div class="amenities clearfix">
+														<ul class="pull-left">
+															<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
+														</ul>
+														<ul class="pull-right">
+															<span class="label forrent pull-right"><a href="#">Xóa</a> </span>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</section>
+				
+						<!-- End history post-->
+
+				<!-- Begin Properties -->
+				<section class="pgl-properties pgl-bg-grey">
+					<div class="container">
+						<h2>Danh sách bài đã đăng</h2>
+						<div class="properties-full properties-listing properties-listfull">
+							<div class="listing-header clearfix">
+								<ul class="list-inline list-icons pull-left">
+								
+									<li class="active"><a href="list-fullwidth.html"><i class="fa fa-th-list"></i></a></li>
+								
+								</ul>
+								
+							</div>
+							<div id="demo_posts_created">
+							</div>
+							
+							<ul class="pagination" id="pagination_posts_created">
+								</ul>
+						</div>
+					</div>
+				</section>
+				<!-- End Properties -->
+					
+			</div>			
+		</div>
+		<!-- Begin footer -->
+		 <div th:replace="common/Footer.html"></div> 
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script>
+	$(".price").each(function(index) {
+		converIntToMoney(this);
+	});
+	function converIntToMoney(parameter) {
+		let value = $(parameter).text();
+		let nf = Intl.NumberFormat();
+		let money = nf.format(value);
+		$(parameter).text(money + ',000đ');
+	}
+	
+	//render Post new
+	let data={
+			id:[[${User.id}]]
+	};        
+     render_posts_created(data);
+     	
+	 function render_posts_created(data){
+        	  $("#pagination_posts_created").pagination({
+      		    dataSource:'/posts/created',
+      		    locator: 'content',
+      		    totalNumberLocator: function(response){
+      		    	return response.totalElements;
+      		    },
+      		    pageSize: 3,
+      		    autoHidePrevious: true,
+      		    autoHideNext: true,
+      		    ajax: {
+      		    	data: data,
+      		    	 beforeSend: function() {
+      			      		$('#demo_posts_created').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      			        }
+      		    } ,
+      		    callback: function(data, pagination) {
+      		        // template method of yourself
+      		        console.log(data)
+      		       setTimeout(function(){
+      		        	 let html = render(data);
+      				       $('#demo_posts_created').html(html);
+      				       $(".price").each(function (index) {
+      				           converIntToMoney(this);
+      				         });
+      				},1000); 
+      		    },
+      		})
+        }
+	//function render product
+	function render(data){
+    	let result =data.map(function(e){
+    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'><h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3><address>"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right'><a href='#'>Xóa</a> </span></ul></div></div></div></div></div>"
+		})                
+        return result;
+    }
+	</script>
+</body>
+</html>

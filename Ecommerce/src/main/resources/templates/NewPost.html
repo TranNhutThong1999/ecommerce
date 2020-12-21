@@ -1,0 +1,174 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+	<link th:href='@{css/form/components.min.css}' rel="stylesheet">
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+			<div id="page">
+		
+		<!-- Begin Main -->
+		<div role="main" class="main pgl-bg-grey">
+			
+			<!-- Begin Featured Agents -->
+			<section class="pgl-agents">
+				<div class="container">
+					<h2>Đăng bài</h2>
+					<div class="agent-profile">
+					<h3 th:if="${message != null}" th:text="${message}" style="color:red;"></h3>
+						<div class="row">
+                            <form id="post-form" name="form1" method="post" th:action="@{/new}" th:object="${Post}" enctype="multipart/form-data">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-4" th:classappend="${#fields.hasErrors('title')} ? has-error : ''">
+											<label for="title">Tên nhà trọ*</label>
+											<div th:classappend="${#fields.hasErrors('title')} ? 'input-icon right' : ''">
+												<i th:if="${#fields.hasErrors('title')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+	 											<input  type="text" class="form-control"  th:field="*{title}" placeholder=""/>
+	 											<span th:if="${#fields.hasErrors('title')}" class="help-block" th:errors="*{title}"></span>
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<label for="subject">Diện tích (m2)*</label>
+											<input type="number" th:field="*{content.areage}" name="acreage" id="acreage" class="form-control " data-msg-required="Please enter the subject." >
+										</div>
+										
+									</div>
+								<!-- </div> -->
+								<!-- <div class="form-group"> -->
+                                    <div class="row" style="margin-top: 10px;">
+										<div class="col-sm-3">
+											<label for="price">Giá cho thuê (vnđ)*</label>
+											<input value="1,000" th:field="*{content.price}" type="text" id="price" name="price" onkeyup="this.value=this.value.replace(/[^\d]/,'')"  class="form-control money">
+										</div>
+										<div class="col-sm-3">
+											<label for="subject">Tiền nước (vnđ)*</label>
+											<input value="1,000" th:field="*{content.waterPrice}" type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')"   name="waterPrice" id="waterPrice" step="100" class="form-control money" data-msg-required="Please enter the subject." >
+                                        </div>
+									</div>
+									<div class="row " style="margin-top: 10px;">
+										
+                                        <div class="col-sm-3">
+											<label for="subject">Tiền điện (vnđ)* </label>
+											<input value="1,000" th:field="*{content.electricPrice}" onkeyup="this.value=this.value.replace(/[^\d]/,'')" type="text" name="electricPrice" id="electricPrice" class="form-control money" data-msg-required="Please enter the subject." >
+                                        </div>
+                                       
+                                    </div>
+									<div class="row " style="margin-top: 10px;">
+										<div class="col-sm-4"  th:classappend="${#fields.hasErrors('address.location')} ? has-error : ''">
+											<label for="subject">Địa chỉ*</label>
+											<div th:classappend="${#fields.hasErrors('address.location')} ? 'input-icon right' : ''">
+												<i th:if="${#fields.hasErrors('address.location')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+	 											<input  type="text" class="form-control"  th:field="*{address.location}" placeholder=""/>
+	 											<span th:if="${#fields.hasErrors('address.location')}" class="help-block" th:errors="*{address.location}"></span>
+											</div>
+										</div>
+									</div>
+									<div class="row " style="margin-top: 10px;" >
+										<div class="col-sm-2" th:classappend="${#fields.hasErrors('address.ward.id')} ? has-error : ''">
+											<label class="mdb-main-label">Phường</label>
+											<div th:classappend="${#fields.hasErrors('address.ward.id')} ? 'input-icon right' : ''">
+												<select class="form-control select2" th:field="*{address.ward.id}" value="2">
+													<option value="2"><p style="display:none;"></p></option>
+													<option th:each="ward : ${Wards}" th:value="${ward.id}" th:text="${ward.name}"></option> 
+												 </select>
+												 <span th:if="${#fields.hasErrors('address.ward.id')}" class="help-block" th:errors="*{address.ward.id}"></span>
+											 </div>
+											</div>	
+										<div class="col-sm-2" th:classappend="${#fields.hasErrors('address.district.id')} ? has-error : ''">
+											<label class="mdb-main-label">Quận</label>
+											<div th:classappend="${#fields.hasErrors('address.district.id')} ? 'input-icon right' : ''">
+											<select class="form-control select2" th:field="*{address.district.id}" value="2">
+												<option value="2"></option>
+												<option th:each="district : ${Districts}" th:value="${district.id}" th:text="${district.name}"></option> 
+											 </select>
+											 <span th:if="${#fields.hasErrors('address.district.id')}" class="help-block" th:errors="*{address.district.id}"></span>
+										</div>
+										</div>
+										<div class="col-sm-2" th:classappend="${#fields.hasErrors('address.provincial.id')} ? has-error : ''">
+											<label class="mdb-main-label">Tỉnh/thành phố</label>
+											<div th:classappend="${#fields.hasErrors('address.provincial.id')} ? 'input-icon right' : ''">
+											<select class="form-control select2" th:field="*{address.provincial.id}" value="2">
+												<option value="2"></option>
+												<option th:each="provincial : ${Provincials}" th:value="${provincial.id}" th:text="${provincial.name}"></option> 
+											 </select>
+											  <span th:if="${#fields.hasErrors('address.provincial.id')}" class="help-block" th:errors="*{address.provincial.id}"></span>
+											</div>
+										</div>
+										</div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-sm-4">
+											<label for="subject">Ảnh* </label>
+											<input multiple type="file"name="files" id="image" class="form-control" data-msg-required="Please enter the image." >
+										</div>
+									</div>
+                                     <div class="row" style="margin-top: 10px;">
+										<div class="col-sm-6 float-right">
+											<label class="mdb-main-label">Giá bài viết</label>
+											<select class="form-control " th:field="*{fee.id}">
+												<option th:each="fee : ${Fees}" th:value="${fee.id}" th:text="${fee.price}+' xu'"></option> 
+											 </select>
+											</div>
+										</div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="form-group col-sm-12">
+                                            <label for="comments">Mô tả</label>
+                                            <textarea rows="3" th:field="*{content.description}" name="description" id="description" class="form-control" data-msg-required="Please enter your message." ></textarea>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top: 10px;">
+										<div class="form-group col-sm-6">
+											<input type="submit" value="Đăng" class="btn btn-primary min-wide" >
+											<input type="reset" value="Hủy" class="btn btn-primary min-wide" >
+										</div>
+									</div>
+								</div>	
+							</form>
+						</div>
+                  	 </div>
+					</div>
+					<!-- End Featured Agents -->
+			</section>
+		</div>
+	</div>
+		<!-- End Main -->
+
+		<!-- Begin footer -->
+		 <div th:replace="common/Footer.html"></div> 
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	 <link
+      th:href="@{css/select2.min.css}"
+      rel="stylesheet"
+    />
+    <script th:src="@{js/select2.min.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			let nf = Intl.NumberFormat();
+			$(".money").change(function(){
+					let a= $(this).val();
+					let vnd =nf.format(a)
+					$(this).val(vnd)
+				})
+			// select
+			$('.select2').select2();
+
+			$('#post-form').submit(function(e){
+				let price = $("#price").val();
+				$("#price").val(Number(price.replace(/[^0-9.-]+/g,"")));
+				let priceWater = $("#waterPrice").val();
+				$("#waterPrice").val(Number(priceWater.replace(/[^0-9.-]+/g,"")));
+				let electricPrice =$("#electricPrice").val();
+				$("#electricPrice").val(Number(electricPrice.replace(/[^0-9.-]+/g,"")));
+			})
+		})
+	</script>
+</body>
+</html>

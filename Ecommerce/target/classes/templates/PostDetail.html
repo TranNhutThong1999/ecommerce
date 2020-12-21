@@ -1,0 +1,491 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<link th:href="@{/css/star-rating-svg.css}" rel="stylesheet">
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+		<div role="main" class="main pgl-bg-grey">
+			<!-- Begin page top -->
+			<section class="page-top">
+				<div class="container">
+					<div class="page-top-in">
+						<h2>
+							<span>Chi tiết</span>
+						</h2>
+					</div>
+				</div>
+			</section>
+			<!-- End page top -->
+			<!-- Begin content with sidebar -->
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 content">
+						<section class="pgl-pro-detail pgl-bg-light">
+							<div id="slider" class="flexslider">
+								<ul class="slides">
+									<li th:each="image :${Post.images}"><img
+										th:src="@{${image.name}}" alt=""> <span
+										class="property-thumb-info-label"> <span
+											class="label price" th:text="${Post.content.price}">358000</span>
+											<span class="label forrent pull-right"> <a href="#">Lưu
+													Tin</a></span>
+									</span></li>
+
+								</ul>
+							</div>
+							<!-- xong -->
+							<div id="carousel" class="flexslider">
+								<ul class="slides">
+									<li th:each="image :${Post.images}"><img
+										th:src="@{${image.name}}" alt=""></li>
+
+								</ul>
+							</div>
+							<div class="pgl-detail">
+								<div class="row">
+									<div class="col-sm-4">
+										<ul class="list-unstyled amenities amenities-detail">
+											<li><strong>Giá:</strong> <span class="priceInfor"
+												th:text="${Post.content.price}"> </span></li>
+											<li><strong>Diện tích:</strong><span
+												th:text=" ${Post.content.areage}"></span> <sup>m2</sup></li>
+											<li>
+												<address>
+													<i class="icons icon-location"></i><span
+														th:text="${Post.address.location}+','+${Post.address.ward.name}+','+ ${Post.address.district.name}+', '+ ${Post.address.provincial.name}"></span>
+												</address>
+											</li>
+											<li><i class="icons icon-bedroom"></i> 3 Bedrooms</li>
+											<li><i class="icons icon-bathroom"></i> 2 Bathrooms</li>
+										</ul>
+									</div>
+									<div class="col-sm-8">
+										<h2
+											th:text=" ${Post.address.district.name}+', '+ ${Post.address.provincial.name}">Đông
+											Hòa , Dĩ An , Bình Dương</h2>
+										<p>
+											<strong th:text=" ${Post.title}">Aliquam vel egestas
+												turpis. Proin sollicitudin imperdiet nisi ac rutrum. Sed
+												imperdiet libero malesuada erat cursus eu pulvinar tellus
+												rhoncus. Ut eget tellus neque, faucibus ornare odio. Fusce
+												sagittis hendrerit mi a sollicitudin.</strong>
+										</p>
+										<p th:text=" ${Post.content.description}">Mauris elementum
+											tempus nisi, vitae ullamcorper sem ultricies vitae. Nullam
+											consectetur lacinia nisi, quis laoreet magna pulvinar in.
+											Class aptent taciti sociosqu ad litora torquent per conubia
+											nostra, per inceptos himenaeos. In hac habitasse platea
+											dictumst. Cum sociis natoque penatibus et magnis dis
+											parturient montes, nascetur ridiculus mus.</p>
+										<p>Vivamus quis dui ac nulla molestie blandit eu in nunc.
+											In justo erat, lacinia in vulputate non, tristique eu mi.
+											Aliquam tristique dapibus tempor. Vivamus malesuada tempor
+											urna, in convallis massa lacinia sed. Phasellus gravida
+											auctor vestibulum. Suspendisse potenti. In tincidunt felis
+											bibendum nunc tempus sagittis. Praesent elit dolor, ultricies
+											interdum porta sit amet, iaculis in neque.</p>
+									</div>
+								</div>
+								<div class="tab-detail">
+									<h3>Thông tin thêm</h3>
+									<div class="panel-group" id="accordion">
+										<div class="panel panel-default pgl-panel">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a data-toggle="collapse" data-parent="#accordion"
+														href="#collapseOne">Mô tả thêm</a>
+												</h4>
+											</div>
+											<div id="collapseOne" class="panel-collapse collapse in">
+												<div class="panel-body">
+													<ul>
+														<li><strong>Giá điện:</strong> <span
+															class="priceInfor"
+															th:text=" ${Post.content.electricPrice}">3500</span></li>
+														<li><strong>Giá nước:</strong> <span
+															class="priceInfor" th:text=" ${Post.content.waterPrice}">12000</span></li>
+														<li><strong>Wifi:</strong> <span class="priceInfor">80000</span>
+														</li>
+														<li><strong>Tolet riêng:</strong> <span class="">có</span>
+														</li>
+														<li><strong>Chổ để xe:</strong> <span class="">có</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default pgl-panel">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a data-toggle="collapse" data-parent="#accordion"
+														href="#collapseTwo" class="collapsed">Vote Star</a>
+												</h4>
+											</div>
+											<div id="collapseTwo" class="panel-collapse collapse">
+												<div class="panel-body">
+													<div class="my-rating-4"></div>
+													<span class="live-rating" th:text="${Post.totalStar}"></span>
+								<!-- Starrrrrrrrrrrrrr -->
+													<div class="col-xs-12 col-md-6">
+														<div class="row rating-desc">
+															<div class="col-xs-3 col-md-3 text-right">
+																<span class="glyphicon glyphicon-star"></span>5
+															</div>
+															<div class="col-xs-8 col-md-9">
+																<div class="progress progress-striped">
+																	<div class="progress-bar progress-bar-success"
+																		role="progressbar" aria-valuenow="20"
+																		aria-valuemin="0" aria-valuemax="100"
+																		th:style="'width:'+ ${fiveStar}+'%'">
+																		<span class="sr-only">80%</span>
+																	</div>
+																</div>
+															</div>
+															<!-- end 5 -->
+															<div class="col-xs-3 col-md-3 text-right">
+																<span class="glyphicon glyphicon-star"></span>4
+															</div>
+															<div class="col-xs-8 col-md-9">
+																<div class="progress">
+																	<div class="progress-bar progress-bar-success"
+																		role="progressbar" aria-valuenow="20"
+																		aria-valuemin="0" aria-valuemax="100"
+																		th:style="'width:'+ ${fourStar}+'%'">
+																		<span class="sr-only">60%</span>
+																	</div>
+																</div>
+															</div>
+															<!-- end 4 -->
+															<div class="col-xs-3 col-md-3 text-right">
+																<span class="glyphicon glyphicon-star"></span>3
+															</div>
+															<div class="col-xs-8 col-md-9">
+																<div class="progress">
+																	<div class="progress-bar progress-bar-info"
+																		role="progressbar" aria-valuenow="20"
+																		aria-valuemin="0" aria-valuemax="100"
+																		th:style="'width:'+ ${threeStar}+'%'">
+																		<span class="sr-only">40%</span>
+																	</div>
+																</div>
+															</div>
+															<!-- end 3 -->
+															<div class="col-xs-3 col-md-3 text-right">
+																<span class="glyphicon glyphicon-star"></span>2
+															</div>
+															<div class="col-xs-8 col-md-9">
+																<div class="progress">
+																	<div class="progress-bar progress-bar-warning"
+																		role="progressbar" aria-valuenow="20"
+																		aria-valuemin="0" aria-valuemax="100"
+																		th:style="'width:'+ ${twoStar}+'%'">
+																		<span class="sr-only">20%</span>
+																	</div>
+																</div>
+															</div>
+															<!-- end 2 -->
+															<div class="col-xs-3 col-md-3 text-right">
+																<span class="glyphicon glyphicon-star"></span>1
+															</div>
+															<div class="col-xs-8 col-md-9">
+																<div class="progress">
+																	<div class="progress-bar progress-bar-danger"
+																		role="progressbar" aria-valuenow="80"
+																		aria-valuemin="0" aria-valuemax="100"
+																		th:style="'width:'+ ${oneStar}+'%'">
+																		<span class="sr-only">15%</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- 	end Starrrrrrrrrrrrr -->
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default pgl-panel">
+											<div id="collapseThree" class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>Sed perspiciatis unde omnisiste natus error
+														voluptatem remopa accusantium doloremque laudantium, totam
+														rem aperiam.</p>
+													<div id="contact-map" class="pgl-bg-light"></div>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default pgl-panel">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a data-toggle="collapse" data-parent="#accordion"
+														href="#collapseFouth" class="collapsed">Agent</a>
+												</h4>
+											</div>
+											<div id="collapseFouth" class="panel-collapse collapse">
+												<div class="panel-body">
+													<div class="pgl-agent-item pgl-bg-light">
+														<div class="row pgl-midnarrow-row">
+															<div class="col-xs-4">
+																<div class="img-thumbnail-medium">
+																	<a href="agentprofile.html"> <img alt=""
+																		class="img-responsive"
+																		th:src="@{${User.image}}">
+																	</a>
+																</div>
+															</div>
+															<div class="col-xs-8">
+																<div class="pgl-agent-info">
+																	<small>NO.1</small>
+																	<h4>
+																		<a href="agentprofile.html"
+																			th:text="${User.name}">John Smith</a>
+																	</h4>
+																	<address>
+																		<i class="fa fa-map-marker"></i> Office :
+																		1-800-666-8888 <br> <i class="fa fa-phone"></i>
+																		Mobile : <span th:text="${User.phone}"></span> <br>
+																		<i class="fa fa-fax"></i> Fax : 1-800-666-8888 <br>
+																		<i class="fa fa-envelope-o"></i> Mail: <a
+																			href="mailto:JohnSmith@gmail.com"
+																			th:text="${User.email}">JohnSmith@gmail.com</a>
+																	</address>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default pgl-panel">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a data-toggle="collapse" data-parent="#accordion"
+														href="#collapseFive" class="collapsed">Đánh giá</a>
+												</h4>
+											</div>
+											<div id="collapseFive" class="panel-collapse collapse">
+												<div class="comment">
+													<div class="post-block post-comments clearfix">
+														<ul class="ratings " style="text-align: center;">
+															<li th:each="star :${Stars}" class="star"
+																th:attr="data_id=${star.id}"></li>
+														</ul>
+														<span class="fb-err fb-err-star-display" style="">Vui
+															lòng không để trống</span>
+													</div>
+													<div class="post-block post-leave-comment">
+														<h3>Phản hồi</h3>
+														<div class="row">
+															<form action="#" type="post" class="col-md-9">
+																<div class="form-group" id="commentreply">
+																	<div class="row">
+																		<div class="col-md-12">
+																			<label>Nội dung *</label> <span
+																				class="fb-err fb-err-area-display" style="">Vui
+																				lòng không để trống</span>
+																			<textarea maxlength="5000" rows="10"
+																				class="form-control" name="comment" id="comment"></textarea>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<input type="button" id="submitFB" value="button "
+																			class="btn btn-default btn-sm"
+																			data-loading-text="Loading...">
+																	</div>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- end comment -->
+									</div>
+								</div>
+							</div>
+
+						</section>
+						<!-- Begin Related properties -->
+						<section class="pgl-properties">
+							<h2>Danh sách gợi ý</h2>
+							<div class="row">
+								<div  class="owl-carousel pgl-pro-slide"
+									data-plugin-options='{"items": 3, "itemsDesktop": 3, "singleItem": false, "autoPlay": false, "pagination": false}'>
+									<div th:each="PostRef :${PostRefs}" class="col-md-12 animation">
+										<div class="pgl-property">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+													th:src="@{*{PostRef.images.get(0).name}}"> <span
+														class="property-thumb-info-label"> <span
+														class="label price" th:text="*{PostRef.content.price}">$358,000</span>
+													</span>
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Poolside character home
+															on a wide 422sqm</a>
+													</h3>
+													<address th:text="*{PostRef.address.ward.name}+', '+*{PostRef.address.district.name}+', '+*{PostRef.address.provincial.name}">Ferris Park, Jersey City Land in Sales</address>
+												</div>
+												<div class="amenities clearfix">
+													<ul class="pull-left">
+														<li><strong>Area:</strong> <span th:text="*{PostRef.content.areage}">450</span> <sup>m2</sup></li>
+													</ul>
+													<ul class="pull-right">
+														<span class="label forrent pull-right"> <a href="#">Lưu
+																Tin</a>
+														</span>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</section>
+						<!-- End Related properties -->
+					</div>
+					<div class="col-md-3 sidebar">
+						<!-- Begin Our Agents -->
+						<aside class="block pgl-agents pgl-bg-light">
+							<h3>Chủ cho thuê</h3>
+							<div class="owl-carousel pgl-pro-slide pgl-agent-item"
+								data-plugin-options='{"items": 1, "pagination": false, "autoHeight": true}'>
+								<div class="pgl-agent-item">
+									<div class="img-thumbnail-medium">
+										<a href="agentprofile.html"> <img
+											th:src="@{${User.image}}" class="img-responsive"
+											alt="">
+										</a>
+									</div>
+									<div class="pgl-agent-info">
+										<h4>
+											<a href="agentprofile.html" th:text="${User.name}"></a>
+										</h4>
+										<address>
+											<i class="fa fa-phone"></i> Điện thoại : <span
+												th:text="${User.phone}"></span> <br> <i
+												class="fa fa-fax"></i> Fax : 1-800-666-8888 <br> <i
+												class="fa fa-envelope-o"></i> Mail: <a
+												href="mailto:MCCarthy@gmail.com"
+												th:text="${User.email}"></a>
+										</address>
+									</div>
+								</div>
+							</div>
+						</aside>
+						<!-- End Our Agents -->
+					</div>
+				</div>
+			</div>
+			<!-- End Main -->
+		</div>
+		<!-- Begin footer -->
+		<div th:replace="common/Footer.html"></div>
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script type="text/javascript"
+		th:src="@{/js/jquery.star-rating-svg.js}"></script>
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			var starValue = 0;
+			
+		    var x = [[${Post.totalStar}]];
+			console.log(x);
+			let star = '.star', selected = '.selected';
+
+			$(star).on('click', function() {
+				$(selected).each(function() {
+					$(this).removeClass('selected');
+				});
+				$(this).addClass('selected');
+			});
+
+			$(".price").each(function(index) {
+				converIntToMoney(this);
+			});
+			$(".priceInfor").each(function(index) {
+				converIntToMoney(this);
+			});
+
+			function converIntToMoney(parameter) {
+				let value = $(parameter).text();
+				let nf = Intl.NumberFormat();
+				let money = nf.format(value);
+				$(parameter).text(money + ',000đ');
+			}
+			$(".my-rating-4").starRating({
+				initialRating : x,
+				disableAfterRate : false,
+				readOnly : true,
+			});
+			$('.star').click(function(){
+				starValue =$(this).attr('data_id')
+			})
+			$("#submitFB").click(function(){
+				let area =$('#comment').val();
+						$('.ratings').removeClass('fb-err-star');
+						$('.fb-err-star-display').css("display","none");
+						
+						$('#comment').removeClass('fb-err-area');
+						$('.fb-err-area-display').css("display","none");
+						
+					if(starValue === 0 |  area === ""){
+						if(starValue === 0){
+							$('.ratings').addClass('fb-err-star');
+							$('.fb-err-star-display').css("display","block");
+						}
+						if( area === ""){
+							$('#comment').addClass('fb-err-area');
+							$('.fb-err-area-display').css("display","block");
+						}
+						return;
+					}
+				
+					Swal.fire({
+						icon: 'success',
+  						title: 'Feedback thành công',
+  						width: 600,
+  						padding: '3em',
+					})
+					let data ={
+						idPost:[[${Post.id}]],
+						comment:$('#comment').val(),
+						star:starValue
+					}
+					console.log(data)
+				ajax(data);
+			
+			})
+			function ajax(data){
+			$.ajax({
+				type:"post",
+				contentType:"application/json",
+				url:'/posts/feedback',
+				data:JSON.stringify(data),
+				success:function(value){
+					$('#comment').val("");
+					starValue=0;
+					$('.star').each(function(index){
+						$(this).removeClass('selected')
+					})
+				},
+				error:function(err){
+				}
+			})
+			}
+		})
+	</script>
+</body>
+</html>

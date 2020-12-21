@@ -1,0 +1,344 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<title>login</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+		<div role="main" class="main pgl-bg-grey">
+			<!-- Begin page top -->
+			<section class="page-top">
+				<div class="container">
+					<div class="page-top-in">
+						<h2>
+							<span>Grid with sidebar</span>
+						</h2>
+					</div>
+				</div>
+			</section>
+			<!-- End page top -->
+
+			<!-- Begin content with sidebar -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 content">
+						<!-- Begin Featured -->
+						<section class="pgl-featured">
+							<h2>Nổi bật</h2>
+							<div class="row">
+								<div class="owl-carousel pgl-pro-slide"
+									data-plugin-options='{"items": 3, "singleItem": false, "autoPlay": false, "pagination": false}'>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-2.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">J St, Modesto, CA 95351</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-3.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Spring Gate DrUNIT 4106</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-4.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Chatham St NW, Roanoke</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-5.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Stockton, CA 95215</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-3.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Spring Gate DrUNIT 4106</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 animation">
+										<div class="pgl-property featured-item">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-featured-4.jpg" />
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Chatham St NW, Roanoke</a>
+													</h3>
+													<p>Amet luctus nisl tempus.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr class="mid" />
+						</section>
+						<!-- End Featured -->
+
+						<!-- Begin Properties -->
+						<section class="pgl-properties pgl-bg-grey">
+							<h2>Danh sách</h2>
+							<div class="properties-full">
+								<div class="listing-header clearfix">
+									<ul class="list-inline list-icons pull-left">
+										<li class="active"><a href="grid-fullwidth-4-column.html"><i
+												class="fa fa-th"></i></a></li>
+									</ul>
+									<ul class="list-inline list-sort pull-right">
+										<li><label for="sortby-status">Sắp xếp</label></li>
+										<li><select id="sortby-status" name="sortby-status"
+											data-placeholder="Sort by" class="chosen-select">
+											 <option selected="selected" value="0"></option>
+												<option value="areage">Diện tích</option>
+												<option value="price">Giá</option>
+										</select></li>
+									</ul>
+								</div>
+								<div class="row" id="demo">
+									<div class="col-xs-4 animation">
+										<div class="pgl-property">
+											<div class="property-thumb-info">
+												<div class="property-thumb-info-image">
+													<img alt="" class="img-responsive"
+														src="images/properties/property-1.jpg" /> <span
+														class="property-thumb-info-label"> <span
+														class="label price">358000</span>
+													</span>
+												</div>
+												<div class="property-thumb-info-content">
+													<h3>
+														<a href="property-detail.html">Poolside character home
+															on a wide 422sqm</a>
+													</h3>
+													<address>Ferris Park, Jersey City Land in Sales</address>
+												</div>
+												<div class="amenities clearfix">
+													<ul class="pull-left">
+														<li><strong>Area:</strong> 450<sup>m2</sup></li>
+													</ul>
+													<span class="label forrent pull-right"><a href="#">Lưu
+															Tin</a> </span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<ul class="pagination" id="pagination">
+									<!-- <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a>
+									</li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">Next</a></li> -->
+								</ul>
+							</div>
+						</section>
+						<!-- End Properties -->
+					</div>
+					<div class="col-md-3 sidebar">
+						<!-- Begin Advanced Search -->
+						<aside class="block pgl-advanced-search pgl-bg-light">
+							<h3>Tìm kiếm</h3>
+							<form name="advancedsearch" id="filter">
+								<div class="form-group">
+									Phường <label class="sr-only" for="location">Phường</label>
+									
+									<select id="ward" name="ward"
+										data-placeholder="Location" class="chosen-select">
+										<option selected="selected" value="0"></option>
+										<option th:each="ward : ${Wards}" th:value="${ward.id}" th:text="${ward.name}"></option> 
+									 </select>
+								</div>
+								<div class="form-group">
+									Quận <label class="sr-only" for="location">Quận</label>
+									 <select
+										id="district" name="district" data-placeholder="Location"
+										class="chosen-select">
+										<option value="0"></option>
+										<option th:each="district : ${Districts}" th:value="${district.id}" th:text="${district.name}"></option> 
+											 </select>
+								</div>
+								<div class="form-group">
+									Tỉnh/Thành <label class="sr-only" for="location">Tỉnh/Thành</label>
+									<select id="provincial" name="provincial"
+										data-placeholder="Location" class="chosen-select">
+										<option th:each="provincial : ${Provincials}" th:value="${provincial.id}" th:text="${provincial.name}"></option> 
+									 </select>
+								</div>
+								<div class="form-group">
+									Diện tích <label class="sr-only" for="property-types">Diện
+										tích</label> 
+										<select id="areage" name="areage"
+										data-placeholder="Areage"  class="chosen-select" >
+										<option value="<30">< 30 m2</option>
+										<option value="<40">< 40 m2</option>
+										<option value="<50">< 50m2</option>
+										<option value="<60">< 60 m2</option>
+										<option selected="selected" value="<70">< 70 m2</option>
+										<option value=">70">> 70 m2</option>
+									</select>
+								</div>
+								<div class="form-group">
+									Giá <label class="sr-only" for="area-from">Giá</label> <select
+										id="price" name="price"
+										data-placeholder="Price" class="chosen-select">
+										<option  value="<1000">< 1 triệu</option>
+										<option value="<2000">< 2 triệu</option>
+										<option value="<5000">< 5 triệu</option>
+										<option selected="selected" value="<8000">< 8 triệu</option>
+										<option value=">4000">> 4 triệu</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<button  type="submit" class="btn btn-block btn-primary">
+										Tìm kiếm</button>
+								</div>
+							</form>
+						</aside>
+						<!-- End Advanced Search -->
+					</div>
+				</div>
+			</div>
+			<!-- End content with sidebar -->
+		</div>
+		<!-- End Main -->
+
+		<!-- Begin footer -->
+		<div th:replace="common/Footer.html"></div>
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script>
+      $(document).ready(function () {
+        $(".price").each(function (index) {
+          converIntToMoney(this);
+        });
+        function converIntToMoney(parameter) {
+          let value = $(parameter).text();
+          let nf = Intl.NumberFormat();
+          let money = nf.format(value);
+          $(parameter).text(money + ",000đ");
+        }
+     	let data={};        
+     	render_filter_sort(data);
+     	
+        $("#sortby-status").change(function(){
+        	let sort= $("#sortby-status").val()
+        	data["sort"]=sort;
+        	render_filter_sort(data);
+        })
+     	
+     	$("#filter").submit(function(e){
+     		e.preventDefault();
+     		let sort= $("#sortby-status").val()
+     		let arr =$(this).serializeArray();
+     		let temp={};
+     		for(let e of arr){
+     			temp[e.name]=e.value
+ 				data ={...data,...temp}
+     		}
+     		data["sort"]=sort;
+     		render_filter_sort(data);
+     	})
+       //function paging and show product
+        function render_filter_sort(data){
+        	  $("#pagination").pagination({
+      		    dataSource:'/list_post',
+      		    locator: 'object.content',
+      		    totalNumberLocator: function(response){
+      		    	console.log(response)
+      		    	return response.totalElements;
+      		    },
+      		    pageSize: 3,
+      		    autoHidePrevious: true,
+      		    autoHideNext: true,
+      		    ajax: {
+      		    	data: data,
+      		    	 beforeSend: function() {
+      			      		$('#demo').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      			        }
+      		    } ,
+      		    callback: function(data, pagination) {
+      		        // template method of yourself
+      		        setTimeout(function(){
+      		        	 let html = render(data);
+      				       $('#demo').html(html);
+      				       $(".price").each(function (index) {
+      				           converIntToMoney(this);
+      				         });
+      				},1000); 
+      		    },
+      		})
+        }
+      
+     	//function render product
+		function render(data){
+        	let result =data.map(function(e){
+				return " <div class='col-xs-4 animation'> <div class='pgl-property'> <div class='property-thumb-info'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'/><span class='property-thumb-info-label'><span class='label price'>"+e.content.price+"</span></span> </div> <div class='property-thumb-info-content'> <h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3> <address>"+e.address.ward.name+", "+e.address.district.name+", "+e.address.provincial.name+"</address></div><div class='amenities clearfix'> <ul class='pull-left'> <li><strong>Area:</strong> "+e.content.areage+"<sup>m2</sup></li></ul><span class='label forrent pull-right' ><a href='#'>Lưu Tin</a> </span> </div> </div> </div></div>";
+			})                
+	        return result;
+        }
+      });
+    </script>
+</body>
+</html>
