@@ -2,60 +2,82 @@
 <head>
 <div th:replace="common/Css.html"></div>
 <meta charset="UTF-8">
-<title>Home</title>
+<title>Trang chủ</title>
 </head>
 <body>
-<div id="page">
-	<!-- Menu -->
+	<div id="page">
+		<!-- Menu -->
 		<div th:replace="common/Menu.html"></div>
 		<!-- Begin Main -->
 		<div role="main" class="main">
 			<!-- Begin Main Slide -->
 			<section class="main-slide">
-				<div id="owl-main-slide" class="owl-carousel pgl-main-slide" data-plugin-options='{"autoPlay": true}'>
-					<div class="item" id="item1"><img th:src="@{images/slides/slider1.jpg}" alt="Photo" class="img-responsive">
+				<div id="owl-main-slide" class="owl-carousel pgl-main-slide"
+					data-plugin-options='{"autoPlay": true}'>
+					<div class="item" id="item1">
+						<img th:src="@{images/slides/slider1.jpg}" alt="Photo"
+							class="img-responsive">
 						<div class="item-caption">
 							<div class="container">
 								<div class="property-info">
-									<span class="property-thumb-info-label">
-										<span class="label price">$358,000</span>
-										<span class="label"><a href="property-detail.html" class="btn-more">thông tin thêm</a></span>
+									<span class="property-thumb-info-label"> <span
+										class="label price">$358,000</span> <span class="label"><a
+											href="property-detail.html" class="btn-more">thông tin
+												thêm</a></span>
 									</span>
 									<div class="property-thumb-info-content">
-										<h2><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h2>
-										<p>Sed perspiciatis unde omnisiste natus error voluptatem remopa accusantium doloremque laudantium, totam rem aperiam.</p>
+										<h2>
+											<a href="property-detail.html">Chatham St NW, Roanoke, VA
+												24012</a>
+										</h2>
+										<p>Sed perspiciatis unde omnisiste natus error voluptatem
+											remopa accusantium doloremque laudantium, totam rem aperiam.</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="item" id="item2"><img th:src="@{images/slides/slider2.jpg}" alt="Photo" class="img-responsive">
+					<div class="item" id="item2">
+						<img th:src="@{images/slides/slider2.jpg}" alt="Photo"
+							class="img-responsive">
 						<div class="item-caption">
 							<div class="container">
 								<div class="property-info">
-									<span class="property-thumb-info-label">
-										<span class="label price">$358,000</span>
-										<span class="label"><a href="property-detail.html" class="btn-more">THông tin thêm</a></span>
+									<span class="property-thumb-info-label"> <span
+										class="label price">$358,000</span> <span class="label"><a
+											href="property-detail.html" class="btn-more">THông tin
+												thêm</a></span>
 									</span>
 									<div class="property-thumb-info-content">
-										<h2><a href="property-detail.html">Presidential Parcel Frames Command Views of Mt. Rushmore</a></h2>
-										<p>Sed perspiciatis unde omnisiste natus error voluptatem remopa accusantium doloremque laudantium, totam rem aperiam.</p>
+										<h2>
+											<a href="property-detail.html">Presidential Parcel Frames
+												Command Views of Mt. Rushmore</a>
+										</h2>
+										<p>Sed perspiciatis unde omnisiste natus error voluptatem
+											remopa accusantium doloremque laudantium, totam rem aperiam.</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="item" id="item3"><img th:src="@{images/slides/slider3.jpg}" alt="Photo" class="img-responsive">
+					<div class="item" id="item3">
+						<img th:src="@{images/slides/slider3.jpg}" alt="Photo"
+							class="img-responsive">
 						<div class="item-caption">
 							<div class="container">
 								<div class="property-info">
-									<span class="property-thumb-info-label">
-										<span class="label price">$358,000</span>
-										<span class="label"><a href="property-detail.html" class="btn-more">THông tin thêm</a></span>
+									<span class="property-thumb-info-label"> <span
+										class="label price">$358,000</span> <span class="label"><a
+											href="property-detail.html" class="btn-more">THông tin
+												thêm</a></span>
 									</span>
 									<div class="property-thumb-info-content">
-										<h2><a href="property-detail.html">Alpine Rd, Stockton, CA 95215</a></h2>
-										<p>Sed perspiciatis unde omnisiste natus error voluptatem remopa accusantium doloremque laudantium, totam rem aperiam.</p>
+										<h2>
+											<a href="property-detail.html">Alpine Rd, Stockton, CA
+												95215</a>
+										</h2>
+										<p>Sed perspiciatis unde omnisiste natus error voluptatem
+											remopa accusantium doloremque laudantium, totam rem aperiam.</p>
 									</div>
 								</div>
 							</div>
@@ -64,7 +86,7 @@
 				</div>
 			</section>
 			<!-- End Main Slide -->
-			
+
 			<!-- Begin Advanced Search -->
 			<section class="pgl-advanced-search pgl-bg-light">
 				<div class="container">
@@ -73,74 +95,80 @@
 							<div class="col-xs-6 col-sm-3">
 								Loại tin
 								<div class="form-group">
-									
-									<select id="property-status" name="property-status" data-placeholder="Property Status" class="chosen-select">
-										
+
+									<select id="property-status" name="property-status"
+										data-placeholder="Property Status" class="chosen-select">
+
 										<option selected="selected" value="cho thue">Cho thuê</option>
 										<option value="tim o ghep">Tìm ở ghép</option>
 									</select>
 								</div>
-							</div>	
+							</div>
 							<div class="col-xs-6 col-sm-3">
 								Tỉnh/Thành
 								<div class="form-group">
-									<label class="sr-only" for="location">Tinh</label>
-									<select id="location" name="location" data-placeholder="Location" class="chosen-select">
-										<option selected="selected" value="TPHCM">TP Hồ Chí Minh</option>
-										<option value="BinhDuong">Bình Dương</option>		
+									<label class="sr-only" for="location">Tinh</label> <select
+										id="location" name="location" data-placeholder="Location"
+										class="chosen-select">
+										<option selected="selected" value="TPHCM">TP Hồ Chí
+											Minh</option>
+										<option value="BinhDuong">Bình Dương</option>
 										<option value="DongNai">Đồng Nai</option>
 										<option value="BenTre">Bến Tre</option>
-										
-										
+
+
 									</select>
 								</div>
 							</div>
 							<div class="col-xs-6 col-sm-3">
-								Diện tích 
+								Diện tích
 								<div class="form-group">
-									<label class="sr-only" for="property-types">Diện Tích dưới</label>
-									<select id="property-types" name="property-types" data-placeholder="Property Types" class="chosen-select">
-										<option selected="selected" value="30m2"> < 30 m2</option>
-										<option value="40m2"> < 40 m2</option>
-										<option value="50m2"> < 50m2</option>
-										<option value="60m2"> < 60 m2</option>
-										<option value="70m2"> < 70 m2</option>
-										<option value="80m2"> < 80 m2</option>
+									<label class="sr-only" for="property-types">Diện Tích
+										dưới</label> <select id="property-types" name="property-types"
+										data-placeholder="Property Types" class="chosen-select">
+										<option selected="selected" value="30m2">< 30 m2</option>
+										<option value="40m2">< 40 m2</option>
+										<option value="50m2">< 50m2</option>
+										<option value="60m2">< 60 m2</option>
+										<option value="70m2">< 70 m2</option>
+										<option value="80m2">< 80 m2</option>
 									</select>
 								</div>
-							</div>	
+							</div>
 							<div class="col-xs-6 col-sm-3">
 								Giá
 								<div class="form-group">
-									<label class="sr-only" for="property-types">Giá</label>
-									<select id="property-types" name="property-types" data-placeholder="Property Types" class="chosen-select">
-										<option selected="selected" value="1 triệu"> < 1 triệu</option>
-										<option value="2 triệu"> < 2 triệu</option>
-										<option value="3 triệu"> < 3 triệu</option>
-										<option value="4 triệu"> < 4 triệu</option>
-										<option value="5 triệu"> > 4 triệu</option>
+									<label class="sr-only" for="property-types">Giá</label> <select
+										id="property-types" name="property-types"
+										data-placeholder="Property Types" class="chosen-select">
+										<option selected="selected" value="1 triệu">< 1 triệu</option>
+										<option value="2 triệu">< 2 triệu</option>
+										<option value="3 triệu">< 3 triệu</option>
+										<option value="4 triệu">< 4 triệu</option>
+										<option value="5 triệu">> 4 triệu</option>
 									</select>
 								</div>
-							</div>	
-							
+							</div>
+
 						</div>
-						
+
 						<div class="row">
-								
+
 							<div class="col-xs-6 col-sm-3">
 								<div class="form-group">
-									<button type="submit" class="btn btn-block btn-primary">Tìm kiếm</button>
+									<button type="submit" class="btn btn-block btn-primary">Tìm
+										kiếm</button>
 								</div>
-							</div>	
-							
-							
+							</div>
+
+
 						</div>
-						
+
 					</form>
 				</div>
 			</section>
 			<!-- End Advanced Search -->
-			
+
 			<!-- Begin Featured -->
 			<section class="pgl-featured pgl-bg-grey">
 				<div class="container">
@@ -149,10 +177,14 @@
 							<div class="pgl-property featured-item">
 								<div class="property-thumb-info">
 									<div class="property-thumb-info-image">
-										<img alt="" class="img-responsive"th:src="@{images/properties/property-featured-1.jpg}" />">
+										<img alt="" class="img-responsive"
+											th:src="@{images/properties/property-featured-1.jpg}" />">
 									</div>
 									<div class="property-thumb-info-content">
-										<h3><a href="property-detail.html">Alpine Rd, Stockton, CA 95215</a></h3>
+										<h3>
+											<a href="property-detail.html">Alpine Rd, Stockton, CA
+												95215</a>
+										</h3>
 										<p>Amet luctus nisl tempus.</p>
 									</div>
 								</div>
@@ -162,10 +194,13 @@
 							<div class="pgl-property featured-item">
 								<div class="property-thumb-info">
 									<div class="property-thumb-info-image">
-										<img alt="" class="img-responsive" th:src="@{images/properties/property-featured-2.jpg}">
+										<img alt="" class="img-responsive"
+											th:src="@{images/properties/property-featured-2.jpg}">
 									</div>
 									<div class="property-thumb-info-content">
-										<h3><a href="property-detail.html">J St, Modesto, CA 95351</a></h3>
+										<h3>
+											<a href="property-detail.html">J St, Modesto, CA 95351</a>
+										</h3>
 										<p>Amet luctus nisl tempus.</p>
 									</div>
 								</div>
@@ -175,10 +210,13 @@
 							<div class="pgl-property featured-item">
 								<div class="property-thumb-info">
 									<div class="property-thumb-info-image">
-										<img alt="" class="img-responsive" th:src="@{images/properties/property-featured-3.jpg}">
+										<img alt="" class="img-responsive"
+											th:src="@{images/properties/property-featured-3.jpg}">
 									</div>
 									<div class="property-thumb-info-content">
-										<h3><a href="property-detail.html">Spring Gate DrUNIT 4106</a></h3>
+										<h3>
+											<a href="property-detail.html">Spring Gate DrUNIT 4106</a>
+										</h3>
 										<p>Amet luctus nisl tempus.</p>
 									</div>
 								</div>
@@ -188,10 +226,13 @@
 							<div class="pgl-property featured-item">
 								<div class="property-thumb-info">
 									<div class="property-thumb-info-image">
-										<img alt="" class="img-responsive" th:src="@{images/properties/property-featured-4.jpg}">
+										<img alt="" class="img-responsive"
+											th:src="@{images/properties/property-featured-4.jpg}">
 									</div>
 									<div class="property-thumb-info-content">
-										<h3><a href="property-detail.html">Chatham St NW, Roanoke</a></h3>
+										<h3>
+											<a href="property-detail.html">Chatham St NW, Roanoke</a>
+										</h3>
 										<p>Amet luctus nisl tempus.</p>
 									</div>
 								</div>
@@ -201,10 +242,13 @@
 							<div class="pgl-property featured-item">
 								<div class="property-thumb-info">
 									<div class="property-thumb-info-image">
-										<img alt="" class="img-responsive" th:src="@{images/properties/property-featured-5.jpg}">
+										<img alt="" class="img-responsive"
+											th:src="@{images/properties/property-featured-5.jpg}">
 									</div>
 									<div class="property-thumb-info-content">
-										<h3><a href="property-detail.html">Stockton, CA 95215</a></h3>
+										<h3>
+											<a href="property-detail.html">Stockton, CA 95215</a>
+										</h3>
 										<p>Amet luctus nisl tempus.</p>
 									</div>
 								</div>
@@ -215,17 +259,20 @@
 				</div>
 			</section>
 			<!-- End Featured -->
-			
+
 			<!-- Begin Properties -->
 			<section class="pgl-properties pgl-bg-grey">
 				<div class="container">
 					<h2>Danh sách</h2>
 					<!-- Nav tabs -->
-					<ul class="nav nav-tabs pgl-pro-tabs text-center animation" role="tablist">
-						<li class="active"><a href="#all" role="tab" data-toggle="tab">Tất cả</a></li>
+					<ul class="nav nav-tabs pgl-pro-tabs text-center animation"
+						role="tablist">
+						<li class="active"><a href="#all" role="tab"
+							data-toggle="tab">Tất cả</a></li>
 						<li><a href="#ktx" role="tab" data-toggle="tab">Phòng Ktx</a></li>
-						<li><a href="#nhatro" role="tab" data-toggle="tab">Nhà trọ</a></li>
-						
+						<li><a href="#nhatro" role="tab" data-toggle="tab">Nhà
+								trọ</a></li>
+
 					</ul>
 
 					<!-- Tab panes -->
@@ -236,20 +283,25 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-1.jpg}" />">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-1.jpg}" />"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Poolside character home on a wide 422sqm</a></h3>
+												<h3>
+													<a href="property-detail.html">Poolside character home
+														on a wide 422sqm</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -258,21 +310,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" sth:src="@{images/properties/property-2.jpg}" />">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													sth:src="@{images/properties/property-2.jpg}" />"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Presidential Parcel Frames Command Views of Mt. Rushmore</a></h3>
+												<h3>
+													<a href="property-detail.html">Presidential Parcel
+														Frames Command Views of Mt. Rushmore</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -281,21 +338,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-3.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-													
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-3.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Californian Class, Grand Family Proportions</a></h3>
+												<h3>
+													<a href="property-detail.html">Californian Class, Grand
+														Family Proportions</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -306,21 +368,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-4.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-4.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -329,21 +396,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-5.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-5.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -352,21 +424,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-6.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-6.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -379,21 +456,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-4.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-4.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -402,21 +484,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-5.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-												
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-5.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -425,21 +512,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" th:src="@{images/properties/property-6.jpg}">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-													
+												<img alt="" class="img-responsive"
+													th:src="@{images/properties/property-6.jpg}"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -452,21 +544,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" src="images/properties/property-4.jpg">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-													
+												<img alt="" class="img-responsive"
+													src="images/properties/property-4.jpg"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -475,21 +572,26 @@
 									<div class="pgl-property">
 										<div class="property-thumb-info">
 											<div class="property-thumb-info-image">
-												<img alt="" class="img-responsive" src="images/properties/property-5.jpg">
-												<span class="property-thumb-info-label">
-													<span class="label price">$358,000</span>
-													
+												<img alt="" class="img-responsive"
+													src="images/properties/property-5.jpg"> <span
+													class="property-thumb-info-label"> <span
+													class="label price">$358,000</span>
+
 												</span>
 											</div>
 											<div class="property-thumb-info-content">
-												<h3><a href="property-detail.html">Chatham St NW, Roanoke, VA 24012</a></h3>
+												<h3>
+													<a href="property-detail.html">Chatham St NW, Roanoke,
+														VA 24012</a>
+												</h3>
 												<address>Ferris Park, Jersey City Land in Sales</address>
 											</div>
 											<div class="amenities clearfix">
 												<ul class="pull-left">
 													<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
 												</ul>
-												<span class="label forrent pull-right"><a href="#">Lưu Tin</a> </span>
+												<span class="label forrent pull-right"><a href="#">Lưu
+														Tin</a> </span>
 											</div>
 										</div>
 									</div>
@@ -497,17 +599,26 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</section>
 			<!-- End Properties -->
-		
+
 		</div>
 		<!-- End Main -->
-		 <div th:replace="common/Footer.html"></div> 
+		<div th:replace="common/Footer.html"></div>
 		<!-- Begin footer -->
-	
+
 	</div>
 	<div th:replace="common/Js.html"></div>
+	<script th:inline="javascript">
+	$(document).ready(function(){
+		let message = [[${message != null ? message : 0}]]
+		if(message === 'login'){
+			Notiflix.Notify.Success('Đăng nhập thành công',{
+			});
+		}
+})
+	</script>
 </body>
 </html>

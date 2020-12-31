@@ -33,9 +33,14 @@
 										th:src="@{${image.name}}" alt=""> <span
 										class="property-thumb-info-label"> <span
 											class="label price" th:text="${Post.content.price}">358000</span>
-											<span class="label forrent pull-right"> <a href="#">Lưu
+										<span sec:authorize="isAuthenticated()" class="label forrent pull-right" th:classappend="${#lists.contains(Post.idUserlike,#authentication.getPrincipal().id) ? 'activeLike':''}"> <a th:onclick="'mySave('+${Post.id}+')'" th:text="${#lists.contains(Post.idUserlike,#authentication.getPrincipal().id)?'Hủy lưu':'Lưu tin' }" >Lưu
 													Tin</a></span>
-									</span></li>
+									
+									<span sec:authorize="isAnonymous()" class="label forrent pull-right" > <a th:onclick="'mySave('+${Post.id}+')'"  >Lưu
+													Tin</a></span>
+									</span>
+									
+									</li>
 
 								</ul>
 							</div>
@@ -83,13 +88,7 @@
 											nostra, per inceptos himenaeos. In hac habitasse platea
 											dictumst. Cum sociis natoque penatibus et magnis dis
 											parturient montes, nascetur ridiculus mus.</p>
-										<p>Vivamus quis dui ac nulla molestie blandit eu in nunc.
-											In justo erat, lacinia in vulputate non, tristique eu mi.
-											Aliquam tristique dapibus tempor. Vivamus malesuada tempor
-											urna, in convallis massa lacinia sed. Phasellus gravida
-											auctor vestibulum. Suspendisse potenti. In tincidunt felis
-											bibendum nunc tempus sagittis. Praesent elit dolor, ultricies
-											interdum porta sit amet, iaculis in neque.</p>
+										
 									</div>
 								</div>
 								<div class="tab-detail">
@@ -330,7 +329,7 @@
 												</div>
 												<div class="property-thumb-info-content">
 													<h3>
-														<a href="property-detail.html">Poolside character home
+														<a th:href="@{'/posts/'+ *{PostRef.id}}" th:text="*{PostRef.title}">Poolside character home
 															on a wide 422sqm</a>
 													</h3>
 													<address th:text="*{PostRef.address.ward.name}+', '+*{PostRef.address.district.name}+', '+*{PostRef.address.provincial.name}">Ferris Park, Jersey City Land in Sales</address>
@@ -339,10 +338,15 @@
 													<ul class="pull-left">
 														<li><strong>Area:</strong> <span th:text="*{PostRef.content.areage}">450</span> <sup>m2</sup></li>
 													</ul>
-													<ul class="pull-right">
-														<span class="label forrent pull-right"> <a href="#">Lưu
+													<ul class="pull-right" sec:authorize="isAuthenticated()">
+														 <span class="label forrent pull-right" th:classappend="${#lists.contains(PostRef.idUserlike,#authentication.getPrincipal().id)?'activeLike':''}"> <a th:attr="data-attr=#{${#lists.contains(PostRef.idUserlike,#authentication.getPrincipal().id)?'true':'false'}}"  th:onclick="'Save('+${PostRef.id}+')'">Lưu
 																Tin</a>
-														</span>
+														</span> 
+													</ul>
+													<ul class="pull-right" sec:authorize="isAnonymous()">
+														 <span class="label forrent pull-right" > <a th:onclick="'Save('+${PostRef.id}+')'">Lưu
+																Tin</a>
+														</span> 
 													</ul>
 												</div>
 											</div>
@@ -399,6 +403,57 @@
 		th:src="@{/js/jquery.star-rating-svg.js}"></script>
 	<script th:inline="javascript">
 		$(document).ready(function() {
+			let a =[[${Post.idUserlike}]]
+			console.log(a)
+			let message =[[${message != null? message: 0}]]
+			if(message ==='newPost'){
+				Notiflix.Notify.Success('Thành công');
+			}
+			  window.Save = (i,e) => {
+		        	e =window.event
+		        	let value = e.target
+		        	let auth =[[${#authentication.name != 'anonymousUser' ? #authentication.getPrincipal().id : 0}]]
+		        	if(auth == 0){
+		        		Notiflix.Confirm.Show(
+		        				'Thông báo','Vui lòng đăng nhập để lưu bài viết?','Đồng ý','Không đồng ý',
+		        				function(){ 
+		        					window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/login'
+		        				},
+								function(){ 
+		        					console.log("no")
+		        				},
+		        		)
+		        	}else{
+		        		if($(value).attr('data-attr') === 'true'){
+			        		$(value).parent().removeClass('activeLike')
+			        		$(value).attr('data-attr','false')
+			        		$(value).text('Lưu tin')
+			        		Notiflix.Notify.Success('Hủy thành công');
+			       		 }else{
+			       			$(value).parent().addClass('activeLike')
+			       			$(value).attr('data-attr','true')
+			       			$(value).text('Hủy lưu')
+			       			Notiflix.Notify.Success('Lưu tin thành công');
+			       		
+			       		 }
+			        	$.ajax({
+			        		url:'/like',
+			        		type:'put',
+			        		data:{
+			        			idPost: i
+			        		},
+			        		success:function(value){
+			        		},
+			        		error:function(err){
+			        			
+			        		}
+			        	})
+		        	}
+		        
+		        }
+		        
+			
+			
 			var starValue = 0;
 			
 		    var x = [[${Post.totalStar}]];
@@ -423,7 +478,7 @@
 				let value = $(parameter).text();
 				let nf = Intl.NumberFormat();
 				let money = nf.format(value);
-				$(parameter).text(money + ',000đ');
+				$(parameter).text(money +'đ');
 			}
 			$(".my-rating-4").starRating({
 				initialRating : x,
@@ -433,39 +488,78 @@
 			$('.star').click(function(){
 				starValue =$(this).attr('data_id')
 			})
+			  //like
+	        window.mySave = (i) => {
+	        	let auth =[[${#authentication.name != 'anonymousUser' ? #authentication.getPrincipal().id : 0}]]
+	        	if(auth == 0){
+	        		Notiflix.Confirm.Show(
+	        				'Thông báo','Vui lòng đăng nhập để lưu bài viết?','Đồng ý','Không đồng ý',
+	        				function(){ 
+	        					window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/login'
+	        				},
+							function(){ 
+	        					console.log("no")
+	        				},
+	        		)
+	        	}else{
+	        		$.ajax({
+		        		url:'/like',
+		        		type:'put',
+		        		data:{
+		        			idPost: i
+		        		},
+		        		success:function(value){
+		        			console.log(value)
+		        				window.location.reload()
+		        		},
+		        		error:function(err){
+		        			
+		        		}
+		        	})
+	        	}
+	        
+	        }
+        
 			$("#submitFB").click(function(){
-				let area =$('#comment').val();
-						$('.ratings').removeClass('fb-err-star');
-						$('.fb-err-star-display').css("display","none");
-						
-						$('#comment').removeClass('fb-err-area');
-						$('.fb-err-area-display').css("display","none");
-						
-					if(starValue === 0 |  area === ""){
-						if(starValue === 0){
-							$('.ratings').addClass('fb-err-star');
-							$('.fb-err-star-display').css("display","block");
-						}
-						if( area === ""){
-							$('#comment').addClass('fb-err-area');
-							$('.fb-err-area-display').css("display","block");
-						}
-						return;
+				let auth =[[${#authentication.name != 'anonymousUser' ? #authentication.getPrincipal().id : 0}]]
+	        	if(auth == 0){
+	        		Notiflix.Confirm.Show(
+	        				'Thông báo','Vui lòng đăng nhập để phản hòi và đánh giá bài viết?','Đồng ý','Không đồng ý',
+	        				function(){ 
+	        					window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/login'
+	        				},
+							function(){ 
+	        					console.log("no")
+	        				},
+	        		)
+	        	}else{
+	        		let area =$('#comment').val();
+					$('.ratings').removeClass('fb-err-star');
+					$('.fb-err-star-display').css("display","none");
+					
+					$('#comment').removeClass('fb-err-area');
+					$('.fb-err-area-display').css("display","none");
+					
+				if(starValue === 0 |  area === ""){
+					if(starValue === 0){
+						$('.ratings').addClass('fb-err-star');
+						$('.fb-err-star-display').css("display","block");
 					}
-				
-					Swal.fire({
-						icon: 'success',
-  						title: 'Feedback thành công',
-  						width: 600,
-  						padding: '3em',
-					})
+					if( area === ""){
+						$('#comment').addClass('fb-err-area');
+						$('.fb-err-area-display').css("display","block");
+					}
+					return;
+				}
+			
 					let data ={
 						idPost:[[${Post.id}]],
 						comment:$('#comment').val(),
 						star:starValue
 					}
 					console.log(data)
-				ajax(data);
+					ajax(data);
+	        	}
 			
 			})
 			function ajax(data){
@@ -475,11 +569,21 @@
 				url:'/posts/feedback',
 				data:JSON.stringify(data),
 				success:function(value){
-					$('#comment').val("");
-					starValue=0;
-					$('.star').each(function(index){
-						$(this).removeClass('selected')
-					})
+					if(value ==='ok'){
+						$('#comment').val("");
+						starValue=0;
+						$('.star').each(function(index){
+							$(this).removeClass('selected')
+						})
+						Notiflix.Notify.Success('Phản hồi thành công');
+						window.location.reload()
+					}else{
+						 Notiflix.Notify.Failure('Bạn đã phản hồi, không thể phản hồi lần 2',{
+							 clickToClose:true,
+							 closeButton:true,
+						 });	
+					}
+					
 				},
 				error:function(err){
 				}

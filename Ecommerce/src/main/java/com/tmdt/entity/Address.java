@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +24,9 @@ public class Address extends Common {
 	@JoinColumn(name = "provincial_id")
 	private Provincial provincial;
 
+	@OneToOne(mappedBy = "address")
+	private Post post;
+	
 	public String getLocation() {
 		return location;
 	}

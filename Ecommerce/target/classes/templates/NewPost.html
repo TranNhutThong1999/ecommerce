@@ -2,8 +2,8 @@
 <head>
 <meta charset="UTF-8">
 <div th:replace="common/Css.html"></div>
-	<link th:href='@{css/form/components.min.css}' rel="stylesheet">
-<title>login</title>
+	<link th:href='@{/css/form/components.min.css}' rel="stylesheet">
+<title>Tạo bài viết</title>
 </head>
 <body>
 	<div id="page">
@@ -19,11 +19,12 @@
 				<div class="container">
 					<h2>Đăng bài</h2>
 					<div class="agent-profile">
-					<h3 th:if="${message != null}" th:text="${message}" style="color:red;"></h3>
+					<!-- <h3 th:if="${message != null}" th:text="${message}" style="color:red;"></h3> -->
 						<div class="row">
                             <form id="post-form" name="form1" method="post" th:action="@{/new}" th:object="${Post}" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="row">
+									<input type="hidden" th:field="*{id}" th:value="*{id}">
 										<div class="col-sm-4" th:classappend="${#fields.hasErrors('title')} ? has-error : ''">
 											<label for="title">Tên nhà trọ*</label>
 											<div th:classappend="${#fields.hasErrors('title')} ? 'input-icon right' : ''">
@@ -83,7 +84,7 @@
 											<label class="mdb-main-label">Quận</label>
 											<div th:classappend="${#fields.hasErrors('address.district.id')} ? 'input-icon right' : ''">
 											<select class="form-control select2" th:field="*{address.district.id}" value="2">
-												<option value="2"></option>
+												<option value="0"></option>
 												<option th:each="district : ${Districts}" th:value="${district.id}" th:text="${district.name}"></option> 
 											 </select>
 											 <span th:if="${#fields.hasErrors('address.district.id')}" class="help-block" th:errors="*{address.district.id}"></span>
@@ -106,14 +107,35 @@
 											<input multiple type="file"name="files" id="image" class="form-control" data-msg-required="Please enter the image." >
 										</div>
 									</div>
+									 <div class="row" style="margin-top: 10px;">
+                                        <div style="width:125px; height: 63px;" class="col-sm-4" th:each="image : ${Post.images}">
+                                     	<button type="button" th:onclick="'deleteImage('+${image.id}+')'" class=" edit-btn">X</button>
+                                        <img style="width:100%!important" th:src="@{${image.name}}">
+										</div>
+									</div>
                                      <div class="row" style="margin-top: 10px;">
-										<div class="col-sm-6 float-right">
+										<div class="col-sm-2 float-right">
 											<label class="mdb-main-label">Giá bài viết</label>
-											<select class="form-control " th:field="*{fee.id}">
-												<option th:each="fee : ${Fees}" th:value="${fee.id}" th:text="${fee.price}+' xu'"></option> 
+											<select class="form-control selectFee " th:field="*{fee.id}">
+												<option  th:each="fee : ${Fees}" th:value="${fee.id}" th:text="${fee.name}"></option> 
 											 </select>
 											</div>
-										</div>
+									</div>
+									  <div class="row" >
+                                            <div class="col-sm-4 float-right newPost" th:each="fee2 : ${Fees}" th:attr="data-option=${fee2.id}" style="display:none">
+                                                <h4>
+                                                    Giá
+                                                    <span style="color:red;" th:text="${fee2.price}">0</span>
+                                                    xu
+                                                </h4>
+                                                <h4>
+                                                    Thời gian tồn tại:
+                                                    <span style="color:red;" th:text="${fee2.expire}"> 7</span>
+                                                    ngày
+                                                </h4>
+                                                <h4 style="color:red;" th:text="${fee2.description}">Mức độ ưu tiên trung bình</h4>
+                                            </div>
+                                        </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="form-group col-sm-12">
                                             <label for="comments">Mô tả</label>
@@ -145,12 +167,80 @@
 	</div>
 	<div th:replace="common/Js.html"></div>
 	 <link
-      th:href="@{css/select2.min.css}"
+      th:href="@{/css/select2.min.css}"
       rel="stylesheet"
     />
-    <script th:src="@{js/select2.min.js}"></script>
-	<script type="text/javascript">
+    <script th:src="@{/js/select2.min.js}"></script>
+	<script th:inline="javascript">
 		$(document).ready(function(){
+			let message = [[${message == null ? 0 : message}]]
+			if(message === 'newPost_fail'){
+				Notiflix.Notify.Failure('Đăng bài thất bại, vui lòng nạp thêm xu',{
+					//closeButton:true,
+					clickToClose:true
+				});
+			}
+			//delete image
+			window.deleteImage =(id,e)=>{
+			e =window.event
+        	let value = e.target
+        	$(value).parent().css('display','none')
+				$.ajax({
+		 			url:'/delete_image',
+		     		type:'delete',
+		     		data:{
+		     			idImage: id
+		     		},
+		     		success:function(value){
+		     			Notiflix.Notify.Success('Xoá thành công');
+		     			
+		     		},
+		     		error:function(err){
+		     			
+		     		}
+		     	})
+			}
+			
+			$('.newPost').each(function(){
+				if($(this).attr('data-option') === $('.selectFee').val()){
+					$(this).css('display','block');
+				}else{
+					$(this).css('display','none');
+				}
+				changeBackgroundColor('.newPost')
+			})
+			$('.selectFee').change(function(){
+				let temp =this;
+				$('.newPost').each(function(){
+					if($(this).attr('data-option') === $(temp).val()){
+						$(this).css('display','block');
+						changeBackgroundColor(this)
+					}else{
+						$(this).css('display','none');
+					}
+				})
+				
+			})
+			function changeBackgroundColor(key){
+				let temp =$(key).attr('data-option');
+				switch(temp){
+				case "2":
+					console.log("2")
+					$(key).css('background','#4caf5061')
+					break;
+				case '3':
+					$(key).css('background','#cddc39a6')
+					break;
+				case '4':
+					$(key).css('background','#ffc1076b')
+					break;
+				case '5':
+					$(key).css('background','#ff572261')
+					break;
+				}
+			}
+			
+			
 			let nf = Intl.NumberFormat();
 			$(".money").change(function(){
 					let a= $(this).val();

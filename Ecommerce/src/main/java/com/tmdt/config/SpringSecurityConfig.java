@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import com.tmdt.security.CustomUserDetail;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private CustomUserDetail customUserDetail;
@@ -38,22 +40,21 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
 	      .csrf().disable()
 	      .authorizeRequests()
 	      .antMatchers("/home", "/login","/register", "/logout","/static/**","/bootstrap/**").permitAll()
-	      //.anyRequest().authenticated()
+	     // .anyRequest().authenticated()
 	      .and()
 	      .formLogin()
 	      .loginProcessingUrl("/j_spring_security_login")
 	      .loginPage("/login")
 	      .usernameParameter("username").passwordParameter("password")
-	      .successHandler(customSuccessHandler())
 		  .failureUrl("/login?message=login_FAIL")
-		  .defaultSuccessUrl("/home", true);
+		  .defaultSuccessUrl("/home?message=login_SUCCESS", true);
 	      
 	}
 	@Override
     public void configure(WebSecurity web) throws Exception {
       web
         .ignoring()
-        .antMatchers( "/static/**","/bootstrap/**","css/**", "js/**", "images/**","vendor/**","fonts/**","style-switcher/**");
+        .antMatchers( "/static/**");
       //, "/css/**", "/js/**", "/images/**","/vendor/**","/fonts/**","/bootstrap/**"
     }
 	

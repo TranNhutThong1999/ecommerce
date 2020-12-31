@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <div th:replace="common/Css.html"></div>
-<title>login</title>
+<title>Thông tin tài khoản</title>
 </head>
 <body>
 	<div id="page">
@@ -44,7 +44,7 @@
 												</address>
 												
 												<div class="col-md-12">
-													<a   class="btn btn-default btn-sm" href="update-user.html" > Cập nhật</a>
+													<a   class="btn btn-default btn-sm" th:href="@{'/edit_user/' +${User.id}}" > Cập nhật</a>
 																								
 													<a   class="btn btn-default btn-sm" th:href="@{/payment}" > Nạp xu</a>
 
@@ -103,68 +103,12 @@
 							<div class="container">
 								<h2>Tin đã lưu</h2>
 								<div class="properties-full properties-listing properties-listfull">
-									<div class="pgl-property animation">
-										<div class="row">
-											<div class="col-sm-6 col-md-4">
-												<div class="property-thumb-info-image">
-													<img alt="" class="img-responsive" src="images/properties/property-1.jpg">
-													<span class="property-thumb-info-label">
-														<span class="label price">$358,000</span>
-													</span>
-												</div>
-											</div>
-											<div class="col-sm-6 col-md-8">
-												<div class="property-thumb-info">
-														
-													<div class="property-thumb-info-content">
-														<h3><a href="property-detail.html">Poolside character home on a wide 422sqm</a></h3>
-														<address>Ferris Park, Jersey City Land in Sales</address>
-														<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-													</div>
-													<div class="amenities clearfix">
-														<ul class="pull-left">
-															<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
-														</ul>
-														<ul class="pull-right">
-															<span class="label forrent pull-right"><a href="#">Xóa</a> </span>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="pgl-property animation">
-										<div class="row">
-											<div class="col-sm-6 col-md-4">
-												<div class="property-thumb-info-image">
-													<img alt="" class="img-responsive" src="images/properties/property-2.jpg">
-													<span class="property-thumb-info-label">
-														<span class="label price">$358,000</span>
-													</span>
-												</div>
-											</div>
-											<div class="col-sm-6 col-md-8">
-												<div class="property-thumb-info">
-														
-													<div class="property-thumb-info-content">
-														<h3><a href="property-detail.html">Poolside character home on a wide 422sqm</a></h3>
-														<address>Ferris Park, Jersey City Land in Sales</address>
-														<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-													</div>
-													<div class="amenities clearfix">
-														<ul class="pull-left">
-															<li><strong>Diện tích</strong> 450<sup>m2</sup></li>
-														</ul>
-														<ul class="pull-right">
-															<span class="label forrent pull-right"><a href="#">Xóa</a> </span>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+							<div id="demo_posts_like">
+							</div>
+							
+							<ul class="pagination" id="pagination_posts_like">
+								</ul>
 									
-								</div>
 							</div>
 						</section>
 				
@@ -209,15 +153,91 @@
 		let value = $(parameter).text();
 		let nf = Intl.NumberFormat();
 		let money = nf.format(value);
-		$(parameter).text(money + ',000đ');
+		$(parameter).text(money + 'đ');
 	}
-	
-	//render Post new
-	let data={
+	//render post like
+	let like={
+			idUser:[[${User.id}]]
+	};        
+     render_posts_like(like);
+     window.delete_post_like=(i)=>{
+ 		$.ajax({
+ 			url:'/delete_post_like',
+     		type:'delete',
+     		data:{
+     			idPost: i
+     		},
+     		success:function(value){
+     			Notiflix.Notify.Success('Xoá thành công');
+     	 		render_posts_like(like);
+     		},
+     		error:function(err){
+     			
+     		}
+     	})
+     		
+ 	}
+	 function render_posts_like(like){
+        	  $("#pagination_posts_like").pagination({
+      		    dataSource:'/posts/like',
+      		    locator: 'content',
+      		    totalNumberLocator: function(response){
+      		    	return response.totalElements;
+      		    },
+      		    pageSize: 3,
+      		    autoHidePrevious: true,
+      		    autoHideNext: true,
+      		    ajax: {
+      		    	data: like,
+      		    	 beforeSend: function() {
+      			      		//$('#demo_posts_like').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      		    	 	Notiflix.Block.Circle('#demo_posts_like', 'Please wait...');    
+      		    	 }
+      		    } ,
+      		    callback: function(data, pagination) {
+      		        // template method of yourself
+      		       setTimeout(function(){
+      		        	 let html = renderLike(data);
+      				       $('#demo_posts_like').html(html);
+      				       $(".price").each(function (index) {
+      				           converIntToMoney(this);
+      				         });
+      				},800); 
+      		    },
+      		})
+        }
+	 function renderLike(data){
+	    	let result =data.map(function(e){
+	    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'><h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3><address>"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right' onclick='delete_post_like("+e.id+")'><a >Xóa</a> </span></ul></div></div></div></div></div>"
+			})                
+	        return result;
+	    }
+	 
+	 
+	 // created 
+	 let data={
 			id:[[${User.id}]]
 	};        
      render_posts_created(data);
-     	
+	//delete post created
+	window.delete_post_created=(i)=>{
+		$.ajax({
+			url:'/delete_post_created',
+    		type:'delete',
+    		data:{
+    			idPost: i
+    		},
+    		success:function(value){
+    			Notiflix.Notify.Success('Xoá thành công');
+    	    	 render_posts_created(data);
+    		},
+    		error:function(err){
+    			
+    		}
+    	})
+    		
+	}
+	//render Post created
 	 function render_posts_created(data){
         	  $("#pagination_posts_created").pagination({
       		    dataSource:'/posts/created',
@@ -231,29 +251,46 @@
       		    ajax: {
       		    	data: data,
       		    	 beforeSend: function() {
-      			      		$('#demo_posts_created').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
-      			        }
+      			      		//$('#demo_posts_created').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      		    	 	Notiflix.Block.Circle('#demo_posts_created', 'Please wait...'); 
+      		    	 }
       		    } ,
       		    callback: function(data, pagination) {
       		        // template method of yourself
-      		        console.log(data)
+      		           console.log(data)
       		       setTimeout(function(){
       		        	 let html = render(data);
       				       $('#demo_posts_created').html(html);
       				       $(".price").each(function (index) {
       				           converIntToMoney(this);
       				         });
-      				},1000); 
+      				},800); 
       		    },
       		})
         }
 	//function render product
 	function render(data){
     	let result =data.map(function(e){
-    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'><h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3><address>"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right'><a href='#'>Xóa</a> </span></ul></div></div></div></div></div>"
+    		let temp = renderNotifi(e.state, e.timeExpire)
+    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'> <h3 class='col-sm-8 col-md-10'><a href='/posts/"+e.id+"'>"+e.title+"</a></h3>"+temp+"<address >"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right' onclick='delete_post_created("+e.id+")'><a >Xóa</a> </span></ul></div></div></div></div></div>"
 		})                
         return result;
     }
+	function renderNotifi(state, date, e){
+		let day = new Date();
+		day.setHours(0,0,0,0);
+		let time = Date.parse( date ) - day.getTime();
+		console.log( (time / (1000 * 60 * 60 * 24)).toFixed(0))
+		let value = (time / (1000 * 60 * 60 * 24)).toFixed(0)
+		switch(state){
+		case 'Approved':
+			return " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-success'> Đã duyệt </span><span class='bageAlert bageAlert-info'> còn "+value+" ngày</span> </ul> </div>";
+		case 'NotApproved':
+			return  " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-warning'> Đang duyệt </span> </ul> </div>";
+		case 'Expire':
+			return  " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-danger'> Hết hạn </span> </ul> </div>";
+		}
+	}
 	</script>
 </body>
 </html>

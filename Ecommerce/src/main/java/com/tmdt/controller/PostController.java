@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -61,8 +62,17 @@ public class PostController {
 		mapData(modelMap);
 		return "Posts";
 	}
+	@GetMapping("/edit/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	public String displayPostEdit(ModelMap modelMap, @PathVariable int id) {
+		PostDTO p =postService.findOneById(id);
+		modelMap.addAttribute("Post", p);
+		mapData(modelMap);
+		return "/NewPost";
+	}
 	
 	@GetMapping("/new")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String displayNewPost(ModelMap modelMap) {
 		modelMap.addAttribute("Post", new PostDTO());
 		mapData(modelMap);
@@ -70,22 +80,28 @@ public class PostController {
 	}
 
 	@PostMapping("/new")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String submitNewPost(@Valid @ModelAttribute("Post") PostDTO post, BindingResult error, ModelMap modelMap,
 			@RequestParam(value = "files", required = false) MultipartFile[] files) {
-		System.out.println(post.toString());
 		mapData(modelMap);
 		if (error.hasErrors()) {
 			return "NewPost";
 		}
-		if(!postService.save(post, files)) {
-			modelMap.addAttribute("message", "Bạn không đủ xu, vui lòng nap thêm xu");
+		PostDTO postDTO = postService.save(post, files);
+		if(postDTO == null) {
+			System.out.println("max money");
+			modelMap.addAttribute("message", "newPost_fail");
 			return "NewPost";
 		}
-		return "home";
+		return "redirect:/posts/"+postDTO.getId()+"?message=new_success";
 	}
 
 	@GetMapping("/posts/{id}")
-	public String postDetail(@PathVariable int id, ModelMap modelMap) {
+//	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	public String postDetail(@PathVariable int id, ModelMap modelMap, @RequestParam(required = false, defaultValue = "") String message) {
+		if(message.equals("new_success")) {
+			modelMap.addAttribute("message", "newPost");
+		}
 		PostDTO p = postService.findOneById(id);
 		double totalStar = p.getEvaluated().size();
 		modelMap.addAttribute("Post", p);

@@ -34,7 +34,7 @@ public class EvaluatedService implements IEvaluatedService {
 	}
 
 	@Override
-	public void save(int star, int idPost) {
+	public boolean save(int star, int idPost) {
 		// TODO Auto-generated method stub
 		EvaluatedDTO e = new EvaluatedDTO();
 		StarDTO t = new StarDTO();
@@ -43,7 +43,10 @@ public class EvaluatedService implements IEvaluatedService {
 		e.setStar(t);
 		e.setPostId(idPost);
 		
-		evaluatedRepository.save(evaluatedConverter.toEntity(e));
+		Evaluated es =evaluatedConverter.toEntity(e);
+		if(evaluatedRepository.findOneByUser_IdAndPost_Id(es.getUser().getId(), es.getPost().getId()).orElse(null)!=null) return false;
+		evaluatedRepository.save(es);
+		return true;
 	}
 	
 

@@ -1,18 +1,10 @@
 package com.tmdt.dto;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,9 +21,11 @@ public class UserDTO extends CommonDTO{
 	
 	@NotBlank(message = "ConfirmPassword can not be blank")
 	@Size(message = "Between 9 and 11 characters")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String confirmPassword;
 	
 	@NotBlank(message = "Password can not be blank")
+	@Size(message = "Between 9 and 11 characters")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	

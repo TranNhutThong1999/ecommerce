@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="common/Css.html"></div>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Register</title>
+<link th:href='@{css/form/components.min.css}' rel="stylesheet">
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+		<div class="container">
+			<div class="row" >
+				<div class="col-md-8 col-md-offset-2" style="text-align: center">
+					<div class="panel-body">
+						<fieldset>
+							<form id="idsignin" method="post" th:action="@{/submit-token}">
+							<h1 id="title" >Quên mật khẩu</h1>
+							 		 <div class="row" style="margin-bottom:15px" >
+										<div class="col-sm-6 col-sm-offset-3" th:classappend="email ? has-error : ''">
+											<label for="subject" >Nhập Email*</label>
+											<div th:classappend="${email} ? 'input-icon right' : ''">
+												<i th:if="${email}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+	 											<input  type="text" class="form-control"  name="email" placeholder=""/>
+	 											<span th:if="${email}" class="help-block" th:text="${email}">adas</span>
+											</div>
+											
+										</div>
+										</div>
+								     
+								<input id="nutSigIn" class="btn btn-lg btn-primary btn-block"
+									value="Submit" type="submit">
+							</form>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Begin footer -->
+		<div th:replace="common/Footer.html"></div>
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		})
+	</script>
+</body>
+</html>

@@ -1,27 +1,24 @@
 package com.tmdt.dto;
 
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tmdt.annotation.Address;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tmdt.entity.StatePost;
 
 public class PostDTO extends CommonDTO{
 	@NotBlank(message = "Username can not be blank")
 	private String title;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private Date timeExpire;
+	
 	private String shortDescription;
 	
-	private boolean browse;
+	private StatePost state;
 	
 	private List<ImageDTO> images;
 	
@@ -33,6 +30,8 @@ public class PostDTO extends CommonDTO{
 	private AddressDTO address;
 	
 	private List<EvaluatedDTO> evaluated;
+	
+	private List<Integer> idUserlike;
 	
 	//private List<FeedBackDTO> feedBacks;
 	
@@ -52,11 +51,12 @@ public class PostDTO extends CommonDTO{
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
 	}
-	public boolean isBrowse() {
-		return browse;
+
+	public StatePost getState() {
+		return state;
 	}
-	public void setBrowse(boolean browse) {
-		this.browse = browse;
+	public void setState(StatePost state) {
+		this.state = state;
 	}
 	public List<ImageDTO> getImages() {
 		return images;
@@ -111,5 +111,18 @@ public class PostDTO extends CommonDTO{
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	public List<Integer> getIdUserlike() {
+		return idUserlike;
+	}
+	public void setIdUserlike(List<Integer> idUserlike) {
+		this.idUserlike = idUserlike;
+	}
+	public Date getTimeExpire() {
+		return timeExpire;
+	}
+	public void setTimeExpire(Date timeExpire) {
+		this.timeExpire = timeExpire;
+	}
+
 
 }

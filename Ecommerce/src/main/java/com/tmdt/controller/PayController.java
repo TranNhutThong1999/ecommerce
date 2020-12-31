@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,15 +45,16 @@ public class PayController {
 	private IDepositHistoryService depositHistoryService;
 	
 	@GetMapping("/payment")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String index(@RequestParam(required = false, defaultValue = "") String message, ModelMap modelMap) {
-		if (!message.equals("")) {
-			Map<String, String> m = messageUtil.Messages(message);
-			modelMap.addAttribute("message", m.get("message"));
+		if (message.equals("pay_success")) {
+			modelMap.addAttribute("message","pay_success");
 		}
 		return "Payment";
 	}
 
 	@PostMapping("/pay")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String pay(HttpServletRequest request, @RequestParam("price") double price) {
 		String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
 		String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
@@ -70,11 +72,13 @@ public class PayController {
 	}
 
 	@GetMapping(URL_PAYPAL_CANCEL)
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String cancelPay() {
-		return "Home";
+		return "redirect:/payment?message=pay_error";
 	}
 
 	@GetMapping(URL_PAYPAL_SUCCESS)
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
@@ -86,7 +90,7 @@ public class PayController {
 				}
 				depositHistoryService.save(total,State.SUCCESS);
 				userService.setTotalMoney(total);
-				return "redirect:/payment?message=pay_SUCCESS";
+				return "redirect:/payment?message=pay_success";
 			}
 		} catch (PayPalRESTException e) {
 		}

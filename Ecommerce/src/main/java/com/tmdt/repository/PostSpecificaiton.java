@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.tmdt.dto.FilterDTO;
 import com.tmdt.entity.Post;
+import com.tmdt.entity.StatePost;
 
 public class PostSpecificaiton implements Specification<Post> {
 	private FilterDTO filterDTO;
@@ -21,7 +22,7 @@ public class PostSpecificaiton implements Specification<Post> {
 	public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 		Predicate p = cb.conjunction();
 		if (filterDTO.getPrice().equals("0") && filterDTO.getAreage().equals("0")) {
-			p.getExpressions().add(cb.equal(root.get("browse"), true));
+			p.getExpressions().add(cb.equal(root.get("state"), StatePost.Approved));
 			return p;
 		} else {
 			int price = Integer.valueOf(filterDTO.getPrice().substring(1));
@@ -30,7 +31,7 @@ public class PostSpecificaiton implements Specification<Post> {
 				p.getExpressions().add(cb.and(cb.lessThanOrEqualTo(root.get("content").get("price"), price),
 						cb.lessThanOrEqualTo(root.get("content").get("areage"), areage),
 						cb.equal(root.get("address").get("provincial").get("id"), filterDTO.getIdProvincial()),
-						cb.equal(root.get("browse"), true)));
+						cb.equal(root.get("state"), StatePost.Approved)));
 				if (filterDTO.getIdWard() != 0) {
 					p.getExpressions()
 							.add(cb.and(cb.equal(root.get("address").get("ward").get("id"), filterDTO.getIdWard())));
@@ -45,7 +46,7 @@ public class PostSpecificaiton implements Specification<Post> {
 				p.getExpressions().add(cb.and(cb.greaterThanOrEqualTo(root.get("content").get("price"), price),
 						cb.greaterThanOrEqualTo(root.get("content").get("areage"), areage),
 						cb.equal(root.get("address").get("provincial").get("id"), filterDTO.getIdProvincial()),
-						cb.equal(root.get("browse"), true)));
+						cb.equal(root.get("state"), StatePost.Approved)));
 				if (filterDTO.getIdWard() != 0) {
 					p.getExpressions().add(cb.equal(root.get("address").get("ward").get("id"), filterDTO.getIdWard()));
 				}
@@ -59,7 +60,7 @@ public class PostSpecificaiton implements Specification<Post> {
 				p.getExpressions().add(cb.and(cb.lessThanOrEqualTo(root.get("content").get("price"), price),
 						cb.greaterThanOrEqualTo(root.get("content").get("areage"), areage),
 						cb.equal(root.get("address").get("provincial").get("id"), filterDTO.getIdProvincial()),
-						cb.equal(root.get("browse"), true)));
+						cb.equal(root.get("state"), StatePost.Approved)));
 				if (filterDTO.getIdWard() != 0) {
 					p.getExpressions().add(cb.equal(root.get("address").get("ward").get("id"), filterDTO.getIdWard()));
 				}
@@ -73,7 +74,7 @@ public class PostSpecificaiton implements Specification<Post> {
 				p.getExpressions().add(cb.and(cb.greaterThanOrEqualTo(root.get("content").get("price"), price),
 						cb.lessThanOrEqualTo(root.get("content").get("areage"), areage),
 						cb.equal(root.get("address").get("provincial").get("id"), filterDTO.getIdProvincial()),
-						cb.equal(root.get("browse"), true)));
+						cb.equal(root.get("state"), StatePost.Approved)));
 				if (filterDTO.getIdWard() != 0) {
 					p.getExpressions().add(cb.equal(root.get("address").get("ward").get("id"), filterDTO.getIdWard()));
 				}

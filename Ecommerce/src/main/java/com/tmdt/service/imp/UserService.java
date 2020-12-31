@@ -1,9 +1,12 @@
 package com.tmdt.service.imp;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,7 +53,7 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private ConvertMoneyToXu convertMoneyToXu;
-	
+
 	@Override
 	public Optional<User> findOneByUserName(String userName) {
 		// TODO Auto-generated method stub
@@ -61,35 +64,42 @@ public class UserService implements IUserService {
 	public void save(UserDTO user, MultipartFile file) {
 		// TODO Auto-generated method stub
 		User u = userConverter.toEntity(user);
-
-		List<Role> roles = new ArrayList<Role>();
-		if (u.getRoles().size() > 0) {
-			u.getRoles().stream().forEach(e -> {
-				roles.add(roleRepository.findOneByName(e.getName()).get());
-			});
-		} else {
-			roles.add(roleRepository.findOneByName("ROLE_USER").get());
+		if (u.getId() == 0) {
+			List<Role> roles = new ArrayList<Role>();
+			if (u.getRoles().size() > 0) {
+				u.getRoles().stream().forEach(e -> {
+					roles.add(roleRepository.findOneByName(e.getName()).get());
+				});
+			} else {
+				roles.add(roleRepository.findOneByName("ROLE_USER").get());
+			}
+			u.setRoles(roles);
+			u.setActive(false);
+			u.setNonBlock(true);
+			u.generateToken();
+			u.setTimeTokenFuture(15);
+			emailService.sendSimpleMessage(user.getEmail(), "Mã xác thực của bạn là", u.getToken());
 		}
-		u.setRoles(roles);
-		u.setPassword(bCryptPasswordEncode.encode(user.getPassword()));
-		u.setActive(false);
-		u.setNonBlock(true);
-		u.generateToken();
-		u.setTimeTokenFuture(15);
+		if (u.getPassword().length() <= 25) {
+			u.setPassword(bCryptPasswordEncode.encode(user.getPassword()));
+		}
 		try {
-			String a = imageService.save(file);
-			u.setImage(a);
+			if (!file.isEmpty()) {
+				System.out.println("image");
+				String a = imageService.save(file);
+				u.setImage(a);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		emailService.sendSimpleMessage(user.getEmail(), "Mã xác thực của bạn là", u.getToken());
 		userRepository.save(u);
 	}
 
 	@Override
 	public UserDTO findOneById(int id) {
 		// TODO Auto-generated method stub
+		System.out.println(id);
 		return userConverter.toDTO(userRepository.findOneById(id).get());
 	}
 
@@ -97,7 +107,7 @@ public class UserService implements IUserService {
 	public UserDTO findOneByToken(String token) {
 		// TODO Auto-generated method stub
 		User a = userRepository.findOneByToken(token).orElse(null);
-		if (a == null) {
+		if (a == null || a.isAfterTime()) {
 			return null;
 		}
 		return userConverter.toDTO(a);
@@ -117,6 +127,8 @@ public class UserService implements IUserService {
 			return 0;
 
 		u.setActive(true);
+		u.setToken("");
+		u.setExpire(null);
 		userRepository.save(u);
 		return u.getId();
 	}
@@ -135,8 +147,23 @@ public class UserService implements IUserService {
 	public void setTotalMoney(int money) {
 		// TODO Auto-generated method stub
 		User u = userRepository.findOneByUserName(customUserDetail.getPrinciple().getName()).get();
-		int total =u.getTotalMoney()+convertMoneyToXu.handle(money);
+		int total = u.getTotalMoney() + convertMoneyToXu.handle(money);
 		u.setTotalMoney(total);
 		userRepository.save(u);
 	}
+
+	@Override
+	public boolean sendMailToken(String email, HttpServletRequest r) {
+		// TODO Auto-generated method stub
+		User u = userRepository.findOneByEmail(email).orElse(null);
+		if (u != null) {
+			u.generateToken();
+			u.setTimeTokenFuture(5);
+			emailService.sendSimpleMessage(email, "Quên mật khẩu",
+					r.getContextPath() + "/forgot-password?token=" + u.getToken());
+			return true;
+		}
+		return false;
+	}
+
 }

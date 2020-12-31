@@ -1,5 +1,6 @@
 package com.tmdt.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,8 @@ public class Post extends Common{
 	
 	@Column(name = "short_description")
 	private String shortDescription;
-	private boolean browse;
+	private StatePost state;
+	private Date timeExpire;
 	
 	//relation
 	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
@@ -29,11 +31,11 @@ public class Post extends Common{
 	@JoinColumn(name = "fee_id")
 	private Fee fee;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="content_id")
 	private Content content;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="address_id")
 	private Address address;
 	
@@ -42,6 +44,9 @@ public class Post extends Common{
 	
 	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
 	private List<FeedBack> feedBacks;
+	
+	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Action> actions;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
@@ -59,11 +64,12 @@ public class Post extends Common{
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
 	}
-	public boolean isBrowse() {
-		return browse;
+
+	public StatePost getState() {
+		return state;
 	}
-	public void setBrowse(boolean browse) {
-		this.browse = browse;
+	public void setState(StatePost state) {
+		this.state = state;
 	}
 	public List<Image> getImages() {
 		return images;
@@ -106,6 +112,12 @@ public class Post extends Common{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public Date getTimeExpire() {
+		return timeExpire;
+	}
+	public void setTimeExpire(Date timeExpire) {
+		this.timeExpire = timeExpire;
 	}
 	
 	

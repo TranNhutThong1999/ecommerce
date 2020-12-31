@@ -6,4 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IImageService {
 		String save(MultipartFile file) throws IOException;
+		void delete(int id);
 }

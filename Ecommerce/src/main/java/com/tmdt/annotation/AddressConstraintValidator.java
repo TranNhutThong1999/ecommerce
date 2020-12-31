@@ -13,7 +13,7 @@ public class AddressConstraintValidator implements ConstraintValidator<Address, 
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
 		// TODO Auto-generated method stub
 		if (value != null) {
-			return value == 2? false : true;
+			return value == 0? false : true;
 		}
 		return true;
 	}

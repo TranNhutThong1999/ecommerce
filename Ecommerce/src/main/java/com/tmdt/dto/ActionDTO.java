@@ -32,5 +32,4 @@ public class ActionDTO extends CommonDTO {
 		this.post = post;
 	}
 	
-	
 }
