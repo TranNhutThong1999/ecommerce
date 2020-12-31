@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <div th:replace="common/Css.html"></div>
-<title>login</title>
+<title>Đăng nhập</title>
 </head>
 <body>
 	<div id="page">
@@ -44,7 +44,7 @@
 								</div>
 							</form>
 						</div>
-						<label for="name"><a href="forgot-password.html">Quên
+						<label for="name"><a th:href="@{/send-forgot-password}">Quên
 								mật khẩu</a></label> </br> <label for="name"><a href="/register">Tạo
 								tài khoản</a></label> </br>
 					</div>

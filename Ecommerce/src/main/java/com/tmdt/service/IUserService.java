@@ -2,6 +2,8 @@ package com.tmdt.service;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tmdt.dto.UserDTO;
@@ -16,4 +18,5 @@ public interface IUserService {
 	int verify(String token);
 	boolean reSendMail(int id);
 	void setTotalMoney(int money);
+	boolean sendMailToken(String email, HttpServletRequest r);
 }

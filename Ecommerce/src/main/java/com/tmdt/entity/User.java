@@ -74,6 +74,9 @@ public class User extends Common{
 	private List<Action> actions;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Evaluated> evaluated;
+	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Post> posts;
 	
 	public User() {
@@ -186,6 +189,9 @@ public class User extends Common{
 		this.token=UUID.randomUUID().toString();
 	}
 	public boolean isAfterTime() {
+		if(this.expire == null) {
+			return true;
+		}
 		Calendar time = Calendar.getInstance();
 		Timestamp timetamp = new Timestamp(time.getTime().getTime());
 		return timetamp.after(this.expire);
@@ -195,6 +201,12 @@ public class User extends Common{
 		Calendar time = Calendar.getInstance();
 		time.add(Calendar.MINUTE, minutes);
 		this.expire = new Timestamp(time.getTime().getTime());
+	}
+	public Timestamp getExpire() {
+		return expire;
+	}
+	public void setExpire(Timestamp expire) {
+		this.expire = expire;
 	}
 	
 }

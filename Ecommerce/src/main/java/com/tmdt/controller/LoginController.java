@@ -33,7 +33,6 @@ public class LoginController {
 		if (!message.equals("")) {
 			Map<String, String> m = messageUtil.Messages(message);
 			modelMap.addAttribute("message", m.get("message"));
-			System.out.println(m.get("message"));
 		}
 		return "login";
 	}

@@ -1,5 +1,6 @@
 package com.tmdt.converter;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import com.tmdt.dto.PostDTO;
 import com.tmdt.entity.Address;
 import com.tmdt.entity.Content;
 import com.tmdt.entity.Post;
+import com.tmdt.repository.ActionRepository;
 import com.tmdt.repository.DistrictRepository;
 import com.tmdt.repository.FeeRepository;
 import com.tmdt.repository.ProvincialRepository;
@@ -45,6 +47,8 @@ public class PostConverter implements IConverter<Post, PostDTO> {
 	@Autowired
 	private FeeRepository feeRepository;
 	
+	@Autowired
+	private ActionRepository actionRepository;
 	
 	public PostDTO toDTO(Post u) {
 		// TODO Auto-generated method stub
@@ -54,6 +58,8 @@ public class PostConverter implements IConverter<Post, PostDTO> {
 		dto.setImages(u.getImages().stream().map(imageConverter::toDTO).collect(Collectors.toList()));
 		dto.setFee(feeConverter.toDTO(u.getFee()));
 		dto.setUserId(u.getUser().getId());
+		List<Integer> l =actionRepository.findByPost_Id(u.getId()).stream().map(e -> e.getUser().getId()).collect(Collectors.toList());
+		dto.setIdUserlike(l);
 		return dto;
 	}
 

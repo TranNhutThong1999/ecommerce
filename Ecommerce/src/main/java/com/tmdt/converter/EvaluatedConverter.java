@@ -44,7 +44,7 @@ public class EvaluatedConverter implements IConverter<Evaluated, EvaluatedDTO>{
 	public Evaluated toEntity(EvaluatedDTO v) {
 		// TODO Auto-generated method stub
 		Evaluated e = modelMapper.map(v, Evaluated.class);
-	//	e.setUser(userRepository.findOneByUserName(customUserDetal.getPrinciple().getName()).get());
+		e.setUser(userRepository.findOneByUserName(customUserDetal.getPrinciple().getName()).get());
 		e.setPost(postRepository.findOneById(v.getPostId()).get());
 		e.setStar(starRepository.findOneById(v.getStar().getId()));
 		return e;

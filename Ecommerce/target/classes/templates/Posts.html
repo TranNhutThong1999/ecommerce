@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <div th:replace="common/Css.html"></div>
-<title>login</title>
+<title>Danh sách nhà trọ</title>
 </head>
 <body>
 	<div id="page">
@@ -268,7 +268,7 @@
 
 	</div>
 	<div th:replace="common/Js.html"></div>
-	<script>
+	<script th:inline="javascript">
       $(document).ready(function () {
         $(".price").each(function (index) {
           converIntToMoney(this);
@@ -277,8 +277,56 @@
           let value = $(parameter).text();
           let nf = Intl.NumberFormat();
           let money = nf.format(value);
-          $(parameter).text(money + ",000đ");
+          if(money == '0'){
+        	  $(parameter).text(money + "đ");
+        	  return;
+          }
+          $(parameter).text(money + "đ");
         }
+        //like
+        window.mySave = (i,e) => {
+        	e =window.event
+        	let value = e.target
+        	let auth =[[${#authentication.name != 'anonymousUser' ? #authentication.getPrincipal().id : 0}]]
+        	if(auth == 0){
+        		Notiflix.Confirm.Show(
+        				'Thông báo','Vui lòng đăng nhập để lưu bài viết?','Đồng ý','Không đồng ý',
+        				function(){ 
+        					window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/login'
+        				},
+						function(){ 
+        					console.log("no")
+        				},
+        		)
+        	}else{
+            	if($(value).attr('data-attr') === 'true'){
+            		$(value).parent().removeClass('activeLike')
+            		$(value).attr('data-attr','false')
+            		$(value).text('Lưu tin')
+            		Notiflix.Notify.Success('Hủy thành công');
+           		 }else{
+           			$(value).parent().addClass('activeLike')
+           			$(value).attr('data-attr','true')
+           			$(value).text('Hủy lưu')
+           			Notiflix.Notify.Success('Lưu tin thành công');
+           		
+           		 }
+            	$.ajax({
+            		url:'/like',
+            		type:'put',
+            		data:{
+            			idPost: i
+            		},
+            		success:function(value){
+            		},
+            		error:function(err){
+            			
+            		}
+            	})
+        	}
+        }
+        
+        //render filter
      	let data={};        
      	render_filter_sort(data);
      	
@@ -309,13 +357,14 @@
       		    	console.log(response)
       		    	return response.totalElements;
       		    },
-      		    pageSize: 3,
+      		    pageSize: 9,
       		    autoHidePrevious: true,
       		    autoHideNext: true,
       		    ajax: {
       		    	data: data,
       		    	 beforeSend: function() {
-      			      		$('#demo').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      			      	//	$('#demo').html("<img alt='' class='img-responsive' style='margin:auto;' src='/images/kVhRG3eqvz5H.gif'/>");
+      			      	Notiflix.Block.Circle('#demo', 'Please wait...');
       			        }
       		    } ,
       		    callback: function(data, pagination) {
@@ -326,15 +375,22 @@
       				       $(".price").each(function (index) {
       				           converIntToMoney(this);
       				         });
-      				},1000); 
+      				},800); 
       		    },
       		})
         }
-      
+    	var check_active_btn;
      	//function render product
 		function render(data){
+     		let principalName = [[${#authentication.getPrincipal() == ('anonymousUser') ? 0 : #authentication.getPrincipal().getId() }]]
+     		let like;
+     		let active;
+     		let check;
         	let result =data.map(function(e){
-				return " <div class='col-xs-4 animation'> <div class='pgl-property'> <div class='property-thumb-info'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'/><span class='property-thumb-info-label'><span class='label price'>"+e.content.price+"</span></span> </div> <div class='property-thumb-info-content'> <h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3> <address>"+e.address.ward.name+", "+e.address.district.name+", "+e.address.provincial.name+"</address></div><div class='amenities clearfix'> <ul class='pull-left'> <li><strong>Area:</strong> "+e.content.areage+"<sup>m2</sup></li></ul><span class='label forrent pull-right' ><a href='#'>Lưu Tin</a> </span> </div> </div> </div></div>";
+        		like = e.idUserlike.includes(principalName) ? 'Hủy lưu' : 'Lưu tin'
+        		active = e.idUserlike.includes(principalName) ? 'activeLike' : ''
+        		check = e.idUserlike.includes(principalName) ? 'true' : 'false'
+				return " <div class='col-xs-4 animation'> <div class='pgl-property'> <div class='property-thumb-info'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'/><span class='property-thumb-info-label'><span class='label price'>"+e.content.price+"</span></span> </div> <div class='property-thumb-info-content'> <h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3> <address>"+e.address.ward.name+", "+e.address.district.name+", "+e.address.provincial.name+"</address></div><div class='amenities clearfix'> <ul class='pull-left'> <li><strong>Area:</strong> "+e.content.areage+"<sup>m2</sup></li></ul><span class=' changebtn label forrent pull-right "+active+" ' ><a data-attr='"+check+"' onclick='mySave("+e.id+")'>"+like+"</a> </span> </div> </div> </div></div>";
 			})                
 	        return result;
         }

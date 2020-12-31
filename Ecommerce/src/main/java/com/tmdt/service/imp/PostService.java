@@ -1,8 +1,10 @@
 package com.tmdt.service.imp;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,14 +22,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tmdt.converter.PostConverter;
+import com.tmdt.dto.ActionDTO;
 import com.tmdt.dto.FilterDTO;
 import com.tmdt.dto.PostDTO;
 import com.tmdt.entity.Evaluated;
 import com.tmdt.entity.Image;
 import com.tmdt.entity.Post;
 import com.tmdt.entity.Star;
+import com.tmdt.entity.StatePost;
 import com.tmdt.entity.User;
 import com.tmdt.repository.EvaluatedRepository;
+import com.tmdt.repository.FeeRepository;
 import com.tmdt.repository.PostRepository;
 import com.tmdt.repository.PostSpecificaiton;
 import com.tmdt.repository.StarRepository;
@@ -54,7 +59,9 @@ public class PostService implements IPostService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private FeeRepository feeRepository;
 	@Override
 	public PostDTO findOneById(int id) {
 		// TODO Auto-generated method stub
@@ -64,13 +71,20 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public boolean save(PostDTO post, MultipartFile[] files) {
+	public PostDTO save(PostDTO post, MultipartFile[] files) {
 		// TODO Auto-generated method stub
-		User u = userRepository.findOneByUserName(customUserDetail.getPrinciple().getName()).get();
-		if (u.getTotalMoney() - post.getFee().getPrice() < 0) {
-			return false;
-		}
+		
 		Post p = postConverter.toEntity(post);
+		if(p.getId()!= 0) {
+			return postConverter.toDTO( postRepository.save(p));
+		}
+		User u = userRepository.findOneByUserName(customUserDetail.getPrinciple().getName()).get();
+		if (u.getTotalMoney() - p.getFee().getPrice() < 0) {
+			return null;
+		}
+		System.out.println(u.getTotalMoney() - p.getFee().getPrice()+"xuuu");
+		u.setTotalMoney(u.getTotalMoney() - p.getFee().getPrice());
+		userRepository.save(u);
 		List<Image> l = new ArrayList<Image>();
 		if (!files[0].getOriginalFilename().equals("")) {
 			Arrays.asList(files).stream().forEach(file -> {
@@ -90,19 +104,22 @@ public class PostService implements IPostService {
 			});
 			p.setImages(l);
 		}
-		p.setBrowse(true);
-		postRepository.save(p);
-		return true;
+		p.setState(StatePost.NotApproved);
+		//time expire
+		Calendar time = Calendar.getInstance();
+		time.add(Calendar.DAY_OF_YEAR, feeRepository.findById(p.getFee().getId()).get().getExpire());
+		p.setTimeExpire(new Timestamp(time.getTime().getTime()));
+		return postConverter.toDTO( postRepository.save(p));
 	}
 
 	private double totalStarEvaluated(int postId) {
 		List<Evaluated> list = evaluatedRepository.findByPost_Id(postId);
-		double init = 0.0;
+		double init = 0;
 		for (Evaluated e : list) {
 			init += e.getStar().getValue();
 
 		}
-		return init / list.size();
+		return list.size()== 0? init : init / list.size();
 	}
 
 	@Override
@@ -148,12 +165,18 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public Page<PostDTO> findByUser_IdAndBrowse(Map<String, String> q) {
+	public Page<PostDTO> findByUser_Id(Map<String, String> q) {
 		int pageNumber = Integer.valueOf(q.get("pageNumber")) - 1;
 		int pageSize = Integer.valueOf(q.get("pageSize"));
 
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
 		int idUser = Integer.valueOf(q.get("id") == null ? "0" : q.get("id"));
-		return postRepository.findByUser_IdAndBrowse(pageable, idUser, true).map(postConverter::toDTO);
+		return postRepository.findByUser_Id(pageable, idUser).map(postConverter::toDTO);
+	}
+
+	@Override
+	public void deletePostCreated(int id) {
+		// TODO Auto-generated method stub
+		postRepository.deleteById(id);
 	}
 }
