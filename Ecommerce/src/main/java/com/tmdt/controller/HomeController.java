@@ -31,6 +31,7 @@ public class HomeController {
 	
 	@Autowired
 	private IActionService actionService;
+	
 	@GetMapping
 	public String defauls(ModelMap modelMap,HttpSession r, @RequestParam(required = false ,defaultValue = "") String message) {
 		List<String> roles = new ArrayList<String>();
@@ -43,5 +44,10 @@ public class HomeController {
 			modelMap.addAttribute("message","login");
 		}
 		return "Home";
+	}
+	
+	@GetMapping("/404")
+	public String error() {
+		return "Error";
 	}
 }

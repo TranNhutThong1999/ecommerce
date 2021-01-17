@@ -17,11 +17,11 @@ public class MessagesUtil {
 	public Map<String,String> Messages (String parameter){
 		Map<String, String> map = new HashMap<String, String>();
 		if(parameter.equals("register_SUCCESS")) {
-			map.put("message", messageSource.getMessage("user.register.success",null,Locale.US));
+			//map.put("message", messageSource.getMessage("user.register.success",null,new Locale("vi")));
 		}else if(parameter.equals("login_FAIL")) {
 			map.put("message", messageSource.getMessage("user.login.fail",null,new Locale("vi")));
 		}else if(parameter.equals("verify_SUCCESS")) {
-			map.put("message", messageSource.getMessage("Add.ok",null,new Locale("vi")));
+			map.put("message", messageSource.getMessage("user.register.success",null,new Locale("vi")));
 		}else if(parameter.equals("pay_SUCCESS")) {
 			map.put("message", messageSource.getMessage("user.pay.success",null,new Locale("vi")));
 		}//else if(parameter.equals("timeout")) {

@@ -23,7 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>, JpaSpecifi
 
 	@Query(value = "SELECT post.* FROM post ,address,ward,district,provincial,fee\r\n"
 			+ "where post.address_id=address.id and address.ward_id = ward.id and address.district_id =district.id and address.provincial_id =provincial.id and post.fee_id = fee.id\r\n"
-			+ "and ward.id = :ward and district.id = :district and provincial.id = :provincial and post.state='1' order by fee.price desc limit 10", nativeQuery = true)
+			+ "and ward.id = :ward and district.id = :district and provincial.id = :provincial and post.state='1'  limit 10", nativeQuery = true)
 	List<Post> findAllRef(@Param("ward") int ward, @Param("district") int district,
 			@Param("provincial") int provincial);
 

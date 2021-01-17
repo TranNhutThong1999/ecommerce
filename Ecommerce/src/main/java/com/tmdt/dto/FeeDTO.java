@@ -1,29 +1,17 @@
 package com.tmdt.dto;
 
+import java.security.Timestamp;
 
 public class FeeDTO extends CommonDTO{
-	private int price;
+	private double raito;
 	private String description;
-	private int expire;
 	private String name;
 	private int ranks;
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public int getExpire() {
-		return expire;
-	}
-	public void setExpire(int expire) {
-		this.expire = expire;
 	}
 	public String getName() {
 		return name;
@@ -34,8 +22,18 @@ public class FeeDTO extends CommonDTO{
 	public int getRanks() {
 		return ranks;
 	}
-	public void setRanks(int rank) {
-		this.ranks = rank;
+	public void setRanks(int ranks) {
+		this.ranks = ranks;
+	}
+	@Override
+	public String toString() {
+		return "FeeDTO [raito=" + raito + ", description=" + description + ", name=" + name + ", ranks=" + ranks + "]";
+	}
+	public double getRaito() {
+		return raito;
+	}
+	public void setRaito(double raito) {
+		this.raito = raito;
 	}
 	
 }

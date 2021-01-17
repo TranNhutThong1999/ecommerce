@@ -32,6 +32,7 @@ public class LoginController {
 	public String loginDefaul(@RequestParam(required = false, defaultValue = "") String message, ModelMap modelMap) {
 		if (!message.equals("")) {
 			Map<String, String> m = messageUtil.Messages(message);
+			System.out.println( m.get("message"));
 			modelMap.addAttribute("message", m.get("message"));
 		}
 		return "login";
@@ -67,6 +68,6 @@ public class LoginController {
 			modelMap.addAttribute("id", id);
 			return "verify";
 		}
-		return "redirect:/login?messages=verify_SUCCESS";
+		return "redirect:/login?message=verify_SUCCESS";
 	}
 }

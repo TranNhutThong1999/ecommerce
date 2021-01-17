@@ -12,6 +12,8 @@ import com.tmdt.dto.PostDTO;
 public interface IPostService {
 	PostDTO save(PostDTO post, MultipartFile[] files);
 
+	PostDTO update(PostDTO post, MultipartFile[] files);
+	
 	PostDTO findOneById(int id);
 
 	List<PostDTO> findAllRef(int ward, int district, int provincial);
@@ -23,5 +25,9 @@ public interface IPostService {
 	Page<PostDTO> findByUser_Id(Map<String, String> q);
 
 	void deletePostCreated(int idPost);
-
+	
+	void save(PostDTO p);
+	
+	void saveView(int post_id);
+	
 }

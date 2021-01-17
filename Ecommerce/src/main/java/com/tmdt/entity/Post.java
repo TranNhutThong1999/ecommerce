@@ -1,5 +1,6 @@
 package com.tmdt.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,8 @@ public class Post extends Common{
 	@Column(name = "short_description")
 	private String shortDescription;
 	private StatePost state;
-	private Date timeExpire;
+	private Timestamp timeExpire;
+	private int pricePost;
 	
 	//relation
 	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
@@ -51,6 +53,8 @@ public class Post extends Common{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	private int view;
 	
 	public String getTitle() {
 		return title;
@@ -113,11 +117,30 @@ public class Post extends Common{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Date getTimeExpire() {
+	
+	public Timestamp getTimeExpire() {
 		return timeExpire;
 	}
-	public void setTimeExpire(Date timeExpire) {
+	public void setTimeExpire(Timestamp timeExpire) {
 		this.timeExpire = timeExpire;
+	}
+	public List<Action> getActions() {
+		return actions;
+	}
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
+	}
+	public int getView() {
+		return view;
+	}
+	public void setView(int view) {
+		this.view = view;
+	}
+	public int getPricePost() {
+		return pricePost;
+	}
+	public void setPricePost(int pricePost) {
+		this.pricePost = pricePost;
 	}
 	
 	

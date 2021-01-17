@@ -17,7 +17,7 @@
 					<h2 >Cập nhật tài khoản</h2>
 					<div class="agent-profile">
 						<div class="row">
-                           <form id="contact-form" name="form1" method="post" th:action="@{/forgot-password}" >
+                           <form id="contact-form" name="form1" method="post" th:action="@{/edit_user}" th:object="${User}" >
 								<div class="form-group" >
 								<input type="hidden" th:field="*{id}" th:value="${User.id}">
 									<div class="row">

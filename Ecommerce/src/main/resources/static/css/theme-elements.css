@@ -690,7 +690,9 @@ hr {
 .price {
   background-color: #d88449;
 }
-
+.like-price {
+  background-color: #d88449;
+}
 /* line 454, ../sass/theme-elements.scss */
 
 .pgl-property {

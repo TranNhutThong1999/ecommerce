@@ -43,6 +43,7 @@ public class UserDTO extends CommonDTO{
 	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private int totalMoney;
+	
 	private String address;
 	
 	private List<RoleDTO> roles = new ArrayList<RoleDTO>();
