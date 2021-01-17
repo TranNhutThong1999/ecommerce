@@ -4,10 +4,10 @@ import org.springframework.context.ApplicationEvent;
 
 import com.tmdt.dto.UserDTO;
 
-public class onRegisterUserEvent extends ApplicationEvent{
+public class OnRegisterUserEvent extends ApplicationEvent{
 	private UserDTO user;
 	private String rootURL;
-	public onRegisterUserEvent(Object source, UserDTO user, String rootURL) {
+	public OnRegisterUserEvent(Object source, UserDTO user, String rootURL) {
 		super(source);
 		this.user = user;
 		this.rootURL = rootURL;

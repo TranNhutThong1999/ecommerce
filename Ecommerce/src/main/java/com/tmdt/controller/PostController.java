@@ -63,16 +63,31 @@ public class PostController {
 		return "Posts";
 	}
 	@GetMapping("/edit/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkIdPostUser(#id, principal.id)")
 	public String displayPostEdit(ModelMap modelMap, @PathVariable int id) {
 		PostDTO p =postService.findOneById(id);
 		modelMap.addAttribute("Post", p);
 		mapData(modelMap);
 		return "/NewPost";
 	}
+	@PostMapping("/update")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkPostUser(#post, principal.id)")
+	public String submitUpdate(@Valid @ModelAttribute("Post") PostDTO post, BindingResult error, ModelMap modelMap,
+			@RequestParam(value = "files", required = false) MultipartFile[] files) {
+		mapData(modelMap);
+		if (error.hasErrors()) {
+			return "NewPost";
+		}
+		PostDTO postDTO = postService.update(post, files);
+		if(postDTO == null) {
+			modelMap.addAttribute("message", "updatePost_fail");
+			return "NewPost";
+		}
+		return "redirect:/posts/"+postDTO.getId()+"?message=update_success";
+	}
 	
 	@GetMapping("/new")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	public String displayNewPost(ModelMap modelMap) {
 		modelMap.addAttribute("Post", new PostDTO());
 		mapData(modelMap);
@@ -80,7 +95,7 @@ public class PostController {
 	}
 
 	@PostMapping("/new")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkPostUser(#post,principal.id)")
 	public String submitNewPost(@Valid @ModelAttribute("Post") PostDTO post, BindingResult error, ModelMap modelMap,
 			@RequestParam(value = "files", required = false) MultipartFile[] files) {
 		mapData(modelMap);
@@ -97,12 +112,15 @@ public class PostController {
 	}
 
 	@GetMapping("/posts/{id}")
-//	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public String postDetail(@PathVariable int id, ModelMap modelMap, @RequestParam(required = false, defaultValue = "") String message) {
 		if(message.equals("new_success")) {
 			modelMap.addAttribute("message", "newPost");
 		}
+		if(message.equals("update_success")) {
+			modelMap.addAttribute("message", "updatePost");
+		}
 		PostDTO p = postService.findOneById(id);
+		postService.saveView(p.getId());
 		double totalStar = p.getEvaluated().size();
 		modelMap.addAttribute("Post", p);
 		modelMap.addAttribute("User", userService.findOneById(p.getUserId()));

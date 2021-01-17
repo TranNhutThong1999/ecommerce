@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css.html"></div>
+<title>Đăng nhập</title>
+</head>
+<body>
+	<div id="page">
+		<div th:replace="common/Menu.html"></div>
+		<!-- Begin Main -->
+			<div role="main" class="main pgl-bg-grey">
+			<!-- Begin page top -->
+			<section class="page-top">
+				<div class="container">
+					<div class="page-top-in">
+						<h2><span>Page 404</span></h2>
+					</div>
+				</div>
+			</section>
+			<!-- End page top -->
+			
+			<div class="container">
+				<div class="pgl-error text-center">
+					<h4 style="font-size: 50px!important" class="error-title"><strong>Ban không có quyền truy cập</strong></h4>
+					<p class="error-msg">The page cannot be found</p>
+					<a href="index-2.html" class="btn btn-primary">Trở về trang chủ</a>
+				</div>
+			</div>
+			
+		</div>
+		<!-- End Main -->
+
+		<!-- Begin footer -->
+		 <div th:replace="common/Footer.html"></div> 
+		<!-- End footer -->
+
+	</div>
+	<div th:replace="common/Js.html"></div>
+</body>
+</html>

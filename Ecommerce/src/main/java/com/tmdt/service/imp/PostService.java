@@ -79,11 +79,10 @@ public class PostService implements IPostService {
 			return postConverter.toDTO( postRepository.save(p));
 		}
 		User u = userRepository.findOneByUserName(customUserDetail.getPrinciple().getName()).get();
-		if (u.getTotalMoney() - p.getFee().getPrice() < 0) {
+		if (u.getTotalMoney() - p.getPricePost() < 0) {
 			return null;
 		}
-		System.out.println(u.getTotalMoney() - p.getFee().getPrice()+"xuuu");
-		u.setTotalMoney(u.getTotalMoney() - p.getFee().getPrice());
+		u.setTotalMoney(u.getTotalMoney() - p.getPricePost());
 		userRepository.save(u);
 		List<Image> l = new ArrayList<Image>();
 		if (!files[0].getOriginalFilename().equals("")) {
@@ -105,10 +104,6 @@ public class PostService implements IPostService {
 			p.setImages(l);
 		}
 		p.setState(StatePost.NotApproved);
-		//time expire
-		Calendar time = Calendar.getInstance();
-		time.add(Calendar.DAY_OF_YEAR, feeRepository.findById(p.getFee().getId()).get().getExpire());
-		p.setTimeExpire(new Timestamp(time.getTime().getTime()));
 		return postConverter.toDTO( postRepository.save(p));
 	}
 
@@ -178,5 +173,52 @@ public class PostService implements IPostService {
 	public void deletePostCreated(int id) {
 		// TODO Auto-generated method stub
 		postRepository.deleteById(id);
+	}
+
+	@Override
+	public void save(PostDTO p) {
+		// TODO Auto-generated method stub
+		 postRepository.save(postConverter.toEntity(p));
+	}
+
+	@Override
+	public void saveView(int post_id) {
+		// TODO Auto-generated method stub
+		Post p =postRepository.findOneById(post_id).get();
+		p.setView(p.getView() + 1);
+		postRepository.save(p);
+	}
+
+	@Override
+	public PostDTO update(PostDTO post, MultipartFile[] files) {
+		// TODO Auto-generated method stub
+		Post p = postRepository.findOneById(post.getId()).orElse(null);
+		Post pMain = postConverter.toEntity(post);
+		pMain.setPricePost(p.getPricePost());
+		pMain.setTimeExpire(p.getTimeExpire());
+		pMain.setFee(p.getFee());
+		pMain.setImages(p.getImages());
+		List<Image> l = new ArrayList<Image>();
+		if (!files[0].getOriginalFilename().equals("")) {
+			Arrays.asList(files).stream().forEach(file -> {
+
+				String a;
+				try {
+					a = imageService.save(file);
+					Image i = new Image();
+					i.setName(a);
+					i.setPost(p);
+					l.add(i);
+					System.out.println(i.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			l.addAll(p.getImages());
+			pMain.setImages(l);
+		}
+		pMain.setState(StatePost.NotApproved);
+		return postConverter.toDTO( postRepository.save(pMain));
 	}
 }

@@ -1,23 +1,21 @@
 package com.tmdt.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tmdt.entity.StatePost;
 
 public class PostDTO extends CommonDTO{
 	@NotBlank(message = "Username can not be blank")
 	private String title;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
-	private Date timeExpire;
+	private long timeExpire;
 	
 	private String shortDescription;
-	
+	private int pricePost;
 	private StatePost state;
 	
 	private List<ImageDTO> images;
@@ -34,7 +32,7 @@ public class PostDTO extends CommonDTO{
 	private List<Integer> idUserlike;
 	
 	//private List<FeedBackDTO> feedBacks;
-	
+	private int view;
 	private int userId;
 	
 	private double totalStar;
@@ -117,12 +115,25 @@ public class PostDTO extends CommonDTO{
 	public void setIdUserlike(List<Integer> idUserlike) {
 		this.idUserlike = idUserlike;
 	}
-	public Date getTimeExpire() {
+	public int getView() {
+		return view;
+	}
+	public void setView(int view) {
+		this.view = view;
+	}
+	public int getPricePost() {
+		return pricePost;
+	}
+	public void setPricePost(int pricePost) {
+		this.pricePost = pricePost;
+	}
+	public long getTimeExpire() {
 		return timeExpire;
 	}
-	public void setTimeExpire(Date timeExpire) {
+	public void setTimeExpire(long timeExpire) {
 		this.timeExpire = timeExpire;
 	}
+	
 
 
 }

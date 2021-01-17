@@ -1,5 +1,6 @@
 package com.tmdt.entity;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -8,29 +9,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "fee")
 public class Fee extends Common{
-	private int price;
+	private double raito;
 	private String description;
-	private int expire;
 	private String name;
 	private int ranks;
 	
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getExpire() {
-		return expire;
+	public double getRaito() {
+		return raito;
 	}
-	public void setExpire(int expire) {
-		this.expire = expire;
+	public void setRaito(double raito) {
+		this.raito = raito;
 	}
 	public String getName() {
 		return name;

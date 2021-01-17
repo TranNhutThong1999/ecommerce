@@ -1,6 +1,9 @@
 package com.tmdt.service.imp;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.tmdt.converter.UserConverter;
 import com.tmdt.dto.UserDTO;
@@ -84,7 +89,7 @@ public class UserService implements IUserService {
 			u.setPassword(bCryptPasswordEncode.encode(user.getPassword()));
 		}
 		try {
-			if (!file.isEmpty()) {
+			if (file != null) {
 				System.out.println("image");
 				String a = imageService.save(file);
 				u.setImage(a);
@@ -158,9 +163,11 @@ public class UserService implements IUserService {
 		User u = userRepository.findOneByEmail(email).orElse(null);
 		if (u != null) {
 			u.generateToken();
-			u.setTimeTokenFuture(5);
-			emailService.sendSimpleMessage(email, "Quên mật khẩu",
-					r.getContextPath() + "/forgot-password?token=" + u.getToken());
+			u.setTimeTokenFuture(10);
+			UriComponents value = UriComponentsBuilder.newInstance().scheme(r.getScheme()).host(r.getServerName())
+					.port(r.getServerPort()).path("forgot-password").queryParam("token", u.getToken()).build(true);
+			userRepository.save(u);
+			emailService.sendSimpleMessage(email, "Link", value + "");
 			return true;
 		}
 		return false;

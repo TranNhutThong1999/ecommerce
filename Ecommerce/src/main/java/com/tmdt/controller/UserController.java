@@ -1,5 +1,7 @@
 package com.tmdt.controller;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -98,18 +100,21 @@ public class UserController {
 			model.addAttribute("message", "token");
 			return "ForgotPassword";
 		}
-		dto.setPassword(bCryptPasswordEncode.encode(dto.getPassword()));
+		dto.setPassword(bCryptPasswordEncode.encode(password));
 		userService.save(dto);
 		model.addAttribute("message", "ok");
-		return "ForgotPassword";
+		return "redirect:/login";
 	}
 	@GetMapping("/send-forgot-password")
 	public String sendForgotPassword(HttpServletRequest r) {
-		System.out.println(r.getContextPath()+"e");
 		return "SendToken";
 	}
 	@PostMapping("/submit-token")
 	public String sendToken( ModelMap model, @RequestParam String email, HttpServletRequest r) {
+		if(!Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)) {
+			model.addAttribute("email","Email không đúng định dạng");
+			return "SendToken";
+		}
 		if(userService.sendMailToken(email,r)) {
 			model.addAttribute("message","ok");
 		}else {

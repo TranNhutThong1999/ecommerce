@@ -47,7 +47,8 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
 	      .loginPage("/login")
 	      .usernameParameter("username").passwordParameter("password")
 		  .failureUrl("/login?message=login_FAIL")
-		  .defaultSuccessUrl("/home?message=login_SUCCESS", true);
+		  .defaultSuccessUrl("/home?message=login_SUCCESS", true)
+		  .and().exceptionHandling().accessDeniedPage("/403");
 	      
 	}
 	@Override

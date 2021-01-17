@@ -317,7 +317,7 @@
 							<div class="row">
 								<div  class="owl-carousel pgl-pro-slide"
 									data-plugin-options='{"items": 3, "itemsDesktop": 3, "singleItem": false, "autoPlay": false, "pagination": false}'>
-									<div th:each="PostRef :${PostRefs}" class="col-md-12 animation">
+									<div  th:each="PostRef :${PostRefs}" class="col-md-12 animation">
 										<div class="pgl-property">
 											<div class="property-thumb-info">
 												<div class="property-thumb-info-image">
@@ -407,6 +407,9 @@
 			console.log(a)
 			let message =[[${message != null? message: 0}]]
 			if(message ==='newPost'){
+				Notiflix.Notify.Success('Thành công');
+			}
+			if(message ==='updatePost'){
 				Notiflix.Notify.Success('Thành công');
 			}
 			  window.Save = (i,e) => {

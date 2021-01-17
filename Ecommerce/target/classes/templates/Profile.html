@@ -145,14 +145,15 @@
 
 	</div>
 	<div th:replace="common/Js.html"></div>
-	<script>
-	$(".price").each(function(index) {
+	<script th:inline="javascript">
+/* 	$(".price").each(function(index) {
 		converIntToMoney(this);
-	});
+	}); */
 	function converIntToMoney(parameter) {
 		let value = $(parameter).text();
 		let nf = Intl.NumberFormat();
 		let money = nf.format(value);
+		console.log(money)
 		$(parameter).text(money + 'đ');
 	}
 	//render post like
@@ -199,7 +200,7 @@
       		       setTimeout(function(){
       		        	 let html = renderLike(data);
       				       $('#demo_posts_like').html(html);
-      				       $(".price").each(function (index) {
+      				       $(".like-price").each(function (index) {
       				           converIntToMoney(this);
       				         });
       				},800); 
@@ -208,12 +209,17 @@
         }
 	 function renderLike(data){
 	    	let result =data.map(function(e){
-	    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'><h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3><address>"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right' onclick='delete_post_like("+e.id+")'><a >Xóa</a> </span></ul></div></div></div></div></div>"
+	    		console.log(e)
+	    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label like-price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'><h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3><i class='far fa-eye'></i>  <span>"+e.view+"</span><address>"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right' onclick='delete_post_like("+e.id+")'><a >Xóa</a> </span></ul></div></div></div></div></div>"
 			})                
 	        return result;
 	    }
 	 
-	 
+	 //edit
+	 window.edit_post_created=(i)=>{
+		// console.log([[${#httpServletRequest.getContextPath()}]]+'/edit/' +id)
+		 window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/edit/' +i
+	 }
 	 // created 
 	 let data={
 			id:[[${User.id}]]
@@ -257,7 +263,7 @@
       		    } ,
       		    callback: function(data, pagination) {
       		        // template method of yourself
-      		           console.log(data)
+      		          
       		       setTimeout(function(){
       		        	 let html = render(data);
       				       $('#demo_posts_created').html(html);
@@ -272,19 +278,25 @@
 	function render(data){
     	let result =data.map(function(e){
     		let temp = renderNotifi(e.state, e.timeExpire)
-    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'> <h3 class='col-sm-8 col-md-10'><a href='/posts/"+e.id+"'>"+e.title+"</a></h3>"+temp+"<address >"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right'><span class='label forrent pull-right' onclick='delete_post_created("+e.id+")'><a >Xóa</a> </span></ul></div></div></div></div></div>"
+    		 console.log(data)
+    		return" <div class='pgl-property animation'><div class='row'><div class='col-sm-6 col-md-4'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'><span class='property-thumb-info-label'>	<span class='label price'>"+e.content.price+"</span></span></div></div><div class='col-sm-6 col-md-8'><div class='property-thumb-info'><div class='property-thumb-info-content'> <h3 class='col-sm-8 col-md-10'><a href='/posts/"+e.id+"'>"+e.title+"</a> <i class='far fa-eye'></i>  <span>"+e.view+"</span></h3>"+temp+"<address >"+e.address.ward.name+', '+e.address.district.name+', '+e.address.provincial.name+"</address><p>"+e.content.description+"</p></div><div class='amenities clearfix'><ul class='pull-left'><li><strong>Diện tích</strong> "+e.content.areage+"<sup>m2</sup></li></ul><ul class='pull-right' ><span class='label forrent pull-right'  onclick='delete_post_created("+e.id+")'><a >Xóa</a> </span><span class='label forrent pull-right'style='margin-right:5px;' onclick='edit_post_created("+e.id+")'><a>Edit</a> </span></ul></div></div></div></div></div>"
 		})                
         return result;
-    }
-	function renderNotifi(state, date, e){
-		let day = new Date();
-		day.setHours(0,0,0,0);
-		let time = Date.parse( date ) - day.getTime();
-		console.log( (time / (1000 * 60 * 60 * 24)).toFixed(0))
-		let value = (time / (1000 * 60 * 60 * 24)).toFixed(0)
+    }//
+    function msToTime(duration) {
+		 let day = Math.floor(duration / (1000 * 60 * 60 * 24));
+		 let msRemain = duration % (1000 * 60 * 60 * 24)
+		 let hours = Math.floor(msRemain / (1000 * 60 *60))
+		 
+		  let refix = hours !== 0 ? hours +" tiếng":"";
+		  return  day + " ngày " + refix ;
+		}
+	function renderNotifi(state, date){
+		let now = new Date()
+		let value = msToTime(date - now.getTime())
 		switch(state){
 		case 'Approved':
-			return " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-success'> Đã duyệt </span><span class='bageAlert bageAlert-info'> còn "+value+" ngày</span> </ul> </div>";
+			return " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-success'> Đã duyệt </span><span class='bageAlert bageAlert-info'> Còn "+value+" </span> </ul> </div>";
 		case 'NotApproved':
 			return  " <div class='col-sm-4 col-md-2'><ul class='pull-right'> <span class='bageAlert bageAlert-warning'> Đang duyệt </span> </ul> </div>";
 		case 'Expire':

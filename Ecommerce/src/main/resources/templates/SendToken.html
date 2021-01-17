@@ -9,10 +9,19 @@
 	<div id="page">
 		<div th:replace="common/Menu.html"></div>
 		<!-- Begin Main -->
+				<section class="page-top">
+				<div class="container">
+					<div class="page-top-in">
+					
+					</div>
+				</div>
+			</section>
 		<div class="container">
 			<div class="row" >
+			
 				<div class="col-md-8 col-md-offset-2" style="text-align: center">
 					<div class="panel-body">
+					
 						<fieldset>
 							<form id="idsignin" method="post" th:action="@{/submit-token}">
 							<h1 id="title" >Quên mật khẩu</h1>
@@ -42,8 +51,15 @@
 
 	</div>
 	<div th:replace="common/Js.html"></div>
-	<script type="text/javascript">
+	<script th:inline="javascript">
 		$(document).ready(function() {
+			let message = [[${message != null ? message : '0'}]]
+			if(message !== '0'){
+				Notiflix.Notify.Success('Vui lòng kiểm tra email',{
+					closeButton:true,
+					clickToClose:true
+				});
+			}
 		})
 	</script>
 </body>
