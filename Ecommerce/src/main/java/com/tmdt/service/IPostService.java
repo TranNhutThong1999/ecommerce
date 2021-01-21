@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tmdt.dto.PostDTO;
+import com.tmdt.dto.State;
+import com.tmdt.dto.UserDTO;
+import com.tmdt.entity.StatePost;
 
 public interface IPostService {
 	PostDTO save(PostDTO post, MultipartFile[] files);
@@ -16,7 +19,7 @@ public interface IPostService {
 	
 	PostDTO findOneById(int id);
 
-	List<PostDTO> findAllRef(int ward, int district, int provincial);
+	List<PostDTO> findAllRef(int district, int provincial);
 
 	Page<PostDTO> findAll(Map<String, String> q);
 
@@ -28,6 +31,11 @@ public interface IPostService {
 	
 	void save(PostDTO p);
 	
+	void apporve(int id);
+	
 	void saveView(int post_id);
 	
+	Page<PostDTO> findByState(Map<String, String> q, StatePost s);
+	
+	List<PostDTO> findAllSortByRank();
 }

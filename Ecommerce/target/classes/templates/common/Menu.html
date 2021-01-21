@@ -31,7 +31,6 @@
 							<!-- <li><a href="list-fullwidth.html">Danh sách nhà trọ</a></li> -->
 							<li th:classappend="${#httpServletRequest.getRequestURI().endsWith('/posts') ? 'active':''}"><a th:href="@{/posts}">Danh sách nhà trọ</a></li>
 							<li th:classappend="${#httpServletRequest.getRequestURI().endsWith('/new') ? 'active':''}"><a th:href="@{/new}">Bài viết mới</a></li>
-							<li><a href="contact.html">Liên hệ</a></li>
 							
 							<li class="login" sec:authorize="isAnonymous()"><a th:href="@{/login}"><i class="fa fa-user"></i>Tài khoản</a></li>
 							<li class="login" sec:authorize="isAuthenticated()"><a th:href="@{'/users/'+${#authentication.getPrincipal().id}}" ><i style="color:#5c32be;" class="fa fa-user"></i><span sec:authentication="name" style="color:#3831aed1; margin-left:3px"></span></a></li>

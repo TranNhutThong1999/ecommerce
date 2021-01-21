@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <div th:replace="common/Css.html"></div>
 <link th:href="@{/css/star-rating-svg.css}" rel="stylesheet">
-<title>login</title>
+<title>Chi tiết bài viết</title>
 </head>
 <body>
 	<div id="page">
@@ -30,7 +30,7 @@
 							<div id="slider" class="flexslider">
 								<ul class="slides">
 									<li th:each="image :${Post.images}"><img
-										th:src="@{${image.name}}" alt=""> <span
+										th:src="@{${image.name}}" style="width: 847px;height: 566px;" alt=""> <span
 										class="property-thumb-info-label"> <span
 											class="label price" th:text="${Post.content.price}">358000</span>
 										<span sec:authorize="isAuthenticated()" class="label forrent pull-right" th:classappend="${#lists.contains(Post.idUserlike,#authentication.getPrincipal().id) ? 'activeLike':''}"> <a th:onclick="'mySave('+${Post.id}+')'" th:text="${#lists.contains(Post.idUserlike,#authentication.getPrincipal().id)?'Hủy lưu':'Lưu tin' }" >Lưu
@@ -48,7 +48,7 @@
 							<div id="carousel" class="flexslider">
 								<ul class="slides">
 									<li th:each="image :${Post.images}"><img
-										th:src="@{${image.name}}" alt=""></li>
+										th:src="@{${image.name}}" style="width: 148px;height: 98px;" alt=""></li>
 
 								</ul>
 							</div>
@@ -66,8 +66,8 @@
 														th:text="${Post.address.location}+','+${Post.address.ward.name}+','+ ${Post.address.district.name}+', '+ ${Post.address.provincial.name}"></span>
 												</address>
 											</li>
-											<li><i class="icons icon-bedroom"></i> 3 Bedrooms</li>
-											<li><i class="icons icon-bathroom"></i> 2 Bathrooms</li>
+											<!-- <li><i class="icons icon-bedroom"></i> 3 Bedrooms</li>
+											<li><i class="icons icon-bathroom"></i> 2 Bathrooms</li> -->
 										</ul>
 									</div>
 									<div class="col-sm-8">
@@ -109,12 +109,12 @@
 															th:text=" ${Post.content.electricPrice}">3500</span></li>
 														<li><strong>Giá nước:</strong> <span
 															class="priceInfor" th:text=" ${Post.content.waterPrice}">12000</span></li>
-														<li><strong>Wifi:</strong> <span class="priceInfor">80000</span>
+														<!-- <li><strong>Wifi:</strong> <span class="priceInfor">80000</span>
 														</li>
 														<li><strong>Tolet riêng:</strong> <span class="">có</span>
 														</li>
 														<li><strong>Chổ để xe:</strong> <span class="">có</span>
-														</li>
+														</li> -->
 													</ul>
 												</div>
 											</div>
@@ -322,7 +322,7 @@
 											<div class="property-thumb-info">
 												<div class="property-thumb-info-image">
 													<img alt="" class="img-responsive"
-													th:src="@{*{PostRef.images.get(0).name}}"> <span
+													th:src="@{*{PostRef.images.get(0).name}}" style=" width: 289px;height: 193px;"> <span
 														class="property-thumb-info-label"> <span
 														class="label price" th:text="*{PostRef.content.price}">$358,000</span>
 													</span>

@@ -4,9 +4,9 @@ package com.tmdt.dto;
 public class ActionDTO extends CommonDTO {
 	private String name;
 
-	private UserDTO user;
+	private int idUser;
 
-	private PostDTO post;
+	private int idPost;
 
 	public String getName() {
 		return name;
@@ -16,20 +16,21 @@ public class ActionDTO extends CommonDTO {
 		this.name = name;
 	}
 
-	public UserDTO getUser() {
-		return user;
+	public int getIdUser() {
+		return idUser;
 	}
 
-	public void setUser(UserDTO user) {
-		this.user = user;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
-	public PostDTO getPost() {
-		return post;
+	public int getIdPost() {
+		return idPost;
 	}
 
-	public void setPost(PostDTO post) {
-		this.post = post;
+	public void setIdPost(int idPost) {
+		this.idPost = idPost;
 	}
+
 	
 }

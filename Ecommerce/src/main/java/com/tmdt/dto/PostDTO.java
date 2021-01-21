@@ -11,7 +11,7 @@ import com.tmdt.entity.StatePost;
 public class PostDTO extends CommonDTO{
 	@NotBlank(message = "Username can not be blank")
 	private String title;
-	
+	private Long time;
 	private long timeExpire;
 	
 	private String shortDescription;
@@ -27,11 +27,9 @@ public class PostDTO extends CommonDTO{
 	@Valid
 	private AddressDTO address;
 	
-	private List<EvaluatedDTO> evaluated;
-	
 	private List<Integer> idUserlike;
 	
-	//private List<FeedBackDTO> feedBacks;
+	private List<FeedBackDTO> feedBacks;
 	private int view;
 	private int userId;
 	
@@ -80,28 +78,17 @@ public class PostDTO extends CommonDTO{
 	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
-	public List<EvaluatedDTO> getEvaluated() {
-		return evaluated;
+	public List<FeedBackDTO> getFeedBacks() {
+		return feedBacks;
 	}
-	public void setEvaluated(List<EvaluatedDTO> evaluated) {
-		this.evaluated = evaluated;
+	public void setFeedBacks(List<FeedBackDTO> feedBacks) {
+		this.feedBacks = feedBacks;
 	}
-//	public List<FeedBackDTO> getFeedBacks() {
-//		return feedBacks;
-//	}
-//	public void setFeedBacks(List<FeedBackDTO> feedBacks) {
-//		this.feedBacks = feedBacks;
-//	}
 	public double getTotalStar() {
 		return totalStar;
 	}
 	public void setTotalStar(double totalStar) {
 		this.totalStar = totalStar;
-	}
-	@Override
-	public String toString() {
-		return "PostDTO [evaluated=" + evaluated + ", totalStar=" + totalStar + ", getTitle()=" + getTitle()
-				+ ", getShortDescription()=" + getShortDescription() + ", isBrowse()=" ;
 	}
 	public int getUserId() {
 		return userId;
@@ -132,6 +119,12 @@ public class PostDTO extends CommonDTO{
 	}
 	public void setTimeExpire(long timeExpire) {
 		this.timeExpire = timeExpire;
+	}
+	public Long getTime() {
+		return time;
+	}
+	public void setTime(Long time) {
+		this.time = time;
 	}
 	
 

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "post")
 public class Post extends Common{
 	private String title;
-	
+	private Date time;
 	@Column(name = "short_description")
 	private String shortDescription;
 	private StatePost state;
@@ -26,28 +26,25 @@ public class Post extends Common{
 	private int pricePost;
 	
 	//relation
-	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Image> images;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fee_id")
 	private Fee fee;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="content_id")
 	private Content content;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="address_id")
 	private Address address;
 	
-	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-	private List<Evaluated> evaluated;
-	
-	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<FeedBack> feedBacks;
 	
-	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true )
 	private List<Action> actions;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -99,12 +96,6 @@ public class Post extends Common{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public List<Evaluated> getEvaluated() {
-		return evaluated;
-	}
-	public void setEvaluated(List<Evaluated> evaluated) {
-		this.evaluated = evaluated;
-	}
 	public List<FeedBack> getFeedBacks() {
 		return feedBacks;
 	}
@@ -141,6 +132,12 @@ public class Post extends Common{
 	}
 	public void setPricePost(int pricePost) {
 		this.pricePost = pricePost;
+	}
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
 	}
 	
 	

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import com.tmdt.annotation.Address;
 
 public class AddressDTO extends CommonDTO {
-	@NotBlank(message = "Username can not be blank")
+	@NotBlank(message = "location can not be blank")
 	private String location;
 	
 	@Valid

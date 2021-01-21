@@ -45,7 +45,7 @@ public class PayController {
 	private IDepositHistoryService depositHistoryService;
 	
 	@GetMapping("/payment")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String index(@RequestParam(required = false, defaultValue = "") String message, ModelMap modelMap) {
 		if (message.equals("pay_success")) {
 			modelMap.addAttribute("message","pay_success");
@@ -54,7 +54,7 @@ public class PayController {
 	}
 
 	@PostMapping("/pay")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String pay(HttpServletRequest request, @RequestParam("price") double price) {
 		String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
 		String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
@@ -72,13 +72,13 @@ public class PayController {
 	}
 
 	@GetMapping(URL_PAYPAL_CANCEL)
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String cancelPay() {
 		return "redirect:/payment?message=pay_error";
 	}
 
 	@GetMapping(URL_PAYPAL_SUCCESS)
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);

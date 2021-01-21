@@ -1,10 +1,12 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
 </head>
 <body>
 	<footer class="pgl-footer">
+	<a class="scroll-to-top "  sec:authorize="hasRole('ROLE_ADMIN')" style ="opacity:1;right:85px;display: flex; background: #f70000;" th:href="@{/admin/posts}" ><i style=" margin: auto;" class="fas fa-users-cog"></i></i></a>
+	
 			<div class="container">
 				<div class="pgl-upper-foot">
 					<div class="row">

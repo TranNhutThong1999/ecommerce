@@ -11,11 +11,11 @@ import javax.persistence.Table;
 public class Action extends Common {
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "post_id")
 	private Post post;
 

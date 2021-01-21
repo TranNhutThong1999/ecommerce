@@ -24,10 +24,9 @@ public class MessagesUtil {
 			map.put("message", messageSource.getMessage("user.register.success",null,new Locale("vi")));
 		}else if(parameter.equals("pay_SUCCESS")) {
 			map.put("message", messageSource.getMessage("user.pay.success",null,new Locale("vi")));
-		}//else if(parameter.equals("timeout")) {
-//			map.put("message", messageSource.getMessage("security.timeout",null,new Locale("vi")));
-//			map.put("alert", "danger");
-//		}else if(parameter.equals("failure")) {
+		}else if(parameter.equals("change_ok")) {
+			map.put("message", messageSource.getMessage("user.change.success",null,new Locale("vi")));
+		}//else if(parameter.equals("failure")) {
 //			map.put("message", messageSource.getMessage("security.failure",null,new Locale("vi")));
 //		}else if(parameter.equals("author")) {
 //			map.put("message", messageSource.getMessage("security.author",null,new Locale("vi")));

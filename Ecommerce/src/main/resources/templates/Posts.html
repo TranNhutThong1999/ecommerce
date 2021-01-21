@@ -240,11 +240,11 @@
 									Giá <label class="sr-only" for="area-from">Giá</label> <select
 										id="price" name="price"
 										data-placeholder="Price" class="chosen-select">
-										<option  value="<1000">< 1 triệu</option>
-										<option value="<2000">< 2 triệu</option>
-										<option value="<5000">< 5 triệu</option>
-										<option selected="selected" value="<8000">< 8 triệu</option>
-										<option value=">4000">> 4 triệu</option>
+										<option  value="<1000000">< 1 triệu</option>
+										<option value="<2000000">< 2 triệu</option>
+										<option value="<3000000">< 3 triệu</option>
+										<option selected="selected" value="<8000000">< 6 triệu</option>
+										<option value=">4000000">> 4 triệu</option>
 									</select>
 								</div>
 
@@ -357,7 +357,7 @@
       		    	console.log(response)
       		    	return response.totalElements;
       		    },
-      		    pageSize: 9,
+      		    pageSize: 6,
       		    autoHidePrevious: true,
       		    autoHideNext: true,
       		    ajax: {
@@ -390,7 +390,7 @@
         		like = e.idUserlike.includes(principalName) ? 'Hủy lưu' : 'Lưu tin'
         		active = e.idUserlike.includes(principalName) ? 'activeLike' : ''
         		check = e.idUserlike.includes(principalName) ? 'true' : 'false'
-				return " <div class='col-xs-4 animation'> <div class='pgl-property'> <div class='property-thumb-info'><div class='property-thumb-info-image'><img alt='' class='img-responsive' src='"+e.images[0].name+"'/><span class='property-thumb-info-label'><span class='label price'>"+e.content.price+"</span></span> </div> <div class='property-thumb-info-content'> <h3><a href='/posts/"+e.id+"'>"+e.title+"</a></h3> <address>"+e.address.ward.name+", "+e.address.district.name+", "+e.address.provincial.name+"</address> <i class='far fa-eye'></i>  <span>"+e.view+"</span></div><div class='amenities clearfix'> <ul class='pull-left'> <li><strong>Area:</strong> "+e.content.areage+"<sup>m2</sup></li></ul><span class=' changebtn label forrent pull-right "+active+" ' ><a data-attr='"+check+"' onclick='mySave("+e.id+")'>"+like+"</a> </span> </div> </div> </div></div>";
+				return " <div class='col-xs-4 animation'> <div class='pgl-property' > <div class='property-thumb-info'><div class='property-thumb-info-image'><img alt='' class='img-responsive' style='width:289px;height:193px' src='"+e.images[0].name+"'/><span class='property-thumb-info-label'><span class='label price'>"+e.content.price+"</span></span> </div> <div class='property-thumb-info-content'> <h3 style='height:58px'><a href='/posts/"+e.id+"'>"+e.title+"</a></h3> <address style='height:40px'>"+e.address.ward.name+", "+e.address.district.name+", "+e.address.provincial.name+"</address> <i class='far fa-eye'></i>  <span>"+e.view+"</span></div><div class='amenities clearfix'> <ul class='pull-left'> <li><strong>Area:</strong> "+e.content.areage+"<sup>m2</sup></li></ul><span class=' changebtn label forrent pull-right "+active+" ' ><a data-attr='"+check+"' onclick='mySave("+e.id+")'>"+like+"</a> </span> </div> </div> </div></div>";
 			})                
 	        return result;
         }

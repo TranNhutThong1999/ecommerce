@@ -1,0 +1,122 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css_admin.html"></div> 
+	<link th:href='@{../css/form/components.min.css}' rel="stylesheet">
+<title>Thêm tài khoản</title>
+</head>
+<body>
+	<div id="page">
+	<div th:replace="common/Menu-admin.html"></div> 
+		<!-- Begin Main -->
+	  <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6 container-fluid">
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <strong>Edit User</strong> Form
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form  method="post" th:action="@{/admin/add}" th:object="${User}" class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="hf-email" class=" form-control-label">Username</label>
+                                                </div>
+                                                <div class="col-12 col-md-9" th:classappend="${#fields.hasErrors('userName')} ? has-error : ''">
+                                                    <div th:classappend="${#fields.hasErrors('userName')} ? 'input-icon right' : ''">
+													<i th:if="${#fields.hasErrors('userName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+		 											<input  type="text" class="form-control" maxlength="32" th:field="*{userName}" placeholder="Between 6 and 20 characters"/>
+		 											<span th:if="${#fields.hasErrors('userName')}" class="help-block" th:errors="*{userName}"></span>
+													</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row form-group" >
+                                                <div class="col col-md-3">
+                                                    <label for="hf-email" class=" form-control-label">Password</label>
+                                                </div>
+                                                <div class="col-12 col-md-9" th:classappend="${#fields.hasErrors('password')} ? has-error : ''">
+                                                   <div th:classappend="${#fields.hasErrors('password')} ? 'input-icon right' : ''">
+													<i th:if="${#fields.hasErrors('password')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+		 											<input id="password"  type="password" class="form-control"  maxlength="20" th:field="*{password}" placeholder="Between 6 and 20 characters"/>
+		 											<span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
+													</div>
+                                                </div>
+                                            </div>
+                                               <div class="row form-group" >
+                                                <div class="col col-md-3">
+                                                    <label for="hf-email" class=" form-control-label">Password</label>
+                                                </div>
+                                                <div class="col-12 col-md-9" th:classappend="${confirmPassword} ? has-error : ''">
+													<div th:classappend="${confirmPassword} ? 'input-icon right' : ''">
+														<i th:if="${confirmPassword}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+			 											<input  type="password" class="form-control"  maxlength="11" th:field="*{confirmPassword}" placeholder="Between 6 and 20 characters"/>
+			 											<span th:if="${confirmPassword}" class="help-block" th:text="${confirmPassword}">adas</span>
+													</div>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="hf-email" class=" form-control-label">Email</label>
+                                                </div>
+                                                <div class="col-12 col-md-9" th:classappend="${#fields.hasErrors('email')} ? has-error : ''">
+														<div th:classappend="${#fields.hasErrors('email')} ? 'input-icon right' : ''">
+														<i th:if="${#fields.hasErrors('email')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+			 											<input type="text" class="form-control"  th:field="*{email}" placeholder=""/>
+			 											<span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
+														</div>                                                   
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="hf-password" class=" form-control-label">Number Phone</label>
+                                                </div>
+                                                <div class="col-12 col-md-9" th:classappend="${#fields.hasErrors('phone')} ? has-error : ''">
+                                                    <div th:classappend="${#fields.hasErrors('phone')} ? 'input-icon right' : ''">
+														<i th:if="${#fields.hasErrors('phone')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
+			 											<input  type="number" class="form-control"  maxlength="11" th:field="*{phone}" placeholder="Between 9 and 11 characters"/>
+			 											<span th:if="${#fields.hasErrors('phone')}" class="help-block" th:errors="*{phone}"></span>
+													</div>
+                                                 
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="hf-password" class=" form-control-label">Address</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="text" id="hf-password" name="hf-password" placeholder="Enter address..." class="form-control">
+                                                  
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-dot-circle-o"></i> Update
+                                                </button>
+                                                <button type="button"  class="btn btn-danger btn-sm">
+                                                   <a th:href="@{/admin/users}" ><i class="fa fa-ban"></i> Cancel</a>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                   
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+		<!-- Begin footer -->
+
+	</div>
+  <div th:replace="common/Js_admin.html"></div> 
+  <script th:inline="javascript">
+  $(document).ready(function () {
+  })
+  
+  </script>
+</body>
+</html>

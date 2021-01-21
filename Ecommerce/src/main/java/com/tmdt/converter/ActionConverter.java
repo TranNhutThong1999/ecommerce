@@ -34,8 +34,8 @@ public class ActionConverter implements IConverter<Action, ActionDTO> {
 	public ActionDTO toDTO(Action u) {
 		// TODO Auto-generated method stub
 		ActionDTO a = modelMapper.map(u, ActionDTO.class);
-		a.setUser(userConverter.toDTO(u.getUser()));
-		a.setPost(postConverter.toDTO(u.getPost()));
+		a.setIdUser(u.getUser().getId());
+		a.setIdPost(u.getPost().getId());
 		return a;
 	}
 
@@ -44,7 +44,7 @@ public class ActionConverter implements IConverter<Action, ActionDTO> {
 		// TODO Auto-generated method stub
 		Action a = modelMapper.map(v, Action.class);
 		a.setUser(userRepository.findOneByUserName(customUserDetal.getPrinciple().getName()).get());
-		a.setPost(postRepository.findOneById(v.getPost().getId()).get());
+		a.setPost(postRepository.findOneById(v.getIdPost()).get());
 		return a;
 	}
 		

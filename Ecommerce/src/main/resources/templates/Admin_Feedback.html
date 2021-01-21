@@ -1,0 +1,113 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css_admin.html"></div> 
+<title>Phản hồi</title>
+</head>
+<body>
+	<div id="page">
+	<div th:replace="common/Menu-admin.html"></div> 
+		<!-- Begin Main -->
+		  <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">Feedback table</h3>
+                                
+                                <div class="table-responsive table-responsive-data2">
+                                    <table class="table table-data2">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                   Post ID
+                                                </th>
+                                                <th>User ID</th>
+                                                <th>Vote</th>
+                                                <th>Content</th>
+                                                <th>Time</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody id="demo">
+                                           
+                                        </tbody>
+                                    </table>
+                                     <ul class="pagination" id="pagination"></ul>
+                                </div>
+                                <!-- END DATA TABLE -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		<!-- Begin footer -->
+
+	</div>
+  <div th:replace="common/Js_admin.html"></div> 
+  <script th:inline="javascript">
+  $(document).ready(function () {
+	  let message = [[${message != null ? message : 0}]]
+		if(message === 'verify_SUCCESS'){
+			Notiflix.Notify.Success('Đăng ký thành công',{
+				/* clickToClose:true,
+				closeButton:true */
+			});
+		}
+	  window.delete_Post=(i)=>{
+		  $.ajax({
+				url:'/admin/delete_feedback/'+i,
+	    		type:'delete',
+	    		success:function(value){
+	    			Notiflix.Notify.Success('Xoá thành công');
+	    			render_list_PostNotApporve();
+	    		},
+	    		error:function(err){
+	    			
+	    		}
+	    	})
+	  }
+	  //
+	  render_list_PostNotApporve()
+	  function render_list_PostNotApporve(){
+		  $("#pagination").pagination({
+			    dataSource:'/admin/list_FeedBack',
+			    locator: 'object.content',
+			    totalNumberLocator: function(response){
+			    	console.log(response)
+			    	return response.totalElements;
+			    },
+			    pageSize: 5,
+			    autoHidePrevious: true,
+			    autoHideNext: true,
+			    ajax: {
+			    	//data: data,
+			    	 beforeSend: function() {
+				      	Notiflix.Block.Circle('#demo', 'Please wait...');
+				        }
+			    } ,
+			    callback: function(data, pagination) {
+			        // template method of yourself
+			        console.log(data)
+			        setTimeout(function(){
+			        	 let html = render(data);
+					       $('#demo').html(html);
+					      
+					},800); 
+			    },
+			})
+	}
+		 function render(data){
+        	let result =data.map(function(e,index){
+        		let s = new Date(e.time).toLocaleString()
+        		
+				return " <tr class='tr-shadow' ><td >"+e.idPost+"</td> <td>"+e.idUser+"</td><td><span class='block-email'>"+e.star.name+"</span></td><td>"+e.content+"</td><td><span class='status--process'>"+s+"</span></td> <td> <div class='table-data-feature'><a class='item' data-toggle='tooltip' data-placement='top' title='Delete' onclick='delete_Post("+e.id+")' > <i class='zmdi zmdi-delete'></i></a></div></td></tr>";
+			})  
+	        return result;
+        } 
+  })
+  
+  </script>
+</body>
+</html>

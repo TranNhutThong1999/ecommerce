@@ -9,6 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "content")
 public class Content extends Common{
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	private int price;
 	private int areage;

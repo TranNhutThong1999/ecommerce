@@ -46,7 +46,7 @@ public class UserDTO extends CommonDTO{
 	
 	private String address;
 	
-	private List<RoleDTO> roles = new ArrayList<RoleDTO>();
+	private List<RoleDTO> roles;
 	
 	private List<DepositHistoryDTO> depositHistories;
 	
@@ -116,12 +116,17 @@ public class UserDTO extends CommonDTO{
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+
+
 	public List<RoleDTO> getRoles() {
 		return roles;
 	}
+
 	public void setRoles(List<RoleDTO> roles) {
 		this.roles = roles;
 	}
+
 	public List<DepositHistoryDTO> getDepositHistories() {
 		return depositHistories;
 	}
@@ -165,6 +170,8 @@ public class UserDTO extends CommonDTO{
 				+ ", roles=" + roles + ", depositHistories=" + depositHistories + ", histories=" + histories
 				+ ", actions=" + actions + "]";
 	}
+
+	
 
 	public List<PostDTO> getPosts() {
 		return posts;

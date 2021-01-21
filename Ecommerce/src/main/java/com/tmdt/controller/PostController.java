@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tmdt.dto.EvaluatedDTO;
+import com.tmdt.dto.FeedBackDTO;
 import com.tmdt.dto.PostDTO;
 import com.tmdt.service.IDistrictService;
 import com.tmdt.service.IFeeService;
@@ -63,7 +63,7 @@ public class PostController {
 		return "Posts";
 	}
 	@GetMapping("/edit/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkIdPostUser(#id, principal.id)")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String displayPostEdit(ModelMap modelMap, @PathVariable int id) {
 		PostDTO p =postService.findOneById(id);
 		modelMap.addAttribute("Post", p);
@@ -71,7 +71,7 @@ public class PostController {
 		return "/NewPost";
 	}
 	@PostMapping("/update")
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkPostUser(#post, principal.id)")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')" )
 	public String submitUpdate(@Valid @ModelAttribute("Post") PostDTO post, BindingResult error, ModelMap modelMap,
 			@RequestParam(value = "files", required = false) MultipartFile[] files) {
 		mapData(modelMap);
@@ -95,7 +95,7 @@ public class PostController {
 	}
 
 	@PostMapping("/new")
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') and @validate.checkPostUser(#post,principal.id)")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String submitNewPost(@Valid @ModelAttribute("Post") PostDTO post, BindingResult error, ModelMap modelMap,
 			@RequestParam(value = "files", required = false) MultipartFile[] files) {
 		mapData(modelMap);
@@ -121,23 +121,23 @@ public class PostController {
 		}
 		PostDTO p = postService.findOneById(id);
 		postService.saveView(p.getId());
-		double totalStar = p.getEvaluated().size();
+		double totalStar = p.getFeedBacks().size();
 		modelMap.addAttribute("Post", p);
 		modelMap.addAttribute("User", userService.findOneById(p.getUserId()));
 		modelMap.addAttribute("Stars", starService.findAll());
-		modelMap.addAttribute("fiveStar", countStarInOnePost(5, p.getEvaluated())/totalStar*100);
-		modelMap.addAttribute("fourStar", countStarInOnePost(4, p.getEvaluated())/totalStar*100);
-		modelMap.addAttribute("threeStar", countStarInOnePost(3, p.getEvaluated())/totalStar*100);
-		modelMap.addAttribute("twoStar", countStarInOnePost(2, p.getEvaluated())/totalStar*100);
-		modelMap.addAttribute("oneStar", countStarInOnePost(1, p.getEvaluated())/totalStar*100);
-		List<PostDTO> l= postService.findAllRef(p.getAddress().getWard().getId(), p.getAddress().getDistrict().getId(), p.getAddress().getProvincial().getId());
+		modelMap.addAttribute("fiveStar", countStarInOnePost(5, p.getFeedBacks())/totalStar*100);
+		modelMap.addAttribute("fourStar", countStarInOnePost(4, p.getFeedBacks())/totalStar*100);
+		modelMap.addAttribute("threeStar", countStarInOnePost(3, p.getFeedBacks())/totalStar*100);
+		modelMap.addAttribute("twoStar", countStarInOnePost(2, p.getFeedBacks())/totalStar*100);
+		modelMap.addAttribute("oneStar", countStarInOnePost(1, p.getFeedBacks())/totalStar*100);
+		List<PostDTO> l= postService.findAllRef( p.getAddress().getDistrict().getId(), p.getAddress().getProvincial().getId());
 		modelMap.addAttribute("PostRefs", l);
 		return "PostDetail";
 	}
 
-	private double countStarInOnePost(int star, List<EvaluatedDTO> l) {
+	private double countStarInOnePost(int star, List<FeedBackDTO> l) {
 		double result = 0.0;
-		for (EvaluatedDTO e : l) {
+		for (FeedBackDTO e : l) {
 			result += e.getStar().getValue() == star ? 1 : 0;
 		}
 		return result;

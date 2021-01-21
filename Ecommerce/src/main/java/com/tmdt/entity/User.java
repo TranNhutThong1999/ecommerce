@@ -57,17 +57,14 @@ public class User extends Common {
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<DepositHistory> depositHistories;
-	
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<TransactionHistory> histories;
 
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<Action> actions;
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true)
+	private List<Action> action;
 	
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<Evaluated> evaluated;
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true)
+	private List<FeedBack> feedback;
 	
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)//,orphanRemoval = true
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true)//,orphanRemoval = true
 	private List<Post> posts;
 	
 	public User() {
@@ -139,31 +136,13 @@ public class User extends Common {
 	public void setDepositHistories(List<DepositHistory> depositHistories) {
 		this.depositHistories = depositHistories;
 	}
-	public List<TransactionHistory> getHistories() {
-		return histories;
-	}
-	public void setHistories(List<TransactionHistory> histories) {
-		this.histories = histories;
-	}
-	public List<Action> getActions() {
-		return actions;
-	}
-	public void setActions(List<Action> actions) {
-		this.actions = actions;
-	}
 	public List<Post> getPosts() {
 		return posts;
 	}
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
-	@Override
-	public String toString() {
-		return "User [userName=" + userName + ", password=" + password + ", name=" + name + ", email=" + email
-				+ ", phone=" + phone + ", nonBlock=" + nonBlock + ", isActive=" + isActive + ", totalMoney="
-				+ totalMoney + ", address=" + address + ", roles=" + roles + ", depositHistories=" + depositHistories
-				+ ", histories=" + histories + ", actions=" + actions + ", posts=" + posts + "]";
-	}
+	
 	public String getImage() {
 		return image;
 	}
@@ -198,6 +177,18 @@ public class User extends Common {
 	}
 	public void setExpire(Timestamp expire) {
 		this.expire = expire;
+	}
+	public List<Action> getAction() {
+		return action;
+	}
+	public void setAction(List<Action> action) {
+		this.action = action;
+	}
+	public List<FeedBack> getFeedback() {
+		return feedback;
+	}
+	public void setFeedback(List<FeedBack> feedback) {
+		this.feedback = feedback;
 	}
 	
 }

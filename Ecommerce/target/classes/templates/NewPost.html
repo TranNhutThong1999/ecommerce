@@ -32,10 +32,7 @@
 												<label for="title">Tên nhà trọ*</label>
 												<div
 													th:classappend="${#fields.hasErrors('title')} ? 'input-icon right' : ''">
-													<i th:if="${#fields.hasErrors('title')}"
-														class="fa fa-exclamation tooltips"
-														data-original-title="please enter a valid first name"
-														data-container="body"></i> <input type="text"
+												 <input type="text"
 														class="form-control" th:field="*{title}" placeholder="" />
 													<span th:if="${#fields.hasErrors('title')}"
 														class="help-block" th:errors="*{title}"></span>
@@ -86,10 +83,7 @@
 												<label for="subject">Địa chỉ*</label>
 												<div
 													th:classappend="${#fields.hasErrors('address.location')} ? 'input-icon right' : ''">
-													<i th:if="${#fields.hasErrors('address.location')}"
-														class="fa fa-exclamation tooltips"
-														data-original-title="please enter a valid first name"
-														data-container="body"></i> <input type="text"
+												 <input type="text"
 														class="form-control" th:field="*{address.location}"
 														placeholder="" /> <span
 														th:if="${#fields.hasErrors('address.location')}"
@@ -133,7 +127,7 @@
 												<div
 													th:classappend="${#fields.hasErrors('address.provincial.id')} ? 'input-icon right' : ''">
 													<select class="form-control select2"
-														th:field="*{address.provincial.id}" value="2">
+														th:field="*{address.provincial.id}" value="4">
 														<option value="2"></option>
 														<option th:each="provincial : ${Provincials}"
 															th:value="${provincial.id}" th:text="${provincial.name}"></option>
@@ -156,8 +150,8 @@
 												<button type="button"
 													th:onclick="'deleteImage('+${image.id}+')'"
 													class=" edit-btn">X</button>
-												<img style="width: 100% !important"
-													th:src="@{${image.name}}">
+												<img style="width: 100% !important;width:95px;height:63px"
+													th:src="@{${image.name}}" >
 											</div>
 										</div>
 										<div th:if="${Post.id == 0}" class="row" style="margin-top: 10px;">

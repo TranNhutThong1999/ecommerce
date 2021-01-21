@@ -1,0 +1,153 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/Css_admin.html"></div> 
+<title>Quản lý tài khoản</title>
+</head>
+<body>
+	<div id="page">
+	<div th:replace="common/Menu-admin.html"></div> 
+		<!-- Begin Main -->
+		  <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">data table</h3>
+                                <div class="table-data__tool">
+                                    
+                                    <div class="table-data__tool-right">
+                                        <a class="au-btn au-btn-icon au-btn--green au-btn--small" th:href="@{/admin/add}">
+                                            <i class="zmdi zmdi-plus"></i>add user</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="table-responsive table-responsive-data2">
+                                    <table class="table table-data2">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    STT
+                                                </th>
+                                                <th>Username</th>
+                                                <th>email</th>
+                                                <th>Number phone</th>
+                                                <th>Money</th>
+                                                <th>Role</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="demo">
+                                            <tr class="tr-shadow" >
+                                              <!--   <td  >01</td>
+                                                <td>vietnguyen</td>
+                                                <td>
+                                                    <span class="block-email">vietnguyen@example.com</span>
+                                                </td>
+                                                <td>0125658645</td>
+                                                <td>
+                                                    <span class="status--process">KTX khu B , Đông Hòa, Dĩ An</span>
+                                                </td>
+                                                <td>$679.00</td>
+                                                <td>USER</td>
+                                                <td>
+                                                    <div class="table-data-feature">
+                                                      
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Edit" href="adminFormEditUser.html" >
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </a>
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Delete" href="#">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </a>
+                                                       
+                                                    </div>
+                                                </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                  
+                                </div>
+                                  <ul class="pagination" id="pagination"></ul>
+                                <!-- END DATA TABLE -->
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+		<!-- Begin footer -->
+
+	</div>
+  <div th:replace="common/Js_admin.html"></div> 
+  <script th:inline="javascript">
+  $(document).ready(function () {
+	  let message = [[${message != null ? message : 0}]]
+		if(message === 'verify_SUCCESS'){
+			Notiflix.Notify.Success('Đăng ký thành công',{
+				/* clickToClose:true,
+				closeButton:true */
+			});
+		}
+	  window.delete_user=(i)=>{
+		  $.ajax({
+				url:'/admin/delete_user/'+i,
+	    		type:'delete',
+	    		success:function(value){
+	    			Notiflix.Notify.Success('Xoá thành công');
+	    			render_list_user();
+	    		},
+	    		error:function(err){
+	    			
+	    		}
+	    	})
+	  }
+	  window.edit_user=(i)=>{
+		  window.location.href = [[${#httpServletRequest.getContextPath()}]]+'/admin/edit/' +i
+	  }
+	  render_list_user()
+	  function render_list_user(){
+		  $("#pagination").pagination({
+			    dataSource:'/admin/list_user',
+			    locator: 'object.content',
+			    totalNumberLocator: function(response){
+			    	console.log(response)
+			    	return response.totalElements;
+			    },
+			    pageSize: 5,
+			    autoHidePrevious: true,
+			    autoHideNext: true,
+			    ajax: {
+			    	//data: data,
+			    	 beforeSend: function() {
+				      	Notiflix.Block.Circle('#demo', 'Please wait...');
+				        }
+			    } ,
+			    callback: function(data, pagination) {
+			        // template method of yourself
+			        console.log(data)
+			        setTimeout(function(){
+			        	 let html = render(data);
+					       $('#demo').html(html);
+					      
+					},800); 
+			    },
+			})
+	}
+		function render(data){
+        	let result =data.map(function(e,index){
+        		let roles
+        		for(let i of e.roles){
+        			roles = i.name+' '
+        		}
+				return " <tr class='tr-shadow' ><td >"+(index+1)+"</td> <td><a href='/users/"+e.id+"'>"+e.userName+" </a></td><td><span class='block-email'>"+e.email+"</span></td><td>"+e.phone+"</td><td>"+e.totalMoney+"</td><td>"+roles+"</td> <td> <div class='table-data-feature'><a class='item' data-toggle='tooltip' data-placement='top' title='Edit' onclick='edit_user("+e.id+")' ><i class='zmdi zmdi-edit'></i></a><a class='item' data-toggle='tooltip' data-placement='top' title='Delete' onclick='delete_user("+e.id+")' href='#'><i class='zmdi zmdi-delete'></i> </a></div></td></tr>";
+			})  
+	        return result;
+        }
+  })
+  
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,14 +26,16 @@ import com.tmdt.converter.PostConverter;
 import com.tmdt.dto.ActionDTO;
 import com.tmdt.dto.FilterDTO;
 import com.tmdt.dto.PostDTO;
-import com.tmdt.entity.Evaluated;
+import com.tmdt.dto.State;
+import com.tmdt.dto.UserDTO;
+import com.tmdt.entity.FeedBack;
 import com.tmdt.entity.Image;
 import com.tmdt.entity.Post;
 import com.tmdt.entity.Star;
 import com.tmdt.entity.StatePost;
 import com.tmdt.entity.User;
-import com.tmdt.repository.EvaluatedRepository;
 import com.tmdt.repository.FeeRepository;
+import com.tmdt.repository.FeedbackRepository;
 import com.tmdt.repository.PostRepository;
 import com.tmdt.repository.PostSpecificaiton;
 import com.tmdt.repository.StarRepository;
@@ -52,7 +55,7 @@ public class PostService implements IPostService {
 	private ImageService imageService;
 
 	@Autowired
-	private EvaluatedRepository evaluatedRepository;
+	private FeedbackRepository feedbackRepository;
 
 	@Autowired
 	private CustomUserDetail customUserDetail;
@@ -95,7 +98,6 @@ public class PostService implements IPostService {
 					i.setName(a);
 					i.setPost(p);
 					l.add(i);
-					System.out.println(i.toString());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -104,23 +106,23 @@ public class PostService implements IPostService {
 			p.setImages(l);
 		}
 		p.setState(StatePost.NotApproved);
+		p.setTime(new Date());
 		return postConverter.toDTO( postRepository.save(p));
 	}
 
 	private double totalStarEvaluated(int postId) {
-		List<Evaluated> list = evaluatedRepository.findByPost_Id(postId);
+		List<FeedBack> list = feedbackRepository.findByPost_Id(postId);
 		double init = 0;
-		for (Evaluated e : list) {
+		for (FeedBack e : list) {
 			init += e.getStar().getValue();
-
 		}
 		return list.size()== 0? init : init / list.size();
 	}
 
 	@Override
-	public List<PostDTO> findAllRef(int ward, int district, int provincial) {
+	public List<PostDTO> findAllRef( int district, int provincial) {
 		// TODO Auto-generated method stub
-		return postRepository.findAllRef(ward, district, provincial).stream().map(e -> postConverter.toDTO(e))
+		return postRepository.findAllRef( district, provincial).stream().map(e -> postConverter.toDTO(e))
 				.collect(Collectors.toList());
 	}
 
@@ -197,7 +199,16 @@ public class PostService implements IPostService {
 		pMain.setPricePost(p.getPricePost());
 		pMain.setTimeExpire(p.getTimeExpire());
 		pMain.setFee(p.getFee());
-		pMain.setImages(p.getImages());
+		pMain.setImages(p.getImages().stream().map(e ->{
+			e.setPost(pMain);
+			return e;
+		}).collect(Collectors.toList()));
+		pMain.setState(p.getState());
+		pMain.setUser(p.getUser());
+		pMain.setActions(p.getActions());
+		pMain.setAddress(p.getAddress());
+		pMain.setFeedBacks(p.getFeedBacks());
+		pMain.setTime(p.getTime());
 		List<Image> l = new ArrayList<Image>();
 		if (!files[0].getOriginalFilename().equals("")) {
 			Arrays.asList(files).stream().forEach(file -> {
@@ -209,7 +220,6 @@ public class PostService implements IPostService {
 					i.setName(a);
 					i.setPost(p);
 					l.add(i);
-					System.out.println(i.toString());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -220,5 +230,29 @@ public class PostService implements IPostService {
 		}
 		pMain.setState(StatePost.NotApproved);
 		return postConverter.toDTO( postRepository.save(pMain));
+	}
+	
+	@Override
+	public Page<PostDTO> findByState(Map<String, String> q, StatePost s) {
+		// TODO Auto-generated method stub
+		int pageNumber = Integer.valueOf(q.get("pageNumber")) - 1;
+		int pageSize = Integer.valueOf(q.get("pageSize"));
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		return postRepository.findByState(pageable, s).map(postConverter:: toDTO);
+	}
+
+	@Override
+	public void apporve(int id) {
+		// TODO Auto-generated method stub
+		Post p = postRepository.findOneById(id).get();
+		p.setState(StatePost.Approved);
+		postRepository.save(p);
+	}
+
+	@Override
+	public List<PostDTO> findAllSortByRank() {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(Sort.Direction.DESC,"fee.ranks");
+		return postRepository.findAllByState(sort, StatePost.Approved).stream().map(postConverter:: toDTO).collect(Collectors.toList());
 	}
 }

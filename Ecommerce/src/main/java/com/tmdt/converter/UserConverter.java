@@ -30,7 +30,9 @@ public class UserConverter implements IConverter<User, UserDTO> {
 	public User toEntity(UserDTO v) {
 		// TODO Auto-generated method stub
 		User user = modelMapper.map(v, User.class);
-		user.setRoles(v.getRoles().stream().map(a ->  modelMapper.map(a, Role.class)).collect(Collectors.toList()));
+		if(v.getRoles() != null) {
+			user.setRoles(v.getRoles().stream().map(a ->  modelMapper.map(a, Role.class)).collect(Collectors.toList()));
+		}
 		return user;
 	}
 

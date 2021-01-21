@@ -23,7 +23,6 @@
 										<div class="col-sm-6" th:classappend="${#fields.hasErrors('userName')} ? has-error : ''">
 											<label for="name">Tên đăng nhập*</label>
 											<div th:classappend="${#fields.hasErrors('userName')} ? 'input-icon right' : ''">
-												<i th:if="${#fields.hasErrors('userName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
 	 											<input  type="text" class="form-control" maxlength="32" th:field="*{userName}" placeholder="Between 6 and 20 characters"/>
 	 											<span th:if="${#fields.hasErrors('userName')}" class="help-block" th:errors="*{userName}"></span>
 											</div>
@@ -31,7 +30,6 @@
 										<div class="col-sm-6" th:classappend="${#fields.hasErrors('email')} ? has-error : ''">
 											<label for="customer_mail">Email*</label>
 											<div th:classappend="${#fields.hasErrors('email')} ? 'input-icon right' : ''">
-												<i th:if="${#fields.hasErrors('email')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
 	 											<input type="text" class="form-control"  th:field="*{email}" placeholder=""/>
 	 											<span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
 											</div>
@@ -43,7 +41,6 @@
 										<div class="col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error : ''">
 											<label for="name">Mật khẩu*</label>
 											<div th:classappend="${#fields.hasErrors('password')} ? 'input-icon right' : ''">
-												<i th:if="${#fields.hasErrors('password')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
 	 											<input id="password"  type="password" class="form-control"  maxlength="20" th:field="*{password}" placeholder="Between 6 and 20 characters"/>
 	 											<span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
 											</div>
@@ -51,7 +48,6 @@
 										<div class="col-sm-6" th:classappend="${#fields.hasErrors('phone')} ? has-error : ''">
 											<label for="name">Số điện thoại*</label>
 											<div th:classappend="${#fields.hasErrors('phone')} ? 'input-icon right' : ''">
-												<i th:if="${#fields.hasErrors('phone')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
 	 											<input  type="number" class="form-control"  maxlength="11" th:field="*{phone}" placeholder="Between 9 and 11 characters"/>
 	 											<span th:if="${#fields.hasErrors('phone')}" class="help-block" th:errors="*{phone}"></span>
 											</div>
@@ -61,7 +57,6 @@
 										<div class="col-sm-6" th:classappend="${confirmPassword} ? has-error : ''">
 											<label for="subject">Xác nhận mật khẩu*</label>
 											<div th:classappend="${confirmPassword} ? 'input-icon right' : ''">
-												<i th:if="${confirmPassword}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid first name" data-container="body"></i>
 	 											<input  type="password" class="form-control"  maxlength="11" th:field="*{confirmPassword}" placeholder="Between 6 and 20 characters"/>
 	 											<span th:if="${confirmPassword}" class="help-block" th:text="${confirmPassword}">adas</span>
 											</div>

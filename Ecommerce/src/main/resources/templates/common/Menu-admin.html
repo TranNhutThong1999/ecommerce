@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
+<body>
+		  <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo" style="margin-top: 8px;">
+                <a th:href="@{/home}">
+                    <img style="width: 190px;height: 81px;" th:src='@{/images/nha.gif}' alt="Cool Admin" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        
+                       
+                        <li >
+                            <a th:href="@{/admin/users}">
+                                <i class="fas  fa-users"></i>User Mangager</a>
+                        </li>
+                        <li >
+                            <a th:href="@{/admin/posts}">
+                                <i class="fas fa-table"></i>Post Mangager</a>
+                        </li>
+                        <li >
+                            <a th:href="@{/admin/feedback}">
+                                <i class="fas fa-comments"></i>Feedback Mangager</a>
+                        </li>
+                        <li >
+                            <a th:href="@{/admin/approve}">
+                                <i class="fas fa-upload"></i>Post waiting for approval</a>
+                        </li>
+                         <li >
+                            <a th:href="@{/home}">
+                                <i class="fas fa-angle-double-right"></i>Home page</a>
+                        </li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="header-wrap">
+                            <form class="form-header" action="#" >
+                            </form>
+                            <div class="header-button">
+                              
+                                <div class="account-wrap">
+                                    <div class="account-item clearfix js-item-menu">
+                                        <div class="image">
+                                            <img th:src='@{/admin/images/icon/avatar-01.jpg}' alt="John Doe" />
+                                        </div>
+                                        <div class="content">
+                                            <a class="js-acc-btn" sec:authentication="name" href="#">john doe</a>
+                                        </div>
+                                        <div class="account-dropdown js-dropdown">
+                                      <!--       <div class="info clearfix">
+                                                <div class="image">
+                                                    <a href="#">
+                                                        <img th:src='@{/admin/images/icon/avatar-01.jpg}'  alt="John Doe" />
+                                                    </a>
+                                                </div>
+                                                <div class="content">
+                                                    <h5 class="name">
+                                                        <a href="#" sec:authentication="name" >john doe</a>
+                                                    </h5>
+                                                    <span class="email" >johndoe@example.com</span>
+                                                </div>
+                                            </div> -->
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a th:href="@{'/users/'+${#authentication.getPrincipal().id}}">
+                                                        <i class="zmdi zmdi-account"></i>Account</a>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="account-dropdown__footer">
+                                                <a  th:href="@{/logout}">
+                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+</body>
+</html>

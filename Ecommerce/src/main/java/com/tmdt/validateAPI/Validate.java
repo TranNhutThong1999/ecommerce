@@ -19,7 +19,7 @@ public class Validate {
 	private PostRepository postRepository;
 
 	public boolean checkPostUser(PostDTO post, int idPrincical) {
-		Optional<Post> p = postRepository.findOneById(post.getUserId());
+		Optional<Post> p = postRepository.findOneById(post.getId());
 		if (!p.isPresent()) {
 			return false;
 		}

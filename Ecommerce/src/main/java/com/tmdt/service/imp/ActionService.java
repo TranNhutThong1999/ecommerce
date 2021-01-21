@@ -11,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.tmdt.converter.ActionConverter;
+import com.tmdt.converter.PostConverter;
 import com.tmdt.dto.ActionDTO;
+import com.tmdt.dto.PostDTO;
 import com.tmdt.entity.Action;
 import com.tmdt.entity.StatePost;
 import com.tmdt.entity.User;
@@ -38,6 +40,9 @@ public class ActionService implements IActionService {
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Autowired
+	private PostConverter postConverter;
+	
 	@Override
 	public void save(ActionDTO a) {
 		// TODO Auto-generated method stub
@@ -52,12 +57,13 @@ public class ActionService implements IActionService {
 	}
 
 	@Override
-	public Page<ActionDTO> findAllByUser_IdAndPost_State(Map<String, String> q) {
+	public Page<PostDTO> findAllByUser_IdAndPost_State(Map<String, String> q) {
 		int pageNumber = Integer.valueOf(q.get("pageNumber")) - 1;
 		int pageSize = Integer.valueOf(q.get("pageSize"));
 		int idUser = Integer.valueOf(q.get("idUser"));
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		return actionRepository.findAllByUser_IdAndPost_State(pageable, idUser, StatePost.Approved).map(actionConverter::toDTO);
+		Page<Action> action = actionRepository.findAllByUser_IdAndPost_State(pageable, idUser, StatePost.Approved);
+		return  action.map(e-> e.getPost()).map(postConverter::toDTO);
 	}
 
 	@Override

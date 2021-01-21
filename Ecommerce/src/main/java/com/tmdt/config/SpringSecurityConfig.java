@@ -38,8 +38,8 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
 	public void configure(HttpSecurity http) throws Exception {
 		http
 	      .csrf().disable()
-	      .authorizeRequests()
-	      .antMatchers("/home", "/login","/register", "/logout","/static/**","/bootstrap/**").permitAll()
+	      .authorizeRequests().antMatchers("/*").permitAll()
+	     // .antMatchers("/home", "/login","/register", "/logout","/static/**","/bootstrap/**","/admin/**").permitAll()
 	     // .anyRequest().authenticated()
 	      .and()
 	      .formLogin()
@@ -47,8 +47,8 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter{
 	      .loginPage("/login")
 	      .usernameParameter("username").passwordParameter("password")
 		  .failureUrl("/login?message=login_FAIL")
-		  .defaultSuccessUrl("/home?message=login_SUCCESS", true)
-		  .and().exceptionHandling().accessDeniedPage("/403");
+		  .defaultSuccessUrl("/home?message=login_SUCCESS", true);
+		  //.and().exceptionHandling().accessDeniedPage("/403");
 	      
 	}
 	@Override

@@ -2,7 +2,7 @@
 <head >
 <div th:replace="common/Css.html"></div>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Đăng ký</title>
+<title>Cập nhật tài khoản</title>
 	<link th:href='@{css/form/components.min.css}' rel="stylesheet">
 </head>
 <body>
@@ -17,7 +17,7 @@
 					<h2 >Cập nhật tài khoản</h2>
 					<div class="agent-profile">
 						<div class="row">
-                           <form id="contact-form" name="form1" method="post" th:action="@{/edit_user}" th:object="${User}" >
+                           <form id="contact-form" name="form1" method="post" th:action="@{/edit_user}" th:object="${User}" enctype="multipart/form-data" >
 								<div class="form-group" >
 								<input type="hidden" th:field="*{id}" th:value="${User.id}">
 									<div class="row">

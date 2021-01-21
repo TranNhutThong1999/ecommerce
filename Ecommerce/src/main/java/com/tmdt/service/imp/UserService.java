@@ -7,11 +7,15 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,18 +82,32 @@ public class UserService implements IUserService {
 			} else {
 				roles.add(roleRepository.findOneByName("ROLE_USER").get());
 			}
+			if (!file.getOriginalFilename().equals("")) {
+				System.out.println("image");
+				String a = null;
+				try {
+					a = imageService.save(file);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				u.setImage(a);
+			}
+			u.setPassword(bCryptPasswordEncode.encode(u.getPassword()));
 			u.setRoles(roles);
 			u.setActive(false);
 			u.setNonBlock(true);
 			u.generateToken();
 			u.setTimeTokenFuture(15);
 			emailService.sendSimpleMessage(user.getEmail(), "Mã xác thực của bạn là", u.getToken());
+			userRepository.save(u);
+			return;
 		}
 		if (u.getPassword().length() <= 25) {
-			u.setPassword(bCryptPasswordEncode.encode(user.getPassword()));
+			u.setPassword(bCryptPasswordEncode.encode(u.getPassword()));
 		}
 		try {
-			if (file != null) {
+			if (!file.getOriginalFilename().equals("")) {
 				System.out.println("image");
 				String a = imageService.save(file);
 				u.setImage(a);
@@ -98,13 +116,23 @@ public class UserService implements IUserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		User old  = userRepository.findOneById(u.getId()).get();
+		u.setPosts(old.getPosts());
+		u.setRoles(old.getRoles());
+		u.setActive(old.isActive());
+		u.setNonBlock(old.isNonBlock());
+		u.setDepositHistories(old.getDepositHistories());
+		u.setAction(old.getAction());
+		u.setFeedback(old.getFeedback());
+		u.setTotalMoney(old.getTotalMoney());
+		u.setRoles(old.getRoles());
+		u.setPosts(old.getPosts());
 		userRepository.save(u);
 	}
 
 	@Override
 	public UserDTO findOneById(int id) {
 		// TODO Auto-generated method stub
-		System.out.println(id);
 		return userConverter.toDTO(userRepository.findOneById(id).get());
 	}
 
@@ -119,9 +147,16 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public void save(UserDTO user) {
+	public boolean save(String token, String pw) {
 		// TODO Auto-generated method stub
-		userRepository.save(userConverter.toEntity(user));
+		User u =userRepository.findOneByToken(token).orElse(null);
+		if(u==null) return false;
+		
+		u.setActive(true);
+		u.setNonBlock(true);
+		u.setPassword(bCryptPasswordEncode.encode(pw));
+		userRepository.save(u);
+		return true;
 	}
 
 	@Override
@@ -172,5 +207,22 @@ public class UserService implements IUserService {
 		}
 		return false;
 	}
+
+	@Override
+	public Page<UserDTO> findAll(Map<String, String> q) {
+		// TODO Auto-generated method stub
+		int pageNumber = Integer.valueOf(q.get("pageNumber")) - 1;
+		int pageSize = Integer.valueOf(q.get("pageSize"));
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		return userRepository.findAll(pageable).map(userConverter ::toDTO);
+	}
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
+	}
+
+	
 
 }

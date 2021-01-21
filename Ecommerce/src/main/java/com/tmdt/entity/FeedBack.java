@@ -1,5 +1,8 @@
 package com.tmdt.entity;
 
+
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -9,8 +12,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "feed_back")
 public class FeedBack extends Common{
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "star_id")
+	private Star star;
 	private String content;
-	
+	private Timestamp time;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -41,6 +47,22 @@ public class FeedBack extends Common{
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public Timestamp getTime() {
+		return time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
+
+	public Star getStar() {
+		return star;
+	}
+
+	public void setStar(Star star) {
+		this.star = star;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.tmdt.controller;
 
+import java.security.Principal;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tmdt.api.UpdateUser;
 import com.tmdt.dto.UserDTO;
+import com.tmdt.security.CustomUserDetail;
 import com.tmdt.service.IUserService;
 import com.tmdt.util.EmailService;
 
@@ -41,8 +44,11 @@ public class UserController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private CustomUserDetail customUserDetail;
+	
 	@GetMapping("/users/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	public String defaults(@PathVariable int id, ModelMap modelMap) {
 		UserDTO u = userService.findOneById(id);
 		modelMap.addAttribute("Histories", u.getDepositHistories());
@@ -51,12 +57,14 @@ public class UserController {
 	}
 
 	@GetMapping("/edit_user/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String editUser(ModelMap modelMap, @PathVariable int id) {
 		modelMap.addAttribute("User", userService.findOneById(id));
 		return "editUser";
 	}
 
 	@PostMapping("/edit_user")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN') ")
 	public String register(@Valid @ModelAttribute("User") UpdateUser user, BindingResult error, ModelMap model,
 			@RequestParam(value = "file", required = false) MultipartFile file) {
 		boolean err = false;
@@ -76,6 +84,10 @@ public class UserController {
 		}
 		UserDTO u = userService.findOneById(user.getId());
 		userService.save(user.convertDTO(u), file);
+		for (GrantedAuthority i : customUserDetail.getPrinciple().getAuthorities()) {
+			if(i.getAuthority().equals("ROLE_ADMIN"))
+			return "redirect:/admin/users";
+		}
 		return "redirect:/users/" + user.getId();
 	}
 	@GetMapping("/forgot-password")
@@ -95,15 +107,13 @@ public class UserController {
 			return "ForgotPassword";
 		}
 	
-		UserDTO dto = userService.findOneByToken(token);
-		if (dto == null) {
+		if (!userService.save(token, password)) {
 			model.addAttribute("message", "token");
 			return "ForgotPassword";
 		}
-		dto.setPassword(bCryptPasswordEncode.encode(password));
-		userService.save(dto);
+		
 		model.addAttribute("message", "ok");
-		return "redirect:/login";
+		return "redirect:/login?message=change_ok";
 	}
 	@GetMapping("/send-forgot-password")
 	public String sendForgotPassword(HttpServletRequest r) {

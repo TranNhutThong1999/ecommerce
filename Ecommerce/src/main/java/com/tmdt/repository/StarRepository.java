@@ -13,4 +13,5 @@ import com.tmdt.entity.Star;
 public interface StarRepository extends JpaRepository<Star, Integer> {
 	List<Star> findAll(Sort s);
 	Star findOneById(int id);
+	Star findOneByValue(int value);
 }
